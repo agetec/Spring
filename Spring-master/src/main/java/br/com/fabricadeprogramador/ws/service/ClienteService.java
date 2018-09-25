@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.fabricadeprogramador.ws.model.Cliente;
-import br.com.fabricadeprogramador.ws.repository.CleinteRepository;
+import br.com.fabricadeprogramador.ws.repository.ClienteRepository;
 @Service
 public class ClienteService {
 	@Autowired
-	CleinteRepository  cleinteRepository;
+	ClienteRepository  cleinteRepository;
 
 	public Cliente salvar(Cliente cliente) {		
 		return cleinteRepository.save(cliente);			

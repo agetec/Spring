@@ -24,7 +24,7 @@ public class Cliente {
 	private String cpf;
 	@Column(length=10,nullable=false)
 	private String rg;
-	@Column(nullable=false)
+	@Column(nullable=true)
 	@Temporal(TemporalType.DATE) // armazena apenas a data sem hora;
   	private Date dataNascimento;
 
