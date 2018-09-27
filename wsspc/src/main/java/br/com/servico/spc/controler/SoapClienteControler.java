@@ -22,7 +22,7 @@ public class SoapClienteControler {
 	private static String soapEndpointUrlPro = "https://servicos.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
 	private static String soapActionIncusaoHom = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
 	private static String soapActionExclusaoHom = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
-	private static String soapActionIncusaoPro= "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
+	private static String soapActionIncusaoPro = "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
 	private static String soapActionExclusaoPro = "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
 
 	public SOAPMessage callSoapWebServiceInclusao(Collection<Spc> spc, Operador opr) {
@@ -31,11 +31,10 @@ public class SoapClienteControler {
 		try {
 			if (opr.getAmbiente().equals("P")) {
 				soapEndpointUrl = soapEndpointUrlPro;
-				soapActionIncusao=soapActionIncusaoPro;
-			}
-			else {
+				soapActionIncusao = soapActionIncusaoPro;
+			} else {
 				soapEndpointUrl = soapEndpointUrlHom;
-				soapActionIncusao=soapActionIncusaoHom;
+				soapActionIncusao = soapActionIncusaoHom;
 			}
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -57,15 +56,14 @@ public class SoapClienteControler {
 
 	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc, Operador opr) {
 		String soapEndpointUrl = "";
-		String soapActionExclusao="";
+		String soapActionExclusao = "";
 		try {
 			if (opr.getAmbiente().equals("P")) {
 				soapEndpointUrl = soapEndpointUrlPro;
-				soapActionExclusao=soapActionExclusaoPro;
-			}
-			else {
+				soapActionExclusao = soapActionExclusaoPro;
+			} else {
 				soapEndpointUrl = soapEndpointUrlHom;
-				soapActionExclusao=soapActionExclusaoHom;
+				soapActionExclusao = soapActionExclusaoHom;
 			}
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
@@ -107,7 +105,6 @@ public class SoapClienteControler {
 
 	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
-
 		String myNamespace = "web:incluirSpc";
 		String myNamespaceURI = "http://webservice.spc.insumo.spcjava.spcbrasil.org/";
 		// SOAP Envelope
@@ -116,46 +113,43 @@ public class SoapClienteControler {
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("insumoSpc");
-		SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
-		soapBodyElem2.addTextNode("F");
-
-		SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
-		SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
-		soapBodyElem31.setAttribute("numero", "02499224100");
-		SOAPElement soapBodyElem32 = dadosPessoaFisica.addChildElement("nome");
-		soapBodyElem32.addTextNode("Lucas dos santos de souza");
-		SOAPElement soapBodyElem33 = dadosPessoaFisica.addChildElement("data-nascimento");
-		soapBodyElem33.addTextNode("1975-12-23T21:02:14");
-		SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");
-
-		soapBodyElem34.setAttribute("numero", "991556635");
-		soapBodyElem34.setAttribute("numero-ddd", "67");
-
-		SOAPElement soapBodyElem4 = soapBodyElem1.addChildElement("data-compra");
-		soapBodyElem4.addTextNode("2015-02-01T21:02:14");
-		SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
-		soapBodyElem5.addTextNode("2015-03-01T21:02:14");
-		SOAPElement soapBodyElem6 = soapBodyElem1.addChildElement("codigo-tipo-devedor");
-		soapBodyElem6.addTextNode("C");
-		SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
-		soapBodyElem7.addTextNode("5");
-		SOAPElement soapBodyElem8 = soapBodyElem1.addChildElement("valor-debito");
-		soapBodyElem8.addTextNode("99.99");
-
-		SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("natureza-inclusao");
-		SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
-		soapBodyElem91.addTextNode("1");
-
-		SOAPElement enderecoPessoa = soapBodyElem1.addChildElement("endereco-pessoa");
-		SOAPElement cep = enderecoPessoa.addChildElement("cep");
-		cep.addTextNode("11740000");
-		SOAPElement logradouro = enderecoPessoa.addChildElement("logradouro");
-		logradouro.addTextNode("Avenida Condessa");
-		SOAPElement bairro = enderecoPessoa.addChildElement("bairro");
-		bairro.addTextNode("Centro");
-		SOAPElement numero = enderecoPessoa.addChildElement("numero");
-		numero.addTextNode("999");
+		for (Spc spc2 : spc) {
+			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("insumoSpc");
+			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
+			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
+			SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
+			SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
+			soapBodyElem31.setAttribute("numero", spc2.getCpf());
+			SOAPElement soapBodyElem32 = dadosPessoaFisica.addChildElement("nome");
+			soapBodyElem32.addTextNode(spc2.getNome());
+			SOAPElement soapBodyElem33 = dadosPessoaFisica.addChildElement("data-nascimento");
+			soapBodyElem33.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataNascimento()));
+			SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");
+			soapBodyElem34.setAttribute("numero", spc2.getNumeroTelelefone());
+			soapBodyElem34.setAttribute("numero-ddd", spc2.getDddTelefone());
+			SOAPElement soapBodyElem4 = soapBodyElem1.addChildElement("data-compra");
+			soapBodyElem4.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataCompra()));
+			SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
+			soapBodyElem5.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataVencimento()));
+			SOAPElement soapBodyElem6 = soapBodyElem1.addChildElement("codigo-tipo-devedor");
+			soapBodyElem6.addTextNode(spc2.getCodigoTipoDevedor());
+			SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
+			soapBodyElem7.addTextNode(spc2.getNumeroContrato().toString());
+			SOAPElement soapBodyElem8 = soapBodyElem1.addChildElement("valor-debito");
+			soapBodyElem8.addTextNode(spc2.getValorDebito().toString());
+			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("natureza-inclusao");
+			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
+			soapBodyElem91.addTextNode(spc2.getIdNatureza().toString());
+			SOAPElement enderecoPessoa = soapBodyElem1.addChildElement("endereco-pessoa");
+			SOAPElement cep = enderecoPessoa.addChildElement("cep");
+			cep.addTextNode(spc2.getCep());
+			SOAPElement logradouro = enderecoPessoa.addChildElement("logradouro");
+			logradouro.addTextNode(spc2.getLogradouro());
+			SOAPElement bairro = enderecoPessoa.addChildElement("bairro");
+			bairro.addTextNode(spc2.getBairro());
+			SOAPElement numero = enderecoPessoa.addChildElement("numero");
+			numero.addTextNode(spc2.getNumero().toString());
+		}
 
 	}
 
@@ -190,7 +184,7 @@ public class SoapClienteControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
 		for (Spc spc2 : spc) {
 			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
 			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
