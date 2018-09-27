@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:web="http://webservice.spc.insumo.spcjava.spcbrasil.org/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<web:incluirSpc>
+			<insumoSpc>
+				<tipo-pessoa>F</tipo-pessoa>
+				<dados-pessoa-fisica>
+					<cpf numero="191" />
+					 <nome>Juquinha</nome>
+					<data-nascimento>1975-12-23T21:02:14</data-nascimento>
+					<telefone numero-ddd="12" numero="32556622" />
+				</dados-pessoa-fisica>
+				<data-compra>2015-02-01T21:02:14</data-compra>
+				<data-vencimento>2015-03-01T21:02:14</data-vencimento>
+				<codigo-tipo-devedor>C</codigo-tipo-devedor>
+				<numero-contrato>5</numero-contrato>
+				<valor-debito>999.99</valor-debito>
+				<natureza-inclusao>
+					<id>1</id>
+				</natureza-inclusao>
+				<endereco-pessoa>
+					<cep>11740000</cep>
+					<logradouro>Avenida Condessa</logradouro>
+					<bairro>Centro</bairro>
+					<numero>999</numero>
+				</endereco-pessoa>
+			</insumoSpc>
+		</web:incluirSpc>
+	</soapenv:Body>
+</soapenv:Envelope>
+
