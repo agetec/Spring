@@ -2,6 +2,8 @@ package br.com.servico.spc.controler;
 
 import java.util.Collection;
 
+import javax.xml.soap.SOAPMessage;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +24,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Spc> incluir(@RequestBody Collection<Spc> spc, @RequestBody Operador opr) {	
-		new SoapClienteControler().callSoapWebServiceIncusao(spc, opr);
+		SOAPMessage message=new SoapClienteControler().callSoapWebServiceIncusao(spc, opr);
 		for (Spc spc2 : spc) {
 			spcService.salvar(spc2);
 		}		
@@ -31,7 +33,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Spc> excluir(@RequestBody Collection<Spc> spc, @RequestBody Operador opr) {		
-		new SoapClienteControler().callSoapWebServiceExclusao(spc, opr);
+		SOAPMessage message=new SoapClienteControler().callSoapWebServiceExclusao(spc, opr);
 		for (Spc spc2 : spc) {
 			spcService.salvar(spc2);
 		}		
