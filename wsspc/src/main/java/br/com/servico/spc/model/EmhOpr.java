@@ -9,18 +9,18 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema="emha",name="emhopr")
+@Table(schema = "emha", name = "emhopr")
 public class EmhOpr {
-	
+
 	@Id
 	@SequenceGenerator(name = "IdOpr", sequenceName = "IdOpr_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdOpr")
 	private Integer IdOpr;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String username;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String password;
 
 	public String getUsername() {
@@ -46,9 +46,5 @@ public class EmhOpr {
 	public void setIdOpr(Integer idOpr) {
 		IdOpr = idOpr;
 	}
-
-	
-	
-	
 
 }
