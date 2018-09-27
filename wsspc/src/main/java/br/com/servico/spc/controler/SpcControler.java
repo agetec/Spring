@@ -1,5 +1,8 @@
 package br.com.servico.spc.controler;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,14 +22,19 @@ public class SpcControler {
 	SpcService spcService = new SpcService();
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Spc> incluir(@RequestBody Spc spc, @RequestBody Operador emhOpr) {
-		Spc spcCadastrado = spcService.salvar(spc);
-		return new ResponseEntity<Spc>(spcCadastrado, HttpStatus.CREATED);
+	public ResponseEntity<Spc> incluir(@RequestBody Collection<Spc> spc, @RequestBody Operador Opr) {		
+		for (Spc spc2 : spc) {
+			spcService.salvar(spc2);
+		}		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Spc> excluir(@RequestBody Spc spc, @RequestBody Operador emhOpr) {
-		Spc spcCadastrado = spcService.salvar(spc);
-		return new ResponseEntity<Spc>(spcCadastrado, HttpStatus.CREATED);
+	public ResponseEntity<Spc> excluir(@RequestBody Collection<Spc> spc, @RequestBody Operador Opr) {
+		for (Spc spc2 : spc) {
+			spcService.salvar(spc2);
+		}		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 }
