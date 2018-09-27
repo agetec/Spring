@@ -187,7 +187,6 @@ public class SoapClienteControler {
 		String myNamespaceURI = "http://webservice.spc.insumo.spcjava.spcbrasil.org/";
 		// SOAP Envelope
 		SOAPEnvelope envelope = soapPart.getEnvelope();
-
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
@@ -207,9 +206,5 @@ public class SoapClienteControler {
 			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
 			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
 		}
-		
-		
-
 	}
-
 }
