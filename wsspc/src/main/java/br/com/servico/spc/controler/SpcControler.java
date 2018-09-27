@@ -20,7 +20,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Spc> incluir(@RequestBody Collection<Spc> spc, @RequestBody Operador opr) {	
-		SOAPMessage message=new SoapClienteControler().callSoapWebServiceInclusao(spc, opr);
+		SOAPMessage message=new SoapSpcControler().callSoapWebServiceInclusao(spc, opr);
 		for (Spc spc2 : spc) {
 			spcService.salvar(spc2);
 		}		
@@ -29,7 +29,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Spc> excluir(@RequestBody Collection<Spc> spc, @RequestBody Operador opr) {		
-		SOAPMessage message=new SoapClienteControler().callSoapWebServiceExclusao(spc, opr);
+		SOAPMessage message=new SoapSpcControler().callSoapWebServiceExclusao(spc, opr);
 		for (Spc spc2 : spc) {
 			spcService.salvar(spc2);
 		}		

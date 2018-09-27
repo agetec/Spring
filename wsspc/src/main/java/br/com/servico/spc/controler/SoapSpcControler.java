@@ -16,7 +16,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
 
-public class SoapClienteControler {
+public class SoapSpcControler {
 
 	private static String soapEndpointUrlHom = "https://treina.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
 	private static String soapEndpointUrlPro = "https://servicos.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
