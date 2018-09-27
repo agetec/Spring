@@ -1,10 +1,8 @@
 package br.com.servico.spc.controler;
 
 import java.text.SimpleDateFormat;
-
 import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPException;
-
 import br.com.servico.spc.model.Spc;
 
 public class AdicionaPessoa {
