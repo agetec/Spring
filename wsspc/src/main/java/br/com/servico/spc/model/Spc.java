@@ -87,7 +87,8 @@ public class Spc {
 	
 	@Column(length=1,nullable=false)
 	private String tipoOperacao;
-
+	
+	
 	public String getTipoPessoa() {
 		return tipoPessoa;
 	}

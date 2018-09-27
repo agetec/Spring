@@ -22,6 +22,9 @@ public class Operador {
 
 	@Column(nullable = false)
 	private String password;
+	
+	@Column(length=1,nullable=false)
+	private String ambiente;
 
 	public String getUsername() {
 		return username;
@@ -46,5 +49,14 @@ public class Operador {
 	public void setIdOpr(Integer idOpr) {
 		IdOpr = idOpr;
 	}
+
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
+	}
+	
 
 }

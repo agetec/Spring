@@ -1,4 +1,5 @@
 package br.com.servico.spc.controler;
+
 import java.util.Collection;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -16,13 +17,25 @@ import br.com.servico.spc.model.Spc;
 
 public class SoapClienteControler {
 
-	private static String soapEndpointUrl = "https://treina.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
-	private static String soapActionIncusao = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
-	private static String soapActionExclusao = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
+	private static String soapEndpointUrlHom = "https://treina.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
+	private static String soapEndpointUrlPro = "https://servicos.spc.org.br/spc/remoting/ws/insumo/spc/spcWebService?wsdl";
+	private static String soapActionIncusaoHom = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
+	private static String soapActionExclusaoHom = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
+	private static String soapActionIncusaoPro= "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
+	private static String soapActionExclusaoPro = "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
 
-	public  SOAPMessage callSoapWebServiceIncusao(Collection<Spc> spc,
-			Operador opr) {
+	public SOAPMessage callSoapWebServiceInclusao(Collection<Spc> spc, Operador opr) {
+		String soapEndpointUrl = "";
+		String soapActionIncusao = "";
 		try {
+			if (opr.getAmbiente().equals("P")) {
+				soapEndpointUrl = soapEndpointUrlPro;
+				soapActionIncusao=soapActionIncusaoPro;
+			}
+			else {
+				soapEndpointUrl = soapEndpointUrlHom;
+				soapActionIncusao=soapActionIncusaoHom;
+			}
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, spc, opr),
@@ -38,12 +51,21 @@ public class SoapClienteControler {
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
 
-	public  SOAPMessage callSoapWebServiceExclusao(
-			Collection<Spc> spc, Operador opr) {
+	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc, Operador opr) {
+		String soapEndpointUrl = "";
+		String soapActionExclusao="";
 		try {
+			if (opr.getAmbiente().equals("P")) {
+				soapEndpointUrl = soapEndpointUrlPro;
+				soapActionExclusao=soapActionExclusaoPro;
+			}
+			else {
+				soapEndpointUrl = soapEndpointUrlHom;
+				soapActionExclusao=soapActionExclusaoHom;
+			}
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 			SOAPMessage soapResponse = soapConnection.call(createSOAPRequestExclusao(soapActionExclusao, spc, opr),
@@ -65,7 +87,7 @@ public class SoapClienteControler {
 			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
-		createSoapEnvelopeInclusao(soapMessage,spc);
+		createSoapEnvelopeInclusao(soapMessage, spc);
 		MimeHeaders headers = soapMessage.getMimeHeaders();
 		headers.addHeader("SOAPAction", soapActionIncusao);
 		headers.addHeader("Content-Type", "text/xml;charset=UTF-8");
@@ -81,9 +103,10 @@ public class SoapClienteControler {
 		System.out.println("\n");
 		return soapMessage;
 	}
+
 	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
-		
+
 		String myNamespace = "web:incluirSpc";
 		String myNamespaceURI = "http://webservice.spc.insumo.spcjava.spcbrasil.org/";
 		// SOAP Envelope
@@ -103,8 +126,8 @@ public class SoapClienteControler {
 		soapBodyElem32.addTextNode("Lucas dos santos de souza");
 		SOAPElement soapBodyElem33 = dadosPessoaFisica.addChildElement("data-nascimento");
 		soapBodyElem33.addTextNode("1975-12-23T21:02:14");
-		SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");		
-		
+		SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");
+
 		soapBodyElem34.setAttribute("numero", "991556635");
 		soapBodyElem34.setAttribute("numero-ddd", "67");
 
@@ -134,6 +157,7 @@ public class SoapClienteControler {
 		numero.addTextNode("999");
 
 	}
+
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
 			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
