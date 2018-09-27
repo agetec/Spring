@@ -9,8 +9,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(schema = "emha", name = "emhopr")
-public class EmhOpr {
+@Table(schema = "public", name = "operador")
+public class Operador {
 
 	@Id
 	@SequenceGenerator(name = "IdOpr", sequenceName = "IdOpr_seq")

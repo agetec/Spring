@@ -15,8 +15,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
-@Table(schema="emha",name="emhspc")
-public class EmhSpc {
+@Table(schema="public",name="spc")
+public class Spc {
 	@Id
 	@SequenceGenerator(name = "IdSpc", sequenceName = "IdSpc_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSpc")

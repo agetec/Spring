@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import br.com.servico.spc.model.EmhOpr;
+import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.repository.OprRepository;
 
 @Service
@@ -13,19 +13,19 @@ public class OprService {
 	@Autowired
 	OprRepository oprRepository;
 
-	public EmhOpr salvar(EmhOpr emhOpr) {
+	public Operador salvar(Operador emhOpr) {
 		return oprRepository.save(emhOpr);
 	}
 
-	public Collection<EmhOpr> buscarTodos() {
+	public Collection<Operador> buscarTodos() {
 		return oprRepository.findAll();
 	}
 
-	public Optional<EmhOpr> buscaByID(Integer id) {
+	public Optional<Operador> buscaByID(Integer id) {
 		return oprRepository.findById(id);
 	}
 
-	public void excluir(EmhOpr emhOpr) {
+	public void excluir(Operador emhOpr) {
 		oprRepository.delete(emhOpr);
 	}
 }
