@@ -1,6 +1,4 @@
 package br.com.servico.spc.controler;
-
-import java.text.SimpleDateFormat;
 import java.util.Collection;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -112,10 +110,9 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		for (Spc spc2 : spc) {
-			soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc2) ;			
-		}
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
+		soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc) ;			
+		
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
@@ -149,9 +146,8 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		for (Spc spc2 : spc) {
-			soapBodyElem =new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc2) ;			
-		}
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
+		soapBodyElem =new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc) ;			
+		
 	}
 }
