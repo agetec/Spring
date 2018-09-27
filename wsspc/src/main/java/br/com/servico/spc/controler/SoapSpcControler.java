@@ -49,7 +49,6 @@ public class SoapSpcControler {
 			e.printStackTrace();
 		}
 		return null;
-
 	}
 
 	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc, Operador opr) {
@@ -111,8 +110,7 @@ public class SoapSpcControler {
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
-		soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc) ;			
-		
+		soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc) ;				
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
@@ -148,6 +146,5 @@ public class SoapSpcControler {
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
 		soapBodyElem =new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc) ;			
-		
 	}
 }
