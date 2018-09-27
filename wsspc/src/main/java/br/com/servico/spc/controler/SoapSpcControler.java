@@ -114,43 +114,8 @@ public class SoapSpcControler {
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
 		for (Spc spc2 : spc) {
-			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("insumoSpc");
-			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
-			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
-			SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
-			SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
-			soapBodyElem31.setAttribute("numero", spc2.getCpf());
-			SOAPElement soapBodyElem32 = dadosPessoaFisica.addChildElement("nome");
-			soapBodyElem32.addTextNode(spc2.getNome());
-			SOAPElement soapBodyElem33 = dadosPessoaFisica.addChildElement("data-nascimento");
-			soapBodyElem33.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataNascimento()));
-			SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");
-			soapBodyElem34.setAttribute("numero", spc2.getNumeroTelelefone());
-			soapBodyElem34.setAttribute("numero-ddd", spc2.getDddTelefone());
-			SOAPElement soapBodyElem4 = soapBodyElem1.addChildElement("data-compra");
-			soapBodyElem4.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataCompra()));
-			SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
-			soapBodyElem5.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataVencimento()));
-			SOAPElement soapBodyElem6 = soapBodyElem1.addChildElement("codigo-tipo-devedor");
-			soapBodyElem6.addTextNode(spc2.getCodigoTipoDevedor());
-			SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
-			soapBodyElem7.addTextNode(spc2.getNumeroContrato().toString());
-			SOAPElement soapBodyElem8 = soapBodyElem1.addChildElement("valor-debito");
-			soapBodyElem8.addTextNode(spc2.getValorDebito().toString());
-			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("natureza-inclusao");
-			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
-			soapBodyElem91.addTextNode(spc2.getIdNatureza().toString());
-			SOAPElement enderecoPessoa = soapBodyElem1.addChildElement("endereco-pessoa");
-			SOAPElement cep = enderecoPessoa.addChildElement("cep");
-			cep.addTextNode(spc2.getCep());
-			SOAPElement logradouro = enderecoPessoa.addChildElement("logradouro");
-			logradouro.addTextNode(spc2.getLogradouro());
-			SOAPElement bairro = enderecoPessoa.addChildElement("bairro");
-			bairro.addTextNode(spc2.getBairro());
-			SOAPElement numero = enderecoPessoa.addChildElement("numero");
-			numero.addTextNode(spc2.getNumero().toString());
+			soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc2) ;			
 		}
-
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
@@ -186,19 +151,7 @@ public class SoapSpcControler {
 		SOAPBody soapBody = envelope.getBody();
 		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
 		for (Spc spc2 : spc) {
-			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
-			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
-			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
-			SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
-			SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
-			soapBodyElem31.setAttribute("numero", spc2.getCpf());
-			SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
-			soapBodyElem5.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataVencimento()));
-			SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
-			soapBodyElem7.addTextNode(spc2.getNumeroContrato().toString());
-			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("motivo-exclusao");
-			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
-			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
+			soapBodyElem =new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc2) ;			
 		}
 	}
 }
