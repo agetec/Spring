@@ -20,7 +20,7 @@ public class SoapClienteControler {
 	private static String soapActionIncusao = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
 	private static String soapActionExclusao = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
 
-	public static SOAPMessage callSoapWebServiceIncusao(Collection<Spc> spc,
+	public  SOAPMessage callSoapWebServiceIncusao(Collection<Spc> spc,
 			Operador opr) {
 		try {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -41,7 +41,7 @@ public class SoapClienteControler {
 		
 	}
 
-	public static SOAPMessage callSoapWebServiceExclusao(
+	public  SOAPMessage callSoapWebServiceExclusao(
 			Collection<Spc> spc, Operador opr) {
 		try {
 			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -61,7 +61,7 @@ public class SoapClienteControler {
 		return null;
 	}
 
-	private static SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Collection<Spc> spc, Operador opr)
+	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Collection<Spc> spc, Operador opr)
 			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
@@ -81,7 +81,7 @@ public class SoapClienteControler {
 		System.out.println("\n");
 		return soapMessage;
 	}
-	private static void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
+	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
 		
 		String myNamespace = "web:incluirSpc";
@@ -134,7 +134,7 @@ public class SoapClienteControler {
 		numero.addTextNode("999");
 
 	}
-	private static SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
+	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
 			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
@@ -155,7 +155,7 @@ public class SoapClienteControler {
 		return soapMessage;
 	}
 
-	private static void createSoapEnvelopeExclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
+	private void createSoapEnvelopeExclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
 		soapMessage.setProperty(javax.xml.soap.SOAPMessage.CHARACTER_SET_ENCODING, "UTF-8");
 		String myNamespace = "web:excluirSpc";
