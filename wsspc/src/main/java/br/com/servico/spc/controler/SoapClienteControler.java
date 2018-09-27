@@ -1,5 +1,6 @@
 package br.com.servico.spc.controler;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -190,20 +191,24 @@ public class SoapClienteControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
-		SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
-		soapBodyElem2.addTextNode("F");
-		SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
-		SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
-		soapBodyElem31.setAttribute("numero", "02499224100");
-		SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
-		soapBodyElem5.addTextNode("2015-03-01T21:02:14");
-		SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
-		soapBodyElem7.addTextNode("5");
-		SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("motivo-exclusao");
-		SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
-		soapBodyElem91.addTextNode("1");
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
+		for (Spc spc2 : spc) {
+			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
+			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
+			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
+			SOAPElement dadosPessoaFisica = soapBodyElem1.addChildElement("dados-pessoa-fisica");
+			SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
+			soapBodyElem31.setAttribute("numero", spc2.getCpf());
+			SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
+			soapBodyElem5.addTextNode(new SimpleDateFormat("yyyy-MM-DDThh:mm:ss").format(spc2.getDataVencimento()));
+			SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
+			soapBodyElem7.addTextNode(spc2.getNumeroContrato().toString());
+			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("motivo-exclusao");
+			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
+			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
+		}
+		
+		
 
 	}
 

@@ -88,6 +88,12 @@ public class Spc {
 	@Column(length=1,nullable=false)
 	private String tipoOperacao;
 	
+	@Transient
+	private String motivoExclusao;
+	
+	@Column(nullable=false)
+	private Integer idExclusao;
+	
 	
 	public String getTipoPessoa() {
 		return tipoPessoa;
@@ -247,6 +253,38 @@ public class Spc {
 
 	public void setNumero(Integer numero) {
 		this.numero = numero;
+	}
+
+	public Long getIdSpc() {
+		return IdSpc;
+	}
+
+	public void setIdSpc(Long idSpc) {
+		IdSpc = idSpc;
+	}
+
+	public String getTipoOperacao() {
+		return tipoOperacao;
+	}
+
+	public void setTipoOperacao(String tipoOperacao) {
+		this.tipoOperacao = tipoOperacao;
+	}
+
+	public String getMotivoExclusao() {
+		return motivoExclusao;
+	}
+
+	public void setMotivoExclusao(String motivoExclusao) {
+		this.motivoExclusao = motivoExclusao;
+	}
+
+	public Integer getIdExclusao() {
+		return idExclusao;
+	}
+
+	public void setIdExclusao(Integer idExclusao) {
+		this.idExclusao = idExclusao;
 	}
 	
 
