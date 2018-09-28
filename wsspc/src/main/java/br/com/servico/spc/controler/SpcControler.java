@@ -1,4 +1,5 @@
 package br.com.servico.spc.controler;
+
 import javax.xml.soap.SOAPMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,27 @@ public class SpcControler {
 	SpcService spcService = new SpcService();
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {	
-		
-		SOAPMessage message=new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
-		for (Spc spc2 : opr.getSpcs()) {
-			spcService.salvar(spc2);
-		}		
-		return new ResponseEntity<SOAPMessage>(message,HttpStatus.CREATED);
+	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {
+		if (opr != null) {
+			SOAPMessage message = new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
+			for (Spc spc2 : opr.getSpcs()) {
+				spcService.salvar(spc2);
+			}
+			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {		
-		SOAPMessage message=new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
-		for (Spc spc2 : opr.getSpcs()) {
-			spcService.salvar(spc2);
-		}		
-		return new ResponseEntity<SOAPMessage>(message,HttpStatus.CREATED);
+	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {
+		if (opr != null) {
+			SOAPMessage message = new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
+			for (Spc spc2 : opr.getSpcs()) {
+				spcService.salvar(spc2);
+			}
+			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
+		} else
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-	
+
 }
