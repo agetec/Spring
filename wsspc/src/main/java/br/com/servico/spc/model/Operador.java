@@ -1,10 +1,14 @@
 package br.com.servico.spc.model;
 
+import java.util.Collection;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,9 +26,12 @@ public class Operador {
 
 	@Column(nullable = false)
 	private String password;
-	
-	@Column(length=1,nullable=false)
+
+	@Column(length = 1, nullable = false)
 	private String ambiente;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "spcoperador")
+	private Collection<Spc> spcs;
 
 	public String getUsername() {
 		return username;
@@ -57,6 +64,13 @@ public class Operador {
 	public void setAmbiente(String ambiente) {
 		this.ambiente = ambiente;
 	}
-	
+
+	public Collection<Spc> getSpcs() {
+		return spcs;
+	}
+
+	public void setSpcs(Collection<Spc> spcs) {
+		this.spcs = spcs;
+	}
 
 }
