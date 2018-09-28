@@ -21,6 +21,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {	
+		
 		SOAPMessage message=new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
 		for (Spc spc2 : opr.getSpcs()) {
 			spcService.salvar(spc2);
