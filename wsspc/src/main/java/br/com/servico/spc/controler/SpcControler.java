@@ -22,7 +22,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {
-		if (opr != null) {
+		if (opr != null&&opr.getSpcs()!=null) {
 			SOAPMessage message = new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
 			for (Spc spc2 : opr.getSpcs()) {
 				spcService.salvar(spc2);
@@ -34,7 +34,7 @@ public class SpcControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {
-		if (opr != null) {
+		if (opr != null&&opr.getSpcs()!=null) {
 			SOAPMessage message = new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
 			for (Spc spc2 : opr.getSpcs()) {
 				spcService.salvar(spc2);
