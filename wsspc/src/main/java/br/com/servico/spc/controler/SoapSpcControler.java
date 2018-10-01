@@ -1,5 +1,6 @@
 package br.com.servico.spc.controler;
 import java.util.Collection;
+
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
@@ -10,7 +11,9 @@ import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
+
 import org.apache.tomcat.util.codec.binary.Base64;
+
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
 
