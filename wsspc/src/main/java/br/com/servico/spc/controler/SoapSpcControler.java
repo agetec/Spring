@@ -93,8 +93,6 @@ public class SoapSpcControler {
 		if (opr != null && opr.getUsername() != null && opr.getUsername() != null) {
 			headers.addHeader("Authorization",
 					"Basic " + Base64.encodeBase64String((opr.getUsername() + ":" + opr.getPassword()).getBytes()));
-		} else {
-			headers.addHeader("Authorization", "Basic " + Base64.encodeBase64String("399037:26092018".getBytes()));
 		}
 		soapMessage.saveChanges();
 		System.out.println("Request SOAP Message:");
@@ -127,8 +125,6 @@ public class SoapSpcControler {
 		if (opr != null && opr.getUsername() != null && opr.getUsername() != null) {
 			headers.addHeader("Authorization",
 					"Basic " + Base64.encodeBase64String((opr.getUsername() + ":" + opr.getPassword()).getBytes()));
-		} else {
-			headers.addHeader("Authorization", "Basic " + Base64.encodeBase64String("399037:26092018".getBytes()));
 		}
 		soapMessage.saveChanges();
 		System.out.println("Request SOAP Message:");
