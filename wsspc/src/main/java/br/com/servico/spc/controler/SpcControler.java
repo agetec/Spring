@@ -29,7 +29,7 @@ public class SpcControler {
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
 		} else
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<SOAPMessage>(HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -41,7 +41,7 @@ public class SpcControler {
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
 		} else
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<SOAPMessage>(HttpStatus.NOT_FOUND);
 	}
 
 }
