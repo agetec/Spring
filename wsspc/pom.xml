@@ -7,7 +7,6 @@
 	<groupId>br.com.servico.spc</groupId>
 	<artifactId>wsspc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
 
 	<name>wsspc</name>
 	<description>webservice spc</description>
@@ -79,4 +78,5 @@
 	</build>
 
 
+	<packaging>war</packaging>
 </project>
