@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(schema = "public", name = "operador")
 public class Operador {
@@ -22,12 +24,15 @@ public class Operador {
 	private Integer IdOpr;
 
 	@Column(nullable = false)
+	@ApiModelProperty(notes = "Operador do convênio com SPC")
 	private String username;
 
 	@Column(nullable = false)
+	@ApiModelProperty(notes = "Senha do convênio com SPC")
 	private String password;
 
 	@Column(length = 1, nullable = false)
+	@ApiModelProperty(notes = "Informe H para ambiente de homologação e P para produção")
 	private String ambiente;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "spcoperador")

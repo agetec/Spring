@@ -20,6 +20,8 @@ import javax.persistence.Transient;
 
 import org.springframework.format.annotation.NumberFormat;
 
+import io.swagger.annotations.ApiModelProperty;
+
 @Entity
 @Table(schema="public",name="spc")
 public class Spc {
@@ -29,10 +31,9 @@ public class Spc {
 	private Long IdSpc;
 	
 	@Column(length=2,nullable=false)
+	@ApiModelProperty(notes = "Informe sempre F nesse campo")
 	private String tipoPessoa;
 	
-	@Transient
-	private String dadosPessoaFisica;
 	
 	@Column(length=11,nullable=false)
 	private String cpf;
@@ -44,9 +45,7 @@ public class Spc {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNascimento;
 	
-	@Transient
-	private String telefone;
-	
+		
 	@Column(length=9,nullable=false)
 	private String numeroTelelefone;
 	
@@ -61,6 +60,7 @@ public class Spc {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataVencimento;
 	
+	@ApiModelProperty(notes = "Informe sempre C nesse campo")
 	@Column(length=1,nullable=false)
 	private String codigoTipoDevedor;
 	
@@ -68,12 +68,11 @@ public class Spc {
 	private Integer numeroContrato;
 	
 	@Column(nullable=false,scale=2,precision=12)
+	@ApiModelProperty(notes = "Informe sempre no formato ##.00")
 	private BigDecimal valorDebito;
 	
-	@Transient
-	private String naturezaInclusao;
-	
 	@Column(nullable=false)
+	@ApiModelProperty(notes = "Informe sempre 1 nesse campo")
 	private Integer idNatureza;
 	
 	@Column(length=1,nullable=false)
@@ -92,12 +91,11 @@ public class Spc {
 	private Integer numero;
 	
 	@Column(length=1,nullable=false)
+	@ApiModelProperty(notes = "Informe sempre E para exclusão e I para inclusao")
 	private String tipoOperacao;
 	
-	@Transient
-	private String motivoExclusao;
-	
 	@Column(nullable=false)
+	@ApiModelProperty(notes = "Informe sempre 1 nesse campo")
 	private Integer idExclusao;
 	
 	@ManyToOne
@@ -109,14 +107,6 @@ public class Spc {
 
 	public void setTipoPessoa(String tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
-	}
-
-	public String getDadosPessoaFisica() {
-		return dadosPessoaFisica;
-	}
-
-	public void setDadosPessoaFisica(String dadosPessoaFisica) {
-		this.dadosPessoaFisica = dadosPessoaFisica;
 	}
 
 	public String getCpf() {
@@ -141,14 +131,6 @@ public class Spc {
 
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
 	}
 
 	public String getNumeroTelelefone() {
@@ -205,14 +187,6 @@ public class Spc {
 
 	public void setValorDebito(BigDecimal valorDebito) {
 		this.valorDebito = valorDebito;
-	}
-
-	public String getNaturezaInclusao() {
-		return naturezaInclusao;
-	}
-
-	public void setNaturezaInclusao(String naturezaInclusao) {
-		this.naturezaInclusao = naturezaInclusao;
 	}
 
 	public Integer getIdNatureza() {
@@ -277,14 +251,6 @@ public class Spc {
 
 	public void setTipoOperacao(String tipoOperacao) {
 		this.tipoOperacao = tipoOperacao;
-	}
-
-	public String getMotivoExclusao() {
-		return motivoExclusao;
-	}
-
-	public void setMotivoExclusao(String motivoExclusao) {
-		this.motivoExclusao = motivoExclusao;
 	}
 
 	public Integer getIdExclusao() {
