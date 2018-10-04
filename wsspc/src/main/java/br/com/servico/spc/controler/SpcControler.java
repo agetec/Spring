@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(value = "onlinestore", description = "Operações para controle da inadimplencia no spc")
+@Api(value = "onlinestore", description = "Operações para controle da inadimplência do SPC")
 public class SpcControler {
 	@Autowired
 	SpcService spcService = new SpcService();
