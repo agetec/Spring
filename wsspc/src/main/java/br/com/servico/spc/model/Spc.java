@@ -28,6 +28,7 @@ public class Spc {
 	@Id
 	@SequenceGenerator(name = "IdSpc", sequenceName = "IdSpc_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSpc")
+	@ApiModelProperty(notes = "Não é necessário informar")
 	private Long IdSpc;
 	
 	@Column(length=2,nullable=false)

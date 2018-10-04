@@ -21,6 +21,7 @@ public class Operador {
 	@Id
 	@SequenceGenerator(name = "IdOpr", sequenceName = "IdOpr_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdOpr")
+	@ApiModelProperty(notes = "Não é necessário informar")
 	private Integer IdOpr;
 
 	@Column(nullable = false)
@@ -36,6 +37,7 @@ public class Operador {
 	private String ambiente;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "spcoperador")
+	@ApiModelProperty(notes = "lista de pessoas a incluir ou excluir do spc")
 	private Collection<Spc> spcs;
 
 	public String getUsername() {

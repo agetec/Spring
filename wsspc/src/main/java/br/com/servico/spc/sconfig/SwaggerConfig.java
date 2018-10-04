@@ -1,4 +1,4 @@
-package br.com.servico.spc.swegger;
+package br.com.servico.spc.sconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
