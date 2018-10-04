@@ -29,11 +29,11 @@ public class SpcControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
 	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)	
-	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {
+	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador operador) {
 		SOAPMessage message = null;
-		if (opr != null && opr.getSpcs() != null) {
-			message = new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
-			for (Spc spc2 : opr.getSpcs()) {
+		if (operador != null && operador.getSpcs() != null) {
+			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
+			for (Spc spc2 : operador.getSpcs()) {
 				spcService.salvar(spc2);
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
@@ -45,11 +45,11 @@ public class SpcControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
 	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)	
-	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {
+	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador operador) {
 		SOAPMessage message = null;
-		if (opr != null && opr.getSpcs() != null) {
-			message = new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
-			for (Spc spc2 : opr.getSpcs()) {
+		if (operador != null && operador.getSpcs() != null) {
+			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
+			for (Spc spc2 : operador.getSpcs()) {
 				spcService.salvar(spc2);
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
