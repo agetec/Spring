@@ -28,33 +28,33 @@ public class SpcControler {
 	@ApiOperation(value = "Incluir inadimplênte no SPC", response = SOAPMessage.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
 	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	
+	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {
+		SOAPMessage message = null;
 		if (opr != null && opr.getSpcs() != null) {
-			SOAPMessage message = new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
+			message = new SoapSpcControler().callSoapWebServiceInclusao(opr.getSpcs(), opr);
 			for (Spc spc2 : opr.getSpcs()) {
 				spcService.salvar(spc2);
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
 		} else
-			return new ResponseEntity<SOAPMessage>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<SOAPMessage>(message,HttpStatus.NOT_FOUND);
 	}
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = SOAPMessage.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
 	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
-	
+	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)	
 	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {
+		SOAPMessage message = null;
 		if (opr != null && opr.getSpcs() != null) {
-			SOAPMessage message = new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
+			message = new SoapSpcControler().callSoapWebServiceExclusao(opr.getSpcs(), opr);
 			for (Spc spc2 : opr.getSpcs()) {
 				spcService.salvar(spc2);
 			}
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
 		} else
-			return new ResponseEntity<SOAPMessage>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<SOAPMessage>(message,HttpStatus.NOT_FOUND);
 	}
 
 }
