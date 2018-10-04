@@ -27,7 +27,7 @@ public class SpcControler {
 
 	@ApiOperation(value = "Incluir inadimplênte no SPC", response = SOAPMessage.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador opr) {
@@ -43,7 +43,7 @@ public class SpcControler {
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = SOAPMessage.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+	@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	
 	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador opr) {
