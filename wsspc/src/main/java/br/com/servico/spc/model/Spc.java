@@ -69,15 +69,12 @@ public class Spc {
 	private Integer numeroContrato;
 	
 	@Column(nullable=false,scale=2,precision=12)
-	@ApiModelProperty(notes = "Informe sempre no formato ##.00")
+	@ApiModelProperty(notes = "Informe sempre no formato ###.00")
 	private BigDecimal valorDebito;
 	
 	@Column(nullable=false)
 	@ApiModelProperty(notes = "Informe sempre 1 nesse campo")
 	private Integer idNatureza;
-	
-	@Column(length=1,nullable=false)
-	private String enderecoPessoa;
 	
 	@Column(length=8,nullable=false)
 	private String cep;
@@ -88,8 +85,8 @@ public class Spc {
 	@Column(nullable=false)
 	private String bairro;
 	
-	@Column(nullable=false)
-	private Integer numero;
+	@Column(length=10,nullable=false)
+	private String numero;
 	
 	@Column(length=1,nullable=false)
 	@ApiModelProperty(notes = "Informe sempre E para exclusão e I para inclusao")
@@ -198,14 +195,6 @@ public class Spc {
 		this.idNatureza = idNatureza;
 	}
 
-	public String getEnderecoPessoa() {
-		return enderecoPessoa;
-	}
-
-	public void setEnderecoPessoa(String enderecoPessoa) {
-		this.enderecoPessoa = enderecoPessoa;
-	}
-
 	public String getCep() {
 		return cep;
 	}
@@ -230,11 +219,11 @@ public class Spc {
 		this.bairro = bairro;
 	}
 
-	public Integer getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(Integer numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
