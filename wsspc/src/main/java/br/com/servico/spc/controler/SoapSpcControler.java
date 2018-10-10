@@ -1,4 +1,5 @@
 package br.com.servico.spc.controler;
+
 import java.util.Collection;
 
 import javax.xml.soap.MessageFactory;
@@ -25,68 +26,106 @@ public class SoapSpcControler {
 	private static String soapActionExclusaoHom = "http://treina.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
 	private static String soapActionIncusaoPro = "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/incluirSpcRequest";
 	private static String soapActionExclusaoPro = "http://servicos.spc.insumo.spcjava.spcbrasil.org/SpcWebService/excluirSpcRequest";
+	SOAPConnectionFactory soapConnectionFactory = null;
+	SOAPConnection soapConnection = null;
 
-	public SOAPMessage callSoapWebServiceInclusao(Collection<Spc> spc, Operador opr) {
+	public SoapSpcControler() {
+
+	}
+
+	public void connection() {
+		try {
+			soapConnectionFactory = SOAPConnectionFactory.newInstance();
+			soapConnection = soapConnectionFactory.createConnection();
+		} catch (UnsupportedOperationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SOAPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void destroyConnection() {
+		try {
+			soapConnection.close();
+			soapConnection = null;
+		} catch (SOAPException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public SOAPMessage callSoapWebServiceInclusao(Spc spc2, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionIncusao = "";
-		try {
-			if (opr.getAmbiente().equals("P")) {
-				soapEndpointUrl = soapEndpointUrlPro;
-				soapActionIncusao = soapActionIncusaoPro;
-			} else {
-				soapEndpointUrl = soapEndpointUrlHom;
-				soapActionIncusao = soapActionIncusaoHom;
+		if (soapConnection != null) {
+			try {
+				if (opr.getAmbiente().equals("P")) {
+					soapEndpointUrl = soapEndpointUrlPro;
+					soapActionIncusao = soapActionIncusaoPro;
+				} else {
+					soapEndpointUrl = soapEndpointUrlHom;
+					soapActionIncusao = soapActionIncusaoHom;
+				}
+
+				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, spc2, opr),
+						soapEndpointUrl);
+				System.out.println("Response SOAP Message:");
+				soapResponse.writeTo(System.out);
+				System.out.println();
+				destroyConnection();
+				return soapResponse;
+			} catch (Exception e) {
+				if (soapConnection == null) {
+					connection();
+					callSoapWebServiceInclusao(spc2, opr);
+				} else {
+					e.printStackTrace();
+				}
 			}
-			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-			SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, spc, opr),
-					soapEndpointUrl);
-			System.out.println("Response SOAP Message:");
-			soapResponse.writeTo(System.out);
-			System.out.println();
-			soapConnection.close();
-			return soapResponse;
-		} catch (Exception e) {
-			System.err.println(
-					"\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
-			e.printStackTrace();
+		} else {
+			connection();
+			callSoapWebServiceInclusao(spc2, opr);
 		}
 		return null;
 	}
 
-	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc, Operador opr) {
+	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc2, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionExclusao = "";
-		try {
-			if (opr.getAmbiente().equals("P")) {
-				soapEndpointUrl = soapEndpointUrlPro;
-				soapActionExclusao = soapActionExclusaoPro;
-			} else {
-				soapEndpointUrl = soapEndpointUrlHom;
-				soapActionExclusao = soapActionExclusaoHom;
+		if (soapConnection != null) {
+			try {
+				if (opr.getAmbiente().equals("P")) {
+					soapEndpointUrl = soapEndpointUrlPro;
+					soapActionExclusao = soapActionExclusaoPro;
+				} else {
+					soapEndpointUrl = soapEndpointUrlHom;
+					soapActionExclusao = soapActionExclusaoHom;
+				}
+				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestExclusao(soapActionExclusao, spc2, opr),
+						soapEndpointUrl);
+				System.out.println("Response SOAP Message:");
+				soapResponse.writeTo(System.out);
+				System.out.println();
+				destroyConnection();
+				return soapResponse;
+			} catch (Exception e) {
+				System.err.println(
+						"\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
+				e.printStackTrace();
 			}
-			SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-			SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-			SOAPMessage soapResponse = soapConnection.call(createSOAPRequestExclusao(soapActionExclusao, spc, opr),
-					soapEndpointUrl);
-			System.out.println("Response SOAP Message:");
-			soapResponse.writeTo(System.out);
-			System.out.println();
-			soapConnection.close();
-			return soapResponse;
-		} catch (Exception e) {
-			System.err.println(
-					"\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
-			e.printStackTrace();
+		} else {
+			connection();
+			callSoapWebServiceExclusao(spc2, opr);
 		}
 		return null;
 	}
 
-	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Collection<Spc> spc, Operador opr)
-			throws Exception {
+	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Spc spc2, Operador opr) throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
-		createSoapEnvelopeInclusao(soapMessage, spc);
+		createSoapEnvelopeInclusao(soapMessage, spc2);
 		MimeHeaders headers = soapMessage.getMimeHeaders();
 		headers.addHeader("SOAPAction", soapActionIncusao);
 		headers.addHeader("Content-Type", "text/xml;charset=UTF-8");
@@ -101,7 +140,7 @@ public class SoapSpcControler {
 		return soapMessage;
 	}
 
-	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc) throws SOAPException {
+	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Spc spc2) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
 		String myNamespace = "web:incluirSpc";
 		String myNamespaceURI = "http://webservice.spc.insumo.spcjava.spcbrasil.org/";
@@ -110,8 +149,8 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
-		soapBodyElem =new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc) ;				
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
+		soapBodyElem = new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc2);
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
@@ -143,7 +182,7 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);		
-		soapBodyElem =new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc) ;			
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
+		soapBodyElem = new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc);
 	}
 }

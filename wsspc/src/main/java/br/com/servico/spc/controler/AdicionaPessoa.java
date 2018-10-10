@@ -11,8 +11,7 @@ import br.com.servico.spc.model.Spc;
 
 public class AdicionaPessoa {
 
-	public SOAPElement adicionaSpcInclusao(SOAPElement soapBodyElem, Collection<Spc> spc) throws SOAPException {
-		for (Spc spc2 : spc) {
+	public SOAPElement adicionaSpcInclusao(SOAPElement soapBodyElem, Spc spc2) throws SOAPException {
 			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("insumoSpc");
 			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
 			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
@@ -26,8 +25,8 @@ public class AdicionaPessoa {
 					format(new Date(1900,1,1))).replace(" ", "T"):
 					(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(spc2.getDataNascimento())).replace(" ", "T"));
 			SOAPElement soapBodyElem34 = dadosPessoaFisica.addChildElement("telefone");
-			soapBodyElem34.setAttribute("numero",spc2.getNumeroTelelefone());
-			soapBodyElem34.setAttribute("numero-ddd", spc2.getNumeroTelelefone().equals("")?"":spc2.getDddTelefone());
+			soapBodyElem34.setAttribute("numero",spc2.getNumeroTelelefone()==null?"0":spc2.getNumeroTelelefone());
+			soapBodyElem34.setAttribute("numero-ddd", spc2.getNumeroTelelefone().equals("")?"00":spc2.getDddTelefone());
 			SOAPElement soapBodyElem4 = soapBodyElem1.addChildElement("data-compra");
 			soapBodyElem4.addTextNode(
 					(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(spc2.getDataCompra())).replace(" ", "T"));
@@ -45,15 +44,15 @@ public class AdicionaPessoa {
 			soapBodyElem91.addTextNode(spc2.getIdNatureza().toString());
 			SOAPElement enderecoPessoa = soapBodyElem1.addChildElement("endereco-pessoa");
 			SOAPElement cep = enderecoPessoa.addChildElement("cep");
-			cep.addTextNode(spc2.getCep() == null || spc2.getCep().length() < 8 ? "" : spc2.getCep());
+			cep.addTextNode(spc2.getCep() == null || spc2.getCep().length() < 8 ? "79002824" : spc2.getCep());
 			SOAPElement logradouro = enderecoPessoa.addChildElement("logradouro");
-			logradouro.addTextNode(spc2.getLogradouro() == null ? "" : spc2.getLogradouro());
+			logradouro.addTextNode(spc2.getLogradouro() == null ? "0" : spc2.getLogradouro());
 			SOAPElement bairro = enderecoPessoa.addChildElement("bairro");
-			bairro.addTextNode(spc2.getBairro() == null ? "" : spc2.getBairro());
+			bairro.addTextNode(spc2.getBairro() == null ? "0" : spc2.getBairro());
 			SOAPElement numero = enderecoPessoa.addChildElement("numero");
-			numero.addTextNode(spc2.getNumero() == null ? "" : spc2.getNumero());
+			numero.addTextNode(spc2.getNumero() == null ? "0" : spc2.getNumero());
 			spc2.setTipoOperacao("I");
-		}
+		
 		return soapBodyElem;
 
 	}
