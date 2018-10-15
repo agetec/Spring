@@ -1,5 +1,6 @@
 package br.com.servico.spc.controler;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 
 import javax.xml.soap.MessageFactory;
@@ -14,6 +15,8 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.json.JSONObject;
+import org.json.XML;
 
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
@@ -56,7 +59,7 @@ public class SoapSpcControler {
 		}
 	}
 
-	public SOAPMessage callSoapWebServiceInclusao(Collection<Spc> collection, Operador opr) {
+	public JSONObject callSoapWebServiceInclusao(Collection<Spc> collection, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionIncusao = "";
 		if (soapConnection != null) {
@@ -72,10 +75,13 @@ public class SoapSpcControler {
 				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, collection, opr),
 						soapEndpointUrl);
 				System.out.println("Response SOAP Message:");
-				soapResponse.writeTo(System.out);
-				System.out.println();
+				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+				soapResponse.writeTo(byteOutStream);
+				String res = new String(byteOutStream.toByteArray());
+				JSONObject xmlJSONObj = XML.toJSONObject(res);
+				System.out.println(res);
 				destroyConnection();
-				return soapResponse;
+				return xmlJSONObj;
 			} catch (Exception e) {
 				if (soapConnection == null) {
 					connection();
@@ -91,7 +97,7 @@ public class SoapSpcControler {
 		return null;
 	}
 
-	public SOAPMessage callSoapWebServiceExclusao(Collection<Spc> spc2, Operador opr) {
+	public JSONObject callSoapWebServiceExclusao(Collection<Spc> spc2, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionExclusao = "";
 		if (soapConnection != null) {
@@ -106,10 +112,13 @@ public class SoapSpcControler {
 				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestExclusao(soapActionExclusao, spc2, opr),
 						soapEndpointUrl);
 				System.out.println("Response SOAP Message:");
-				soapResponse.writeTo(System.out);
-				System.out.println();
+				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
+				soapResponse.writeTo(byteOutStream);
+				String res = new String(byteOutStream.toByteArray());
+				JSONObject xmlJSONObj = XML.toJSONObject(res);
+				System.out.println(res);
 				destroyConnection();
-				return soapResponse;
+				return xmlJSONObj;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
