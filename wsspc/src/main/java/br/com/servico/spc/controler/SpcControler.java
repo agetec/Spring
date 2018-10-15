@@ -29,6 +29,7 @@ public class SpcControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
+	
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador operador) {
 		SOAPMessage message = null;		
 		if (operador != null && operador.getSpcs() != null) {
@@ -46,6 +47,7 @@ public class SpcControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
+	
 	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador operador) {
 		SOAPMessage message = null;
 		if (operador != null && operador.getSpcs() != null) {
