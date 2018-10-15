@@ -32,11 +32,9 @@ public class SpcControler {
 	
 	public ResponseEntity<SOAPMessage> incluir(@RequestBody Operador operador) {
 		SOAPMessage message = null;		
-		if (operador != null && operador.getSpcs() != null) {
-			for (Spc spc2 : operador.getSpcs()) {
-				message = new SoapSpcControler().callSoapWebServiceInclusao(spc2, operador);
-				//spcService.salvar(spc2);
-			}			
+		if (operador != null && operador.getSpcs() != null) {		
+				message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);		
+						
 		} else 		
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.NOT_FOUND);
 		
@@ -49,18 +47,14 @@ public class SpcControler {
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE)
 	
 	public ResponseEntity<SOAPMessage> excluir(@RequestBody Operador operador) {
-		SOAPMessage message = null;
-		if (operador != null && operador.getSpcs() != null) {
-			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
-			if (message.getSOAPPart().getChildNodes().getLength() > 0) {
-				for (Spc spc2 : operador.getSpcs()) {
-					spcService.salvar(spc2);
-				}
-			} else
-				return new ResponseEntity<SOAPMessage>(message, HttpStatus.NOT_FOUND);
-			return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
-		} else
+		SOAPMessage message = null;		
+		if (operador != null && operador.getSpcs() != null) {		
+				message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);		
+						
+		} else 		
 			return new ResponseEntity<SOAPMessage>(message, HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<SOAPMessage>(message, HttpStatus.CREATED);
 	}
 
 }

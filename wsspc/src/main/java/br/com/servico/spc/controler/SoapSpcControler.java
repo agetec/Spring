@@ -56,7 +56,7 @@ public class SoapSpcControler {
 		}
 	}
 
-	public SOAPMessage callSoapWebServiceInclusao(Spc spc2, Operador opr) {
+	public SOAPMessage callSoapWebServiceInclusao(Collection<Spc> collection, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionIncusao = "";
 		if (soapConnection != null) {
@@ -69,7 +69,7 @@ public class SoapSpcControler {
 					soapActionIncusao = soapActionIncusaoHom;
 				}
 
-				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, spc2, opr),
+				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, collection, opr),
 						soapEndpointUrl);
 				System.out.println("Response SOAP Message:");
 				soapResponse.writeTo(System.out);
@@ -79,14 +79,14 @@ public class SoapSpcControler {
 			} catch (Exception e) {
 				if (soapConnection == null) {
 					connection();
-					callSoapWebServiceInclusao(spc2, opr);
+					callSoapWebServiceInclusao(collection, opr);
 				} else {
 					e.printStackTrace();
 				}
 			}
 		} else {
 			connection();
-			callSoapWebServiceInclusao(spc2, opr);
+			callSoapWebServiceInclusao(collection, opr);
 		}
 		return null;
 	}
@@ -111,8 +111,6 @@ public class SoapSpcControler {
 				destroyConnection();
 				return soapResponse;
 			} catch (Exception e) {
-				System.err.println(
-						"\nError occurred while sending SOAP Request to Server!\nMake sure you have the correct endpoint URL and SOAPAction!\n");
 				e.printStackTrace();
 			}
 		} else {
@@ -122,7 +120,7 @@ public class SoapSpcControler {
 		return null;
 	}
 
-	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Spc spc2, Operador opr) throws Exception {
+	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Collection<Spc> spc2, Operador opr) throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
 		createSoapEnvelopeInclusao(soapMessage, spc2);
@@ -140,7 +138,7 @@ public class SoapSpcControler {
 		return soapMessage;
 	}
 
-	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Spc spc2) throws SOAPException {
+	private void createSoapEnvelopeInclusao(SOAPMessage soapMessage, Collection<Spc> spc2) throws SOAPException {
 		SOAPPart soapPart = soapMessage.getSOAPPart();
 		String myNamespace = "web:incluirSpc";
 		String myNamespaceURI = "http://webservice.spc.insumo.spcjava.spcbrasil.org/";
@@ -149,8 +147,8 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		soapBodyElem = new AdicionaPessoa().adicionaSpcInclusao(soapBodyElem, spc2);
+		
+		soapBody = new AdicionaPessoa().adicionaSpcInclusao(soapBody,myNamespace, spc2);
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
