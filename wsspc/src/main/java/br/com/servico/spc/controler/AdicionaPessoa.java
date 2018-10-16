@@ -70,8 +70,9 @@ public class AdicionaPessoa {
 
 	}
 
-	public SOAPElement adicionaSpcExclusao(SOAPElement soapBodyElem, Collection<Spc> spc) throws SOAPException {
+	public SOAPBody adicionaSpcExclusao(SOAPBody soapBody,String myNamespace, Collection<Spc> spc) throws SOAPException {
 		for (Spc spc2 : spc) {
+			SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
 			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
 			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
 			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
@@ -79,15 +80,22 @@ public class AdicionaPessoa {
 			SOAPElement soapBodyElem31 = dadosPessoaFisica.addChildElement("cpf");
 			soapBodyElem31.setAttribute("numero", spc2.getCpf());
 			SOAPElement soapBodyElem5 = soapBodyElem1.addChildElement("data-vencimento");
-			soapBodyElem5.addTextNode(
-					(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(spc2.getDataVencimento())).replace(" ", "T"));
+			if ((new Date().getTime() - spc2.getDataVencimento().getTime()) / 86400000L <= 1800) {
+				soapBodyElem5.addTextNode((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(spc2.getDataVencimento()))
+						.replace(" ", "T"));
+			} else {
+				soapBodyElem5.addTextNode((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+						.format(new Date(new Date().getYear(), new Date().getMonth() - 1, new Date().getDate())))
+								.replace(" ", "T"));
+			}
 			SOAPElement soapBodyElem7 = soapBodyElem1.addChildElement("numero-contrato");
 			soapBodyElem7.addTextNode(spc2.getNumeroContrato().toString());
 			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("motivo-exclusao");
 			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
 			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
 			spc2.setTipoOperacao("E");
+			break;
 		}
-		return soapBodyElem;
+		return soapBody;
 	}
 }

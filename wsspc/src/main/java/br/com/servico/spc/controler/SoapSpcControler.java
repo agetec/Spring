@@ -1,14 +1,22 @@
 package br.com.servico.spc.controler;
 
 import java.io.ByteArrayOutputStream;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.X509Certificate;
 import java.util.Collection;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
 import javax.xml.soap.SOAPBody;
 import javax.xml.soap.SOAPConnection;
 import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPElement;
 import javax.xml.soap.SOAPEnvelope;
 import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
@@ -38,6 +46,7 @@ public class SoapSpcControler {
 
 	public void connection() {
 		try {
+			validarCertificado();
 			soapConnectionFactory = SOAPConnectionFactory.newInstance();
 			soapConnection = soapConnectionFactory.createConnection();
 		} catch (UnsupportedOperationException e) {
@@ -72,8 +81,8 @@ public class SoapSpcControler {
 					soapActionIncusao = soapActionIncusaoHom;
 				}
 
-				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestInclusao(soapActionIncusao, collection, opr),
-						soapEndpointUrl);
+				SOAPMessage soapResponse = soapConnection
+						.call(createSOAPRequestInclusao(soapActionIncusao, collection, opr), soapEndpointUrl);
 				System.out.println("Response SOAP Message:");
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
@@ -129,7 +138,8 @@ public class SoapSpcControler {
 		return null;
 	}
 
-	private SOAPMessage createSOAPRequestInclusao(String soapActionIncusao, Collection<Spc> spc2, Operador opr) throws Exception {
+	private SOAPMessage createSOAPRequestInclusao(String soapActionIncusao, Collection<Spc> spc2, Operador opr)
+			throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
 		createSoapEnvelopeInclusao(soapMessage, spc2);
@@ -156,8 +166,8 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		
-		soapBody = new AdicionaPessoa().adicionaSpcInclusao(soapBody,myNamespace, spc2);
+
+		soapBody = new AdicionaPessoa().adicionaSpcInclusao(soapBody, myNamespace, spc2);
 	}
 
 	private SOAPMessage createSOAPRequestExclusao(String soapActionExclusao, Collection<Spc> spc, Operador opr)
@@ -189,7 +199,43 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		soapBodyElem = new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc);
+
+		soapBody = new AdicionaPessoa().adicionaSpcExclusao(soapBody, myNamespace, spc);
+	}
+
+	public void validarCertificado() {
+		TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
+			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+				return null;
+			}
+			public void checkClientTrusted(X509Certificate[] certs, String authType) {
+			}
+
+			public void checkServerTrusted(X509Certificate[] certs, String authType) {
+			}
+		} };
+		// Install the all-trusting trust manager
+		SSLContext sc = null;
+		try {
+			sc = SSLContext.getInstance("SSL");
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			sc.init(null, trustAllCerts, new java.security.SecureRandom());
+		} catch (KeyManagementException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+		// Create all-trusting host name verifier
+		HostnameVerifier allHostsValid = new HostnameVerifier() {
+			public boolean verify(String hostname, SSLSession session) {
+				return true;
+			}
+		};
+		// Install the all-trusting host verifier
+		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 }
