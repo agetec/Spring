@@ -189,7 +189,7 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
-		soapBodyElem = new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc);
+		
+		soapBody = new AdicionaPessoa().adicionaSpcExclusao(soapBody, spc,myNamespace);
 	}
 }

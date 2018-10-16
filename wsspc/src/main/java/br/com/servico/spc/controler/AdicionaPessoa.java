@@ -70,8 +70,9 @@ public class AdicionaPessoa {
 
 	}
 
-	public SOAPElement adicionaSpcExclusao(SOAPElement soapBodyElem, Collection<Spc> spc) throws SOAPException {
+	public SOAPBody adicionaSpcExclusao(SOAPBody soapBody, Collection<Spc> spc, String myNamespace) throws SOAPException {
 		for (Spc spc2 : spc) {
+			SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
 			SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("excluir");
 			SOAPElement soapBodyElem2 = soapBodyElem1.addChildElement("tipo-pessoa");
 			soapBodyElem2.addTextNode(spc2.getTipoPessoa());
@@ -88,6 +89,6 @@ public class AdicionaPessoa {
 			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
 			spc2.setTipoOperacao("E");
 		}
-		return soapBodyElem;
+		return soapBody;
 	}
 }
