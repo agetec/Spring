@@ -101,7 +101,7 @@ public class SoapSpcControler {
 			}
 		} else {
 			connection();
-			callSoapWebServiceInclusao(collection, opr);
+			return callSoapWebServiceInclusao(collection, opr);
 		}
 		return null;
 	}
@@ -133,7 +133,7 @@ public class SoapSpcControler {
 			}
 		} else {
 			connection();
-			callSoapWebServiceExclusao(spc2, opr);
+			return callSoapWebServiceExclusao(spc2, opr);
 		}
 		return null;
 	}
@@ -210,7 +210,6 @@ public class SoapSpcControler {
 			}
 			public void checkClientTrusted(X509Certificate[] certs, String authType) {
 			}
-
 			public void checkServerTrusted(X509Certificate[] certs, String authType) {
 			}
 		} };
