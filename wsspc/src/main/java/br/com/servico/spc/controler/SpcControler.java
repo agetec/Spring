@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
+
+import br.com.servico.spc.model.Envelope;
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
 import br.com.servico.spc.service.SpcService;
@@ -33,6 +36,8 @@ public class SpcControler {
 		JSONObject message = null;
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
+			Gson gson = new Gson();
+			gson.fromJson(message.toString(), Envelope.class);
 			for (Spc spc2 : operador.getSpcs()) {
 				spcService.salvar(spc2);
 			}
@@ -52,6 +57,8 @@ public class SpcControler {
 		JSONObject message = null;
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
+			Gson gson = new Gson();
+			gson.fromJson(message.toString(), Envelope.class);
 			for (Spc spc2 : operador.getSpcs()) {
 				spcService.salvar(spc2);
 			}
