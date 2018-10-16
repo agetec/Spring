@@ -72,7 +72,7 @@ public class SoapSpcControler {
 					soapActionIncusao = soapActionIncusaoHom;
 				}
 
-				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestIncusao(soapActionIncusao, collection, opr),
+				SOAPMessage soapResponse = soapConnection.call(createSOAPRequestInclusao(soapActionIncusao, collection, opr),
 						soapEndpointUrl);
 				System.out.println("Response SOAP Message:");
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
@@ -129,7 +129,7 @@ public class SoapSpcControler {
 		return null;
 	}
 
-	private SOAPMessage createSOAPRequestIncusao(String soapActionIncusao, Collection<Spc> spc2, Operador opr) throws Exception {
+	private SOAPMessage createSOAPRequestInclusao(String soapActionIncusao, Collection<Spc> spc2, Operador opr) throws Exception {
 		MessageFactory messageFactory = MessageFactory.newInstance();
 		SOAPMessage soapMessage = messageFactory.createMessage();
 		createSoapEnvelopeInclusao(soapMessage, spc2);
@@ -189,7 +189,7 @@ public class SoapSpcControler {
 		envelope.addNamespaceDeclaration("web", myNamespaceURI);
 		// SOAP Body
 		SOAPBody soapBody = envelope.getBody();
-		
-		soapBody = new AdicionaPessoa().adicionaSpcExclusao(soapBody, spc,myNamespace);
+		SOAPElement soapBodyElem = soapBody.addChildElement(myNamespace);
+		soapBodyElem = new AdicionaPessoa().adicionaSpcExclusao(soapBodyElem, spc);
 	}
 }
