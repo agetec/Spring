@@ -87,7 +87,7 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(res);
+				JSONObject xmlJSONObj = XML.toJSONObject(alteraJson(res));
 				System.out.println(res);
 				destroyConnection();
 				return xmlJSONObj;
@@ -124,7 +124,7 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(res);
+				JSONObject xmlJSONObj = XML.toJSONObject(alteraJson(res));
 				System.out.println(res);
 				destroyConnection();
 				return xmlJSONObj;
@@ -208,8 +208,10 @@ public class SoapSpcControler {
 			public java.security.cert.X509Certificate[] getAcceptedIssuers() {
 				return null;
 			}
+
 			public void checkClientTrusted(X509Certificate[] certs, String authType) {
 			}
+
 			public void checkServerTrusted(X509Certificate[] certs, String authType) {
 			}
 		} };
@@ -236,5 +238,11 @@ public class SoapSpcControler {
 		};
 		// Install the all-trusting host verifier
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+	}
+
+	public String alteraJson(String json) {
+		json = json.replace("S:Envelope", "envelope").replace("S:Body", "body").replace("ns2:Fault", "fault").
+				replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2").replace("xmlns:S", "s");
+		return json;
 	}
 }
