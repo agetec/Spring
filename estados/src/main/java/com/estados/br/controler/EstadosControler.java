@@ -11,14 +11,14 @@ import com.estados.br.model.Estados;
 @RestController
 public class EstadosControler {
 
-	@RequestMapping(method = RequestMethod.POST, value = "/salvarEstado", 
+	@RequestMapping(method = RequestMethod.POST, value = "/salvar", 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estados> salvar(@RequestBody Estados estado) {
 		return null;
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirEstado", 
+	@RequestMapping(method = RequestMethod.DELETE, value = "/excluir", 
 			consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void excluir(@RequestBody Estados estado) {
 		
