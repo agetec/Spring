@@ -24,13 +24,13 @@ public class EstadosControler {
 		
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarAllEstados", 
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodos", 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estados> buscarTodos() {
 		return null;		
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarAllEstados",
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId",
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estados> buscarPorId(Integer Id) {
