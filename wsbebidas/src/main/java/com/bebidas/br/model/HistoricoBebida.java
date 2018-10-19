@@ -2,6 +2,7 @@ package com.bebidas.br.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class HistoricoBebida {
 	@ApiModelProperty(notes = "tipo de movimento do histórico(E=entrada & S=saída)")
 	private String tipoMovimento;
 
-	@OneToOne()
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(nullable=false)
 	private Estoque estoque;
 

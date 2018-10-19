@@ -1,5 +1,6 @@
 package com.bebidas.br.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +26,7 @@ public class Sessao {
 	@ApiModelProperty(notes = "Descrição da sessão")
 	private String descricao;
 
-	@OneToOne(optional=false)
+	@OneToOne(optional=false,cascade=CascadeType.ALL)
 	@ApiModelProperty(notes = "tipo de bebida da sessão")
 	private TipoBebida tipoBebida;
 	

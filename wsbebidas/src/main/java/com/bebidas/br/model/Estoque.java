@@ -24,10 +24,10 @@ public class Estoque {
 	@ApiModelProperty(notes = "Não é necessário informar")
 	private Long IdEstoque;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false,cascade=CascadeType.ALL)
 	private Bebida bebida;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false,cascade=CascadeType.ALL)
 	private Sessao sessao;
 
 	@Column(nullable = false)
