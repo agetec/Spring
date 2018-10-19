@@ -18,7 +18,7 @@ import com.bebidas.br.service.TipoBebidaService;
 import io.swagger.annotations.Api;
 
 @RestController
-@Api(value = "onlinestore", description = "Operações para controle de tipos de bebidas do estoque")
+@Api(value = "onlinestore", description = "Operações para controle de tipos de bebidas")
 @CrossOrigin(origins = "*")
 public class TipoBebidaControler {
 	@Autowired

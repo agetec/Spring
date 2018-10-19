@@ -28,7 +28,7 @@ public class BedidaControler {
 	@Autowired
 	BebidaService bebidaService = new BebidaService();
 
-	@ApiOperation(value = "Incluir bebida no estoque", response = Bebida.class)
+	@ApiOperation(value = "salvar bebida", response = Bebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	
@@ -36,10 +36,11 @@ public class BedidaControler {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> salvar(@RequestBody Bebida bebida) {
+		bebidaService.salvar(bebida);
 		return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "excluir bebida no estoque")
+	@ApiOperation(value = "excluir bebida")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	
@@ -48,7 +49,7 @@ public class BedidaControler {
 	public void excluir(@RequestBody Bebida bebida) {
 
 	}
-	@ApiOperation(value = "Listar todas bebidas do estoque", response = Collection.class)
+	@ApiOperation(value = "Listar todas bebidas", response = Collection.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	
@@ -57,7 +58,7 @@ public class BedidaControler {
 		return null;
 	}
 	
-	@ApiOperation(value = "Listar bebida por id do estoque", response = Bebida.class)
+	@ApiOperation(value = "Listar bebida por id", response = Bebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	
