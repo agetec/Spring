@@ -15,7 +15,7 @@ public class HistoricoBebidaService {
 	@Autowired
 	HistoricoBebidaRepository historicoBebidaRepository;
 
-	public HistoricoBebida salvarEstado(HistoricoBebida historicoBebida) {
+	public HistoricoBebida salvar(HistoricoBebida historicoBebida) {
 		return historicoBebidaRepository.save(historicoBebida);
 	}
 

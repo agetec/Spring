@@ -15,7 +15,7 @@ public class EstoqueService {
 	@Autowired
 	EstoqueRepository estoqueRepository;
 
-	public Estoque salvarEstado(Estoque estoque) {
+	public Estoque salvar(Estoque estoque) {
 		return estoqueRepository.save(estoque);
 	}
 

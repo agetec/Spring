@@ -15,7 +15,7 @@ public class SessaoService {
 	@Autowired
 	SessaoRepository sessaoRepository;
 
-	public Sessao salvarEstado(Sessao sessao) {
+	public Sessao salvar(Sessao sessao) {
 		return sessaoRepository.save(sessao);
 	}
 

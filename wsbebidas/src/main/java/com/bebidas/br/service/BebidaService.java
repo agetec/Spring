@@ -15,7 +15,7 @@ public class BebidaService {
 	@Autowired
 	BebidaRepository bebidaRepository;
 
-	public Bebida salvarEstado(Bebida bebida) {
+	public Bebida salvar(Bebida bebida) {
 		return bebidaRepository.save(bebida);
 	}
 
