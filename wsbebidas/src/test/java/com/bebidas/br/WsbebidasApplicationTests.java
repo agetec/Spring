@@ -19,6 +19,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.bebidas.br.model.TipoBebida;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+
+import javassist.bytecode.ByteArray;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,9 +52,14 @@ public class WsbebidasApplicationTests {
 			TipoBebida tipoBebida1 = new TipoBebida();
 			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
 			tipoBebidas.add(tipoBebida1);
+
 			for (TipoBebida tipoBebida2 : tipoBebidas) {
-				mockMvc.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+				Gson gson = new Gson();
+				TipoBebida tipoBebida3 = gson.fromJson(mockMvc
+						.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andReturn().getResponse().getOutputStream(), TipoBebida.class);
+				;
 			}
 
 		} catch (Exception e) {
