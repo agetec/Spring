@@ -1,5 +1,7 @@
 package com.bebidas.br;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -20,8 +22,6 @@ import org.springframework.web.context.WebApplicationContext;
 import com.bebidas.br.model.TipoBebida;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-
-import javassist.bytecode.ByteArray;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -52,20 +52,26 @@ public class WsbebidasApplicationTests {
 			TipoBebida tipoBebida1 = new TipoBebida();
 			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
 			tipoBebidas.add(tipoBebida1);
-
 			for (TipoBebida tipoBebida2 : tipoBebidas) {
-				Gson gson = new Gson();
-				TipoBebida tipoBebida3 = gson.fromJson(mockMvc
+				OutputStream outputStream = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andReturn().getResponse().getOutputStream(), TipoBebida.class);
-				;
+						.andReturn().getResponse().getOutputStream();				
+				ByteArrayOutputStream byte1 = new ByteArrayOutputStream();
+				outputStream.write(byte1.toByteArray());
+				Gson gson = new Gson();
+				TipoBebida tipoBebida3 = gson.fromJson(outputStream.toString(), TipoBebida.class);
 			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public String write(int result) {
+		StringBuilder mBuf = null;
+		return mBuf.append((char) result).toString();
 	}
 
 	public static String asJsonString(final Object obj) {
