@@ -47,7 +47,7 @@ public class WsbebidasApplicationTests {
 			tipoBebida.setDescricao("Bebidas Alcoólicas");
 			tipoBebidas.add(tipoBebida);
 			TipoBebida tipoBebida1 = new TipoBebida();
-			tipoBebida.setDescricao("Bebidas não Alcoólicas");
+			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
 			tipoBebidas.add(tipoBebida1);
 			for (TipoBebida tipoBebida2 : tipoBebidas) {
 				mockMvc.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))

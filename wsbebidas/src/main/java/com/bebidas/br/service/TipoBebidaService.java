@@ -6,28 +6,29 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.bebidas.br.model.Bebida;
+import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.repository.BebidaRepository;
+import com.bebidas.br.repository.TipoBebidaRepository;
 
 @Service
 public class TipoBebidaService {
 
 	@Autowired
-	BebidaRepository bebidaRepository;
+	TipoBebidaRepository tipoBebidaRepository;
 
-	public Bebida salvarEstado(Bebida bebida) {
-		return bebidaRepository.save(bebida);
+	public TipoBebida salvar(TipoBebida tipoBebida) {
+		return tipoBebidaRepository.save(tipoBebida);
 	}
 
-	public Collection<Bebida> buscarTodos() {
-		return bebidaRepository.findAll();
+	public Collection<TipoBebida> buscarTodos() {
+		return tipoBebidaRepository.findAll();
 	}
 
-	public Optional<Bebida> buscaByID(Long id) {
-		return bebidaRepository.findById(id);
+	public Optional<TipoBebida> buscaByID(Integer id) {
+		return tipoBebidaRepository.findById(id);
 	}
 
-	public void excluir(Bebida bebida) {
-		bebidaRepository.delete(bebida);
+	public void excluir(TipoBebida tipoBebida) {
+		tipoBebidaRepository.delete(tipoBebida);
 	}
 }
