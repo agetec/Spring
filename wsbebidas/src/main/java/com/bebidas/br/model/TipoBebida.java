@@ -17,18 +17,23 @@ public class TipoBebida {
 	@SequenceGenerator(name = "IdTipoBebida", sequenceName = "IdTipoBebida_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdTipoBebida")
 	@ApiModelProperty(notes = "Não é necessário informar")
-	private Long IdTipoBebida;
+	private Long idTipoBebida;
 
 	@Column(length = 250, nullable = false)
 	@ApiModelProperty(notes = "Descrição do tipo da bebida")
 	private String descricao;
 
+	@Column(length = 2, nullable = false)
+	@ApiModelProperty(notes = "tipo da bebida")
+	private String tipo;
+
+	
 	public Long getIdTipoBebida() {
-		return IdTipoBebida;
+		return idTipoBebida;
 	}
 
 	public void setIdTipoBebida(Long idTipoBebida) {
-		IdTipoBebida = idTipoBebida;
+		this.idTipoBebida = idTipoBebida;
 	}
 
 	public String getDescricao() {
@@ -37,6 +42,14 @@ public class TipoBebida {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
 	}
 
 }

@@ -36,8 +36,13 @@ public class BedidaControler {
 			consumes = MediaType.APPLICATION_JSON_VALUE,
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> salvar(@RequestBody Bebida bebida) {
-		bebidaService.salvar(bebida);
-		return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
+		try {
+			bebidaService.salvar(bebida);
+			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 	@ApiOperation(value = "excluir bebida")

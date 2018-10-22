@@ -1,7 +1,5 @@
 package com.bebidas.br;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -19,7 +17,9 @@ import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.TipoBebida;
+import com.bebidas.br.service.TipoBebidaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
@@ -30,10 +30,13 @@ public class WsbebidasApplicationTests {
 	private MockMvc mockMvc;
 	@Autowired
 	private WebApplicationContext wac;
+	@Autowired
+	TipoBebidaService tpService = new TipoBebidaService();
 
 	@Test
 	public void contextLoads() {
-
+		salvarTipoBebida();
+		salvarBebida();
 	}
 
 	@Before
@@ -42,25 +45,28 @@ public class WsbebidasApplicationTests {
 		this.mockMvc = builder.build();
 	}
 
-	@Test
+	
 	public void salvarTipoBebida() {
 		try {
 			Collection<TipoBebida> tipoBebidas = new ArrayList<TipoBebida>();
 			TipoBebida tipoBebida = new TipoBebida();
 			tipoBebida.setDescricao("Bebidas Alcoólicas");
+			tipoBebida.setTipo("A");
 			tipoBebidas.add(tipoBebida);
+			
 			TipoBebida tipoBebida1 = new TipoBebida();
 			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
+			tipoBebida1.setTipo("NA");
 			tipoBebidas.add(tipoBebida1);
+			
 			for (TipoBebida tipoBebida2 : tipoBebidas) {
-				OutputStream outputStream = mockMvc
+				String response = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andReturn().getResponse().getOutputStream();				
-				ByteArrayOutputStream byte1 = new ByteArrayOutputStream();
-				outputStream.write(byte1.toByteArray());
+						.andReturn().getResponse().getContentAsString();
 				Gson gson = new Gson();
-				TipoBebida tipoBebida3 = gson.fromJson(outputStream.toString(), TipoBebida.class);
+				TipoBebida tipoBebida3 = gson.fromJson(response, TipoBebida.class);
+
 			}
 
 		} catch (Exception e) {
@@ -69,9 +75,44 @@ public class WsbebidasApplicationTests {
 		}
 	}
 
-	public String write(int result) {
-		StringBuilder mBuf = null;
-		return mBuf.append((char) result).toString();
+
+	public void salvarBebida() {
+		Collection<Bebida> bebidas = new ArrayList<Bebida>();
+		TipoBebida tipoBebida;
+		
+		    tipoBebida=tpService.buscarTipoBebdidaByTipo("NA");
+			Bebida bebida = new Bebida();
+			bebida.setNome("Coca-cola");
+			bebida.setTipoBebida(tipoBebida);
+			bebida.setVolume(2.00);
+			bebidas.add(bebida);
+			Bebida bebida2 = new Bebida();
+			bebida2.setNome("Fanta");
+			bebida2.setTipoBebida(tipoBebida);
+			bebida2.setVolume(2.00);
+			bebidas.add(bebida2);
+			
+			tipoBebida=tpService.buscarTipoBebdidaByTipo("A");
+			Bebida bebida3 = new Bebida();
+			bebida3.setNome("Cerveja");
+			bebida3.setTipoBebida(tipoBebida);
+			bebida3.setVolume(1.00);
+			bebidas.add(bebida3);
+			Bebida bebida4 = new Bebida();
+			bebida4.setNome("Pinga");
+			bebida4.setTipoBebida(tipoBebida);
+			bebida4.setVolume(1.5);
+			bebidas.add(bebida4);
+		
+		for (Bebida bebi : bebidas) {
+			try {
+				mockMvc.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebi))
+						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public static String asJsonString(final Object obj) {

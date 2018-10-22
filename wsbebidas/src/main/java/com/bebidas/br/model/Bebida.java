@@ -26,8 +26,8 @@ public class Bebida {
 	private String nome;
 
 	@Column(nullable = false)
-	@ApiModelProperty(notes = "volume da bebida")
-	private Integer volume;
+	@ApiModelProperty(notes = "volume da bebida. Informar em litros")
+	private Double volume;
 
 	@OneToOne
 	@ApiModelProperty(notes = "relacionamento do tipo da bebida")
@@ -50,11 +50,11 @@ public class Bebida {
 		this.nome = nome;
 	}
 
-	public Integer getVolume() {
+	public Double getVolume() {
 		return volume;
 	}
 
-	public void setVolume(Integer volume) {
+	public void setVolume(Double volume) {
 		this.volume = volume;
 	}
 

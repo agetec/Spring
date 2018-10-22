@@ -26,12 +26,12 @@ public class TipoBebidaControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarTpBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<TipoBebida> salvar(@RequestBody TipoBebida tipoBebida) {
-		 try {
-		service.salvar(tipoBebida);
-		return new ResponseEntity<TipoBebida>(tipoBebida, HttpStatus.CREATED);
-		 } catch (Exception e) {
-	            return new ResponseEntity<>( HttpStatus.BAD_REQUEST);
-	        }
+		try {
+			service.salvar(tipoBebida);
+			return new ResponseEntity<TipoBebida>(tipoBebida, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirTpBebida", consumes = MediaType.APPLICATION_JSON_VALUE)
