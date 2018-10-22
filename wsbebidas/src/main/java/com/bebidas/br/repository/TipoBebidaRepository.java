@@ -9,6 +9,6 @@ import com.bebidas.br.model.TipoBebida;
 public interface TipoBebidaRepository extends JpaRepository<TipoBebida, Integer> {
 	
 	@Query(value="select tp from #{#entityName} tp where tp.tipo=:tipo")
-	TipoBebida findAll(@Param("tipo") String tipo);
+	TipoBebida findTipo(@Param("tipo") String tipo);
 	
 }

@@ -11,23 +11,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
+import com.bebidas.br.service.SessaoService;
 
 import io.swagger.annotations.Api;
 
 @RestController
 @Api(value = "onlinestore", description = "Operações para controle de sessão de bebidas do estoque")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 public class SessaoControler {
-	@RequestMapping(method = RequestMethod.POST, value = "/salvarSessao",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
+
+	SessaoService service = new SessaoService();
+
+	@RequestMapping(method = RequestMethod.POST, value = "/salvarSessao", consumes = MediaType.APPLICATION_JSON_VALUE, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Sessao> salvar(@RequestBody Sessao sessao) {
-		return new ResponseEntity<Sessao>(sessao, HttpStatus.CREATED);
+		try {
+			service.salvar(sessao);
+			return new ResponseEntity<Sessao>(sessao, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirSessao", 
-			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirSessao", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void excluir(@RequestBody Sessao sessao) {
 
 	}
@@ -37,7 +45,8 @@ public class SessaoControler {
 		return null;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdSess", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdSess", consumes = MediaType.APPLICATION_JSON_VALUE,
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Sessao>> buscarPorId(Integer Id) {
 		return null;
 	}

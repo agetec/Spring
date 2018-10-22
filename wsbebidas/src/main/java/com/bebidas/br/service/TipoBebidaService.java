@@ -31,6 +31,6 @@ public class TipoBebidaService {
 		tipoBebidaRepository.delete(tipoBebida);
 	}
 	public TipoBebida buscarTipoBebdidaByTipo(String tipo) {
-		return tipoBebidaRepository.findAll(tipo);	
+		return tipoBebidaRepository.findTipo(tipo);	
 	}
 }

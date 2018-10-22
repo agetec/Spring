@@ -120,7 +120,7 @@ public class WsbebidasApplicationTests {
 		Sessao  sessao3=new Sessao(); 
 		Sessao  sessao4=new Sessao(); 
 		Sessao  sessao5=new Sessao(); 
-		
+		Collection<Sessao> sessaos = new ArrayList<Sessao>();
 		sessao1.setDescricao("Sessão 1");
 		sessao1.setTipoBebida(buscarTipo("NA"));
 		sessao1.setCapacidade(400.00);
@@ -140,6 +140,22 @@ public class WsbebidasApplicationTests {
 		sessao5.setDescricao("Sessão 5");
 		sessao5.setTipoBebida(buscarTipo("A"));
 		sessao5.setCapacidade(500.00);
+		
+		sessaos.add(sessao1);
+		sessaos.add(sessao2);
+		sessaos.add(sessao3);
+		sessaos.add(sessao4);
+		sessaos.add(sessao5);
+		for (Sessao sess : sessaos) {
+			try {
+				mockMvc.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sess))
+						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		
 	}
 	public TipoBebida buscarTipo(String tipo) {

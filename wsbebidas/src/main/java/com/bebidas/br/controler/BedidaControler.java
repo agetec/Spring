@@ -41,7 +41,6 @@ public class BedidaControler {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-
 	}
 
 	@ApiOperation(value = "excluir bebida")
