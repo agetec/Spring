@@ -45,7 +45,6 @@ public class WsbebidasApplicationTests {
 		this.mockMvc = builder.build();
 	}
 
-	
 	public void salvarTipoBebida() {
 		try {
 			Collection<TipoBebida> tipoBebidas = new ArrayList<TipoBebida>();
@@ -53,12 +52,12 @@ public class WsbebidasApplicationTests {
 			tipoBebida.setDescricao("Bebidas Alcoólicas");
 			tipoBebida.setTipo("A");
 			tipoBebidas.add(tipoBebida);
-			
+
 			TipoBebida tipoBebida1 = new TipoBebida();
 			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
 			tipoBebida1.setTipo("NA");
 			tipoBebidas.add(tipoBebida1);
-			
+
 			for (TipoBebida tipoBebida2 : tipoBebidas) {
 				String response = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
@@ -75,35 +74,34 @@ public class WsbebidasApplicationTests {
 		}
 	}
 
-
 	public void salvarBebida() {
 		Collection<Bebida> bebidas = new ArrayList<Bebida>();
 		TipoBebida tipoBebida;
-		
-		    tipoBebida=tpService.buscarTipoBebdidaByTipo("NA");
-			Bebida bebida = new Bebida();
-			bebida.setNome("Coca-cola");
-			bebida.setTipoBebida(tipoBebida);
-			bebida.setVolume(2.00);
-			bebidas.add(bebida);
-			Bebida bebida2 = new Bebida();
-			bebida2.setNome("Fanta");
-			bebida2.setTipoBebida(tipoBebida);
-			bebida2.setVolume(2.00);
-			bebidas.add(bebida2);
-			
-			tipoBebida=tpService.buscarTipoBebdidaByTipo("A");
-			Bebida bebida3 = new Bebida();
-			bebida3.setNome("Cerveja");
-			bebida3.setTipoBebida(tipoBebida);
-			bebida3.setVolume(1.00);
-			bebidas.add(bebida3);
-			Bebida bebida4 = new Bebida();
-			bebida4.setNome("Pinga");
-			bebida4.setTipoBebida(tipoBebida);
-			bebida4.setVolume(1.5);
-			bebidas.add(bebida4);
-		
+
+		tipoBebida = tpService.buscarTipoBebdidaByTipo("NA");
+		Bebida bebida = new Bebida();
+		bebida.setNome("Coca-cola");
+		bebida.setTipoBebida(tipoBebida);
+		bebida.setVolume(2.00);
+		bebidas.add(bebida);
+		Bebida bebida2 = new Bebida();
+		bebida2.setNome("Fanta");
+		bebida2.setTipoBebida(tipoBebida);
+		bebida2.setVolume(2.00);
+		bebidas.add(bebida2);
+
+		tipoBebida = tpService.buscarTipoBebdidaByTipo("A");
+		Bebida bebida3 = new Bebida();
+		bebida3.setNome("Cerveja");
+		bebida3.setTipoBebida(tipoBebida);
+		bebida3.setVolume(1.00);
+		bebidas.add(bebida3);
+		Bebida bebida4 = new Bebida();
+		bebida4.setNome("Pinga");
+		bebida4.setTipoBebida(tipoBebida);
+		bebida4.setVolume(1.5);
+		bebidas.add(bebida4);
+
 		for (Bebida bebi : bebidas) {
 			try {
 				mockMvc.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebi))
