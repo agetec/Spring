@@ -1,5 +1,6 @@
 package com.bebidas.br.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Bebida {
 	@ApiModelProperty(notes = "volume da bebida. Informar em litros")
 	private Double volume;
 
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@ApiModelProperty(notes = "relacionamento do tipo da bebida")
 	private TipoBebida tipoBebida;
 	
