@@ -26,14 +26,14 @@ public class Sessao {
 	@ApiModelProperty(notes = "Descrição da sessão")
 	private String descricao;
 
-	@OneToOne(optional=false,cascade=CascadeType.ALL)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@ApiModelProperty(notes = "tipo de bebida da sessão")
 	private TipoBebida tipoBebida;
-	
-	@Column( nullable = false)
+
+	@Column(nullable = false)
 	@ApiModelProperty(notes = "capacidade de armazenamento")
-	private Integer capacidade;
-	
+	private Double capacidade;
+
 	public Long getIdSessao() {
 		return IdSessao;
 	}
@@ -56,6 +56,14 @@ public class Sessao {
 
 	public void setTipoBebida(TipoBebida tipoBebida) {
 		this.tipoBebida = tipoBebida;
+	}
+
+	public Double getCapacidade() {
+		return capacidade;
+	}
+
+	public void setCapacidade(Double capacidade) {
+		this.capacidade = capacidade;
 	}
 
 }

@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bebidas.br.model.Bebida;
+import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.TipoBebidaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +38,7 @@ public class WsbebidasApplicationTests {
 	public void contextLoads() {
 		salvarTipoBebida();
 		salvarBebida();
+		salvarSessao();
 	}
 
 	@Before
@@ -78,7 +80,7 @@ public class WsbebidasApplicationTests {
 		Collection<Bebida> bebidas = new ArrayList<Bebida>();
 		TipoBebida tipoBebida;
 
-		tipoBebida = tpService.buscarTipoBebdidaByTipo("NA");
+		tipoBebida =buscarTipo("NA");
 		Bebida bebida = new Bebida();
 		bebida.setNome("Coca-cola");
 		bebida.setTipoBebida(tipoBebida);
@@ -90,7 +92,7 @@ public class WsbebidasApplicationTests {
 		bebida2.setVolume(2.00);
 		bebidas.add(bebida2);
 
-		tipoBebida = tpService.buscarTipoBebdidaByTipo("A");
+		tipoBebida = buscarTipo("A");
 		Bebida bebida3 = new Bebida();
 		bebida3.setNome("Cerveja");
 		bebida3.setTipoBebida(tipoBebida);
@@ -112,7 +114,37 @@ public class WsbebidasApplicationTests {
 			}
 		}
 	}
-
+	public void salvarSessao() {
+		Sessao  sessao1=new Sessao(); 
+		Sessao  sessao2=new Sessao(); 
+		Sessao  sessao3=new Sessao(); 
+		Sessao  sessao4=new Sessao(); 
+		Sessao  sessao5=new Sessao(); 
+		
+		sessao1.setDescricao("Sessão 1");
+		sessao1.setTipoBebida(buscarTipo("NA"));
+		sessao1.setCapacidade(400.00);
+		
+		sessao2.setDescricao("Sessão 2");
+		sessao2.setTipoBebida(buscarTipo("NA"));
+		sessao2.setCapacidade(400.00);
+		
+		sessao3.setDescricao("Sessão 3");
+		sessao3.setTipoBebida(buscarTipo("A"));
+		sessao3.setCapacidade(500.00);
+		
+		sessao4.setDescricao("Sessão 4");
+		sessao4.setTipoBebida(buscarTipo("A"));
+		sessao4.setCapacidade(500.00);
+		
+		sessao5.setDescricao("Sessão 5");
+		sessao5.setTipoBebida(buscarTipo("A"));
+		sessao5.setCapacidade(500.00);
+		
+	}
+	public TipoBebida buscarTipo(String tipo) {
+		return tpService.buscarTipoBebdidaByTipo(tipo);
+	}
 	public static String asJsonString(final Object obj) {
 		try {
 			final ObjectMapper mapper = new ObjectMapper();
