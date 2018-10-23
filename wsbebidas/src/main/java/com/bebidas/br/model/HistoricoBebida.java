@@ -40,8 +40,8 @@ public class HistoricoBebida {
 	@ApiModelProperty(notes = "tipo de movimento do histórico(E=entrada & S=saída)")
 	private String tipoMovimento;
 
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(nullable=false)
+	@OneToOne
+	@JoinColumn(nullable = false)
 	private Estoque estoque;
 
 	public Long getIdHistorico() {
@@ -74,6 +74,14 @@ public class HistoricoBebida {
 
 	public void setTipoMovimento(String tipoMovimento) {
 		this.tipoMovimento = tipoMovimento;
+	}
+
+	public Estoque getEstoque() {
+		return estoque;
+	}
+
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
 	}
 
 }

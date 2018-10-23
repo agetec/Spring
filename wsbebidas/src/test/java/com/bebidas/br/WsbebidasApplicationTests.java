@@ -1,7 +1,9 @@
 package com.bebidas.br;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.ws.rs.core.MediaType;
 
@@ -18,6 +20,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.bebidas.br.model.Bebida;
+import com.bebidas.br.model.Estoque;
+import com.bebidas.br.model.HistoricoBebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.BebidaService;
@@ -46,7 +50,8 @@ public class WsbebidasApplicationTests {
 		salvarTipoBebida();
 		salvarBebida();
 		salvarSessao();
-		entradaBebidas();
+		entradaBebidasNalcoolica();
+		entradaBebidasAlcoolica();		
 	}
 
 	@Before
@@ -175,21 +180,97 @@ public class WsbebidasApplicationTests {
 
 	}
 
-	public void entradaBebidas() {
+	public void entradaBebidasNalcoolica() {
 		Bebida bebida1 = new Bebida();
 		Bebida bebida2 = new Bebida();
 		Collection<Sessao> sess = new ArrayList<Sessao>();
 		bebida1 = buscarNomeBebida("Coca-cola");
 		bebida2 = buscarNomeBebida("Fanta");
-		if (bebida1 != null && bebida2!=null) {
+		if (bebida1 != null && bebida2 != null) {
 			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
-				
+				if (sessao.getDescricao().equals("Sessão 1")) {
+					Estoque estoque = new Estoque();
+					estoque.setBebida(bebida1);
+					estoque.setQtd(200);
+					estoque.setSessao(sessao);
+					HistoricoBebida historicoBebida = new HistoricoBebida();
+					historicoBebida.setDatahis(new Date());
+					historicoBebida.setTipoMovimento("E");
+					historicoBebida.setResponsavel("Lucas");
+					historicoBebida.setEstoque(estoque);
+					estoque.getHisBebidas().add(historicoBebida);
+					salvarEstoque(estoque);
+				} else if (sessao.getDescricao().equals("Sessão 2")) {
+					Estoque estoque = new Estoque();
+					estoque.setBebida(bebida2);
+					estoque.setQtd(200);
+					estoque.setSessao(sessao);
+					HistoricoBebida historicoBebida = new HistoricoBebida();
+					historicoBebida.setDatahis(new Date());
+					historicoBebida.setTipoMovimento("E");
+					historicoBebida.setResponsavel("Lucas");
+					historicoBebida.setEstoque(estoque);
+					estoque.getHisBebidas().add(historicoBebida);
+					salvarEstoque(estoque);
+				}
 			}
 		}
-
 	}
-
+	public void entradaBebidasAlcoolica() {
+		Bebida bebida1 = new Bebida();
+		Bebida bebida2 = new Bebida();
+		Collection<Sessao> sess = new ArrayList<Sessao>();
+		bebida1 = buscarNomeBebida("Cerveja");
+		bebida2 = buscarNomeBebida("Pinga");
+		if (bebida1 != null && bebida2 != null) {
+			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
+			for (Sessao sessao : sess) {
+				if (sessao.getDescricao().equals("Sessão 3")) {
+					Estoque estoque = new Estoque();
+					estoque.setBebida(bebida1);
+					estoque.setQtd(200);
+					estoque.setSessao(sessao);
+					HistoricoBebida historicoBebida = new HistoricoBebida();
+					historicoBebida.setDatahis(new Date());
+					historicoBebida.setTipoMovimento("E");
+					historicoBebida.setResponsavel("Lucas");
+					historicoBebida.setEstoque(estoque);
+					estoque.getHisBebidas().add(historicoBebida);
+					salvarEstoque(estoque);
+				} else if (sessao.getDescricao().equals("Sessão 4")) {
+					Estoque estoque = new Estoque();
+					estoque.setBebida(bebida2);
+					estoque.setQtd(200);
+					estoque.setSessao(sessao);
+					HistoricoBebida historicoBebida = new HistoricoBebida();
+					historicoBebida.setDatahis(new Date());
+					historicoBebida.setTipoMovimento("E");
+					historicoBebida.setEstoque(estoque);
+					historicoBebida.setResponsavel("Lucas");
+					estoque.getHisBebidas().add(historicoBebida);
+					salvarEstoque(estoque);
+				}
+			}
+		}
+	}
+	public void salvarEstoque(Estoque estoque) {
+		String response = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(asJsonString(estoque))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		Estoque estoque2 = gson.fromJson(response, Estoque.class);
+	}
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);
 	}

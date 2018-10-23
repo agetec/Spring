@@ -31,7 +31,7 @@ public class Bebida {
 	@ApiModelProperty(notes = "volume da bebida. Informar em litros")
 	private Double volume;
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(nullable=false)
 	@ApiModelProperty(notes = "relacionamento do tipo da bebida")
 	private TipoBebida tipoBebida;

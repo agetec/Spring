@@ -27,7 +27,7 @@ public class Sessao {
 	@ApiModelProperty(notes = "Descrição da sessão")
 	private String descricao;
 
-	@OneToOne(fetch=FetchType.LAZY)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(nullable=false)
 	@ApiModelProperty(notes = "tipo de bebida da sessão")
 	private TipoBebida tipoBebida;

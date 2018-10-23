@@ -1,5 +1,6 @@
 package com.bebidas.br.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -26,20 +27,20 @@ public class Estoque {
 	@ApiModelProperty(notes = "Não é necessário informar")
 	private Long IdEstoque;
 
-	@OneToOne
-	@JoinColumn(nullable=false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Bebida bebida;
 
-	@OneToOne
-	@JoinColumn(nullable=false)
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(nullable = false)
 	private Sessao sessao;
 
 	@Column(nullable = false)
 	private Integer qtd;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estoque",fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estoque", fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "lista de historico da bebida")
-	private Collection<HistoricoBebida> bebidas;
+	private Collection<HistoricoBebida> hisBebidas=new ArrayList<HistoricoBebida>();
 
 	public Long getIdEstoque() {
 		return IdEstoque;
@@ -73,12 +74,12 @@ public class Estoque {
 		this.qtd = qtd;
 	}
 
-	public Collection<HistoricoBebida> getBebidas() {
-		return bebidas;
+	public Collection<HistoricoBebida> getHisBebidas() {
+		return hisBebidas;
 	}
 
-	public void setBebidas(Collection<HistoricoBebida> bebidas) {
-		this.bebidas = bebidas;
+	public void setHisBebidas(Collection<HistoricoBebida> hisBebidas) {
+		this.hisBebidas = hisBebidas;
 	}
 
 }
