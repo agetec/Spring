@@ -158,6 +158,9 @@ public class WsbebidasApplicationTests {
 		
 		
 	}
+	public void entradaBebidas() {
+		
+	}
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);
 	}

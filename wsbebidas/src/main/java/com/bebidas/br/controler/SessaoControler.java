@@ -2,6 +2,7 @@ package com.bebidas.br.controler;
 
 import java.util.Collection;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import io.swagger.annotations.Api;
 @Api(value = "onlinestore", description = "Operações para controle de sessão de bebidas do estoque")
 @CrossOrigin(origins = "*")
 public class SessaoControler {
-
+	@Autowired
 	SessaoService service = new SessaoService();
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarSessao", consumes = MediaType.APPLICATION_JSON_VALUE, 

@@ -5,6 +5,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,7 +37,7 @@ public class Estoque {
 	@Column(nullable = false)
 	private Integer qtd;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estoque")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estoque",fetch=FetchType.LAZY)
 	@ApiModelProperty(notes = "lista de historico da bebida")
 	private Collection<HistoricoBebida> bebidas;
 
