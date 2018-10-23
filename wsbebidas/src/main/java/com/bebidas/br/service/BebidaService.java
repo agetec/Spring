@@ -30,4 +30,13 @@ public class BebidaService {
 	public void excluir(Bebida bebida) {
 		bebidaRepository.delete(bebida);
 	}
+
+	public Bebida findNome(String nome) {
+		return bebidaRepository.findNome(nome);
+	}
+	
+	public Bebida findTipo(Integer tipo) {
+		return bebidaRepository.findTipo(tipo);
+	}
+
 }

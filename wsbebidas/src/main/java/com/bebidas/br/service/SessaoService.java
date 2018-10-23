@@ -26,6 +26,11 @@ public class SessaoService {
 	public Optional<Sessao> buscaByID(Integer id) {
 		return sessaoRepository.findById(id);
 	}
+	
+	public Sessao findTipo(Integer tipo) {
+		return sessaoRepository.findTipo(tipo);
+	}
+	
 
 	public void excluir(Sessao sessao) {
 		sessaoRepository.delete(sessao);

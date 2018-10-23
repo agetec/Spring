@@ -20,6 +20,8 @@ import org.springframework.web.context.WebApplicationContext;
 import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;
+import com.bebidas.br.service.BebidaService;
+import com.bebidas.br.service.SessaoService;
 import com.bebidas.br.service.TipoBebidaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -33,6 +35,11 @@ public class WsbebidasApplicationTests {
 	private WebApplicationContext wac;
 	@Autowired
 	TipoBebidaService tpService = new TipoBebidaService();
+	@Autowired
+	BebidaService bService = new BebidaService();
+
+	@Autowired
+	SessaoService sService = new SessaoService();
 
 	@Test
 	public void contextLoads() {
@@ -80,7 +87,7 @@ public class WsbebidasApplicationTests {
 		Collection<Bebida> bebidas = new ArrayList<Bebida>();
 		TipoBebida tipoBebida;
 
-		tipoBebida =buscarTipo("NA");
+		tipoBebida = buscarTipo("NA");
 		Bebida bebida = new Bebida();
 		bebida.setNome("Coca-cola");
 		bebida.setTipoBebida(tipoBebida);
@@ -106,41 +113,46 @@ public class WsbebidasApplicationTests {
 
 		for (Bebida bebi : bebidas) {
 			try {
-				mockMvc.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebi))
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+				String response = mockMvc
+						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebi))
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andReturn().getResponse().getContentAsString();
+				Gson gson = new Gson();
+				Bebida bebida5 = gson.fromJson(response, Bebida.class);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
+
 	public void salvarSessao() {
-		Sessao  sessao1=new Sessao(); 
-		Sessao  sessao2=new Sessao(); 
-		Sessao  sessao3=new Sessao(); 
-		Sessao  sessao4=new Sessao(); 
-		Sessao  sessao5=new Sessao(); 
+		Sessao sessao1 = new Sessao();
+		Sessao sessao2 = new Sessao();
+		Sessao sessao3 = new Sessao();
+		Sessao sessao4 = new Sessao();
+		Sessao sessao5 = new Sessao();
 		Collection<Sessao> sessaos = new ArrayList<Sessao>();
 		sessao1.setDescricao("Sessão 1");
 		sessao1.setTipoBebida(buscarTipo("NA"));
 		sessao1.setCapacidade(400.00);
-		
+
 		sessao2.setDescricao("Sessão 2");
 		sessao2.setTipoBebida(buscarTipo("NA"));
 		sessao2.setCapacidade(400.00);
-		
+
 		sessao3.setDescricao("Sessão 3");
 		sessao3.setTipoBebida(buscarTipo("A"));
 		sessao3.setCapacidade(500.00);
-		
+
 		sessao4.setDescricao("Sessão 4");
 		sessao4.setTipoBebida(buscarTipo("A"));
 		sessao4.setCapacidade(500.00);
-		
+
 		sessao5.setDescricao("Sessão 5");
 		sessao5.setTipoBebida(buscarTipo("A"));
 		sessao5.setCapacidade(500.00);
-		
+
 		sessaos.add(sessao1);
 		sessaos.add(sessao2);
 		sessaos.add(sessao3);
@@ -148,22 +160,47 @@ public class WsbebidasApplicationTests {
 		sessaos.add(sessao5);
 		for (Sessao sess : sessaos) {
 			try {
-				mockMvc.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sess))
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+				String response = mockMvc
+						.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sess))
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andReturn().getResponse().getContentAsString();
+				Gson gson = new Gson();
+				Sessao sessao = gson.fromJson(response, Sessao.class);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		
-		
+
 	}
+
 	public void entradaBebidas() {
-		
+		Bebida bebida = new Bebida();
+		Sessao sessao1 = new Sessao();
+		bebida = buscarNomeBebida("Coca-cola");
+		if (bebida != null && bebida.getIdBebida() != null) {
+			sessao1 = buscarTipoSessao(bebida.getTipoBebida().getIdTipoBebida());
+
+		}
+
 	}
+
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);
 	}
+
+	public Bebida buscarTipoBebida(Integer tipo) {
+		return bService.findTipo(tipo);
+	}
+
+	public Bebida buscarNomeBebida(String nome) {
+		return bService.findNome(nome);
+	}
+
+	public Sessao buscarTipoSessao(Integer tipo) {
+		return sService.findTipo(tipo);
+	}
+
 	public static String asJsonString(final Object obj) {
 		try {
 			final ObjectMapper mapper = new ObjectMapper();
