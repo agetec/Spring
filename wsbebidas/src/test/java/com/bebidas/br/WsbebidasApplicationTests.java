@@ -258,6 +258,8 @@ public class WsbebidasApplicationTests {
 					.perform(MockMvcRequestBuilders.post("/salvarHisBebida").content(asJsonString(historicoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			HistoricoBebida historicoBebidar = gson.fromJson(response, HistoricoBebida.class);
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -265,8 +267,7 @@ public class WsbebidasApplicationTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Gson gson = new Gson();
-		HistoricoBebida historicoBebidar = gson.fromJson(response, HistoricoBebida.class);
+		
 	}
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);

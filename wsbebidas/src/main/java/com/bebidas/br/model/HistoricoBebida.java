@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.bebidas.br.util.JsonDateSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import io.swagger.annotations.ApiModelProperty;
 
 @Entity
@@ -30,6 +33,7 @@ public class HistoricoBebida {
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonSerialize(using=JsonDateSerializer.class)
 	@ApiModelProperty(notes = "data e hora da inserção do histórico")
 	private Date datahis;
 
