@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Estoque;
 import com.bebidas.br.service.EstoqueService;
 
@@ -22,24 +24,16 @@ import io.swagger.annotations.Api;
 public class EstoqueControler {
 	@Autowired
 	EstoqueService service = new EstoqueService();
-	@RequestMapping(method = RequestMethod.POST, value = "/salvarEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Estoque> salvar(@RequestBody Estoque estoque) {
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoque", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Estoque>> buscarTodos() {
 		try {
-			service.salvar(estoque);
-			return new ResponseEntity<Estoque>(estoque, HttpStatus.CREATED);
+			Collection<Estoque> estoques = service.buscarTodos();
+			return new ResponseEntity<>(estoques, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirEstoque", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void excluir(@RequestBody Estoque estoque) {
-
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoque", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarTodos() {
-		return null;
+		 
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

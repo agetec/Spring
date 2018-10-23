@@ -51,7 +51,8 @@ public class WsbebidasApplicationTests {
 		salvarBebida();
 		salvarSessao();
 		entradaBebidasNalcoolica();
-		entradaBebidasAlcoolica();		
+		entradaBebidasAlcoolica();	
+		buscarTodosEstoque();
 	}
 
 	@Before
@@ -268,6 +269,30 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 		
+	}
+	public void buscarTodosEstoque() {
+		String response = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque")
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			Collection<Estoque> estoques = gson.fromJson(response, Collection.class);
+			for (Estoque estoque : estoques) {
+				System.out.println("--Estoque--");
+				System.out.println(estoque.getSessao().getDescricao());
+				System.out.println("Bebida:"+estoque.getBebida().getNome());
+				System.out.println("Volume:"+estoque.getBebida().getVolume()+"Litros");
+			}
+		
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);

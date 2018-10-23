@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 @Api(value = "onlinestore", description = "Operações para controle de bebidas do estoque")
 @CrossOrigin(origins = "*")
-public class BedidaControler {
+public class BebidaControler {
 
 	@Autowired
 	BebidaService bebidaService = new BebidaService();
