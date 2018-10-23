@@ -1,6 +1,7 @@
 package com.bebidas.br;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -29,6 +30,7 @@ import com.bebidas.br.service.SessaoService;
 import com.bebidas.br.service.TipoBebidaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -199,9 +201,19 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setDatahis(new Date());
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);
-				
+					historicoBebida.setEstoque(estoque);				
 					salvarEstoque(historicoBebida);
+					
+					Estoque estoque1 = new Estoque();
+					estoque1.setBebida(bebida1);
+					estoque1.setQtd(200);
+					estoque1.setSessao(sessao);
+					HistoricoBebida historicoBebida1 = new HistoricoBebida();
+					historicoBebida1.setDatahis(new Date());
+					historicoBebida1.setTipoMovimento("E");
+					historicoBebida1.setResponsavel("Lucas");
+					historicoBebida1.setEstoque(estoque1);				
+					salvarEstoque(historicoBebida1);
 				} else if (sessao.getDescricao().equals("Sessão 2")) {
 					Estoque estoque = new Estoque();
 					estoque.setBebida(bebida2);
@@ -213,6 +225,17 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);				
 					salvarEstoque(historicoBebida);
+					
+					Estoque estoque1 = new Estoque();
+					estoque1.setBebida(bebida2);
+					estoque1.setQtd(200);
+					estoque1.setSessao(sessao);
+					HistoricoBebida historicoBebida1 = new HistoricoBebida();
+					historicoBebida1.setDatahis(new Date());
+					historicoBebida1.setTipoMovimento("E");
+					historicoBebida1.setResponsavel("Lucas");
+					historicoBebida1.setEstoque(estoque1);				
+					salvarEstoque(historicoBebida1);
 				}
 			}
 		}
@@ -278,10 +301,13 @@ public class WsbebidasApplicationTests {
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
-			Collection<Estoque> estoques = gson.fromJson(response, Collection.class);
+			Type listType = new TypeToken<ArrayList<Estoque>>(){}.getType();
+			Collection<Estoque> estoques = gson.fromJson(response, listType);
+			System.out.println("--Estoque--");
 			for (Estoque estoque : estoques) {
-				System.out.println("--Estoque--");
+				
 				System.out.println(estoque.getSessao().getDescricao());
+				System.out.println("Tipo da Bebida:"+estoque.getSessao().getTipoBebida().getDescricao());
 				System.out.println("Bebida:"+estoque.getBebida().getNome());
 				System.out.println("Volume:"+estoque.getBebida().getVolume()+"Litros");
 			}
@@ -294,6 +320,7 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);
 	}

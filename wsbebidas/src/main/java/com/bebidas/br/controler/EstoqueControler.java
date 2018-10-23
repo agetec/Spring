@@ -29,7 +29,7 @@ public class EstoqueControler {
 	public ResponseEntity<Collection<Estoque>> buscarTodos() {
 		try {
 			Collection<Estoque> estoques = service.buscarTodos();
-			return new ResponseEntity<>(estoques, HttpStatus.OK);
+			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}

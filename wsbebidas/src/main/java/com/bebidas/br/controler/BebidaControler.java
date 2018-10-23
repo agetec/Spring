@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bebidas.br.model.Bebida;
+import com.bebidas.br.model.Estoque;
 import com.bebidas.br.service.BebidaService;
 
 import io.swagger.annotations.Api;
@@ -34,8 +35,7 @@ public class BebidaControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 
-	@RequestMapping(method = RequestMethod.POST, value = "/salvarBebida", consumes = MediaType.APPLICATION_JSON_VALUE, 
-	produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, value = "/salvarBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> salvar(@RequestBody Bebida bebida) {
 		try {
 			bebidaService.salvar(bebida);
@@ -67,7 +67,7 @@ public class BebidaControler {
 	public ResponseEntity<Collection<Bebida>> buscarTodos() {
 		try {
 			Collection<Bebida> bebidas = bebidaService.buscarTodos();
-			return new ResponseEntity<>(bebidas, HttpStatus.OK);
+			return new ResponseEntity<Collection<Bebida>>(bebidas, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
@@ -77,8 +77,7 @@ public class BebidaControler {
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId", consumes = MediaType.APPLICATION_JSON_VALUE, 
-	produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> buscarPorId(@PathVariable Long id) {
 		try {
 			Optional<Bebida> bebida = bebidaService.buscaByID(id);
