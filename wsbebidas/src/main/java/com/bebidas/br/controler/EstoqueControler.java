@@ -33,7 +33,18 @@ public class EstoqueControler {
 		}
 		 
 	}
-
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo() {
+		try {
+			Collection<Estoque> estoques = service.buscarTodosEstoqueByTipo();
+			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		 
+	}
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarPorId(Integer Id) {
 		return null;

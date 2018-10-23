@@ -303,9 +303,8 @@ public class WsbebidasApplicationTests {
 			Gson gson = new Gson();
 			Type listType = new TypeToken<ArrayList<Estoque>>(){}.getType();
 			Collection<Estoque> estoques = gson.fromJson(response, listType);
-			System.out.println("--Estoque--");
-			for (Estoque estoque : estoques) {
-				
+			System.out.println("--Estoque por sessão--");
+			for (Estoque estoque : estoques) {				
 				System.out.println(estoque.getSessao().getDescricao());
 				System.out.println("Tipo da Bebida:"+estoque.getSessao().getTipoBebida().getDescricao());
 				System.out.println("Bebida:"+estoque.getBebida().getNome());
@@ -322,6 +321,8 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
+	
 	
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);

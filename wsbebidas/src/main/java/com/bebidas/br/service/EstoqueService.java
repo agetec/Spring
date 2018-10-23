@@ -30,4 +30,9 @@ public class EstoqueService {
 	public void excluir(Estoque estoque) {
 		estoqueRepository.delete(estoque);
 	}
+
+	public Collection<Estoque> buscarTodosEstoqueByTipo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
