@@ -3,6 +3,7 @@ package com.bebidas.br.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ public class Bebida {
 	@ApiModelProperty(notes = "volume da bebida. Informar em litros")
 	private Double volume;
 
-	@OneToOne
+	@OneToOne(fetch=FetchType.LAZY)
 	@JoinColumn(nullable=false)
 	@ApiModelProperty(notes = "relacionamento do tipo da bebida")
 	private TipoBebida tipoBebida;
