@@ -199,8 +199,8 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);
-					estoque.getHisBebidas().add(historicoBebida);
-					salvarEstoque(estoque);
+				
+					salvarEstoque(historicoBebida);
 				} else if (sessao.getDescricao().equals("Sessão 2")) {
 					Estoque estoque = new Estoque();
 					estoque.setBebida(bebida2);
@@ -210,9 +210,8 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setDatahis(new Date());
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);
-					estoque.getHisBebidas().add(historicoBebida);
-					salvarEstoque(estoque);
+					historicoBebida.setEstoque(estoque);				
+					salvarEstoque(historicoBebida);
 				}
 			}
 		}
@@ -236,8 +235,7 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);
-					estoque.getHisBebidas().add(historicoBebida);
-					salvarEstoque(estoque);
+					salvarEstoque(historicoBebida);
 				} else if (sessao.getDescricao().equals("Sessão 4")) {
 					Estoque estoque = new Estoque();
 					estoque.setBebida(bebida2);
@@ -248,17 +246,16 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setEstoque(estoque);
 					historicoBebida.setResponsavel("Lucas");
-					estoque.getHisBebidas().add(historicoBebida);
-					salvarEstoque(estoque);
+					salvarEstoque(historicoBebida);
 				}
 			}
 		}
 	}
-	public void salvarEstoque(Estoque estoque) {
+	public void salvarEstoque(HistoricoBebida historicoBebida) {
 		String response = null;
 		try {
 			response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(asJsonString(estoque))
+					.perform(MockMvcRequestBuilders.post("/salvarHisBebida").content(asJsonString(historicoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andReturn().getResponse().getContentAsString();
 		} catch (UnsupportedEncodingException e) {
@@ -269,7 +266,7 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 		Gson gson = new Gson();
-		Estoque estoque2 = gson.fromJson(response, Estoque.class);
+		HistoricoBebida historicoBebidar = gson.fromJson(response, HistoricoBebida.class);
 	}
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);

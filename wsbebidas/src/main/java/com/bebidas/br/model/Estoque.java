@@ -1,6 +1,5 @@
 package com.bebidas.br.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -40,7 +39,7 @@ public class Estoque {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "estoque", fetch = FetchType.LAZY)
 	@ApiModelProperty(notes = "lista de historico da bebida")
-	private Collection<HistoricoBebida> hisBebidas=new ArrayList<HistoricoBebida>();
+	private Collection<HistoricoBebida> hisBebidas;
 
 	public Long getIdEstoque() {
 		return IdEstoque;
