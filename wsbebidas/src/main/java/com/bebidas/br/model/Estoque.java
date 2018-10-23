@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -24,10 +25,12 @@ public class Estoque {
 	@ApiModelProperty(notes = "Não é necessário informar")
 	private Long IdEstoque;
 
-	@OneToOne(optional = false,cascade=CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(nullable=false)
 	private Bebida bebida;
 
-	@OneToOne(optional = false,cascade=CascadeType.ALL)
+	@OneToOne
+	@JoinColumn(nullable=false)
 	private Sessao sessao;
 
 	@Column(nullable = false)
