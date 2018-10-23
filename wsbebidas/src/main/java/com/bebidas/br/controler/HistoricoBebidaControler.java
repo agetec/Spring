@@ -40,7 +40,8 @@ public class HistoricoBebidaControler {
 		return null;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdHis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdHis", consumes = MediaType.APPLICATION_JSON_VALUE, 
+			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HistoricoBebida>> buscarPorId(Integer Id) {
 		return null;
 	}
