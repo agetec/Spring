@@ -46,6 +46,7 @@ public class WsbebidasApplicationTests {
 		salvarTipoBebida();
 		salvarBebida();
 		salvarSessao();
+		entradaBebidas();
 	}
 
 	@Before
@@ -175,12 +176,16 @@ public class WsbebidasApplicationTests {
 	}
 
 	public void entradaBebidas() {
-		Bebida bebida = new Bebida();
-		Sessao sessao1 = new Sessao();
-		bebida = buscarNomeBebida("Coca-cola");
-		if (bebida != null && bebida.getIdBebida() != null) {
-			sessao1 = buscarTipoSessao(bebida.getTipoBebida().getIdTipoBebida());
-
+		Bebida bebida1 = new Bebida();
+		Bebida bebida2 = new Bebida();
+		Collection<Sessao> sess = new ArrayList<Sessao>();
+		bebida1 = buscarNomeBebida("Coca-cola");
+		bebida2 = buscarNomeBebida("Fanta");
+		if (bebida1 != null && bebida2!=null) {
+			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
+			for (Sessao sessao : sess) {
+				
+			}
 		}
 
 	}
@@ -197,7 +202,7 @@ public class WsbebidasApplicationTests {
 		return bService.findNome(nome);
 	}
 
-	public Sessao buscarTipoSessao(Integer tipo) {
+	public Collection<Sessao> buscarTipoSessao(Integer tipo) {
 		return sService.findTipo(tipo);
 	}
 

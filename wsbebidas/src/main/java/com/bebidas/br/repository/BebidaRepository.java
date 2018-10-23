@@ -8,7 +8,7 @@ import com.bebidas.br.model.Bebida;
 
 public interface BebidaRepository extends JpaRepository<Bebida, Long>{
 
-	@Query(value="select b from #{#entityName} b where b.tipo_bebida_id_tipo_bebida=:tipo")
+	@Query(value="select b from #{#entityName} b where b.tipoBebida.idTipoBebida=:tipo")
 	Bebida findTipo(@Param("tipo") Integer tipo);
 	
 	@Query(value="select b from #{#entityName} b where b.nome=:nome")

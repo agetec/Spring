@@ -27,7 +27,7 @@ public class SessaoService {
 		return sessaoRepository.findById(id);
 	}
 	
-	public Sessao findTipo(Integer tipo) {
+	public Collection<Sessao> findTipo(Integer tipo) {
 		return sessaoRepository.findTipo(tipo);
 	}
 	
