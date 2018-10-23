@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bebidas.br.model.Bebida;
-import com.bebidas.br.model.Estoque;
 import com.bebidas.br.service.BebidaService;
 
 import io.swagger.annotations.Api;

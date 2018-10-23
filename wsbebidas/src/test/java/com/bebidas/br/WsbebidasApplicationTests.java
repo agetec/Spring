@@ -310,6 +310,8 @@ public class WsbebidasApplicationTests {
 				System.out.println("Tipo da Bebida:"+estoque.getSessao().getTipoBebida().getDescricao());
 				System.out.println("Bebida:"+estoque.getBebida().getNome());
 				System.out.println("Volume:"+estoque.getBebida().getVolume()+"Litros");
+				System.out.println("Qtd em Estoque:"+estoque.getQtd());
+				System.out.println("Volume total do estoque:"+estoque.getBebida().getVolume()*estoque.getQtd());
 			}
 		
 		} catch (UnsupportedEncodingException e) {
