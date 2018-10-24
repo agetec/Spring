@@ -279,9 +279,9 @@ public class WsbebidasApplicationTests {
 						historicoBebida.setTipoMovimento("S");
 						historicoBebida.setResponsavel("Lucas");
 						historicoBebida.setEstoque(estoque);
+						historicoBebida.setQtd(qtdSaida);
 						salvarEstoque(historicoBebida);
 					}
-
 				}
 			}
 		} catch (UnsupportedEncodingException e) {
@@ -314,10 +314,10 @@ public class WsbebidasApplicationTests {
 						historicoBebida.setDatahis(new Date());
 						historicoBebida.setTipoMovimento("S");
 						historicoBebida.setResponsavel("Lucas");
+						historicoBebida.setQtd(qtdSaida);
 						historicoBebida.setEstoque(estoque);
 						salvarEstoque(historicoBebida);
 					}
-
 				}
 			}
 		} catch (UnsupportedEncodingException e) {
