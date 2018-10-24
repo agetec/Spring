@@ -388,26 +388,6 @@ public class WsbebidasApplicationTests {
 
 	}
 
-	public Bebida buscarTipoBebida(Integer tipo) {
-		String response = null;
-		Bebida bebida = null;
-		try {
-			response = mockMvc
-					.perform(MockMvcRequestBuilders.get("/buscarBebidaTpById").content(asJsonString(tipo))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andReturn().getResponse().getContentAsString();
-			Gson gson = new Gson();
-			bebida = gson.fromJson(response, Bebida.class);
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return bebida;
-	}
-
 	public Bebida buscarNomeBebida(String nome) {
 		String response = null;
 		Bebida bebida = null;

@@ -59,17 +59,6 @@ public class BebidaControler {
 		}
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaTpById",
-			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Bebida> buscarBebidaTpById(@RequestBody Integer tipo) {
-		try {
-			Bebida bebida = bebidaService.findTipo(tipo);
-			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		 
-	}
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaByNome",
 			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> buscarBebidaByNome(@RequestBody String nome) {
@@ -81,18 +70,6 @@ public class BebidaControler {
 		}
 		 
 	}
-	@ApiOperation(value = "Listar bebida por id", response = Bebida.class)
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Bebida> buscarPorId(@PathVariable Long id) {
-		try {
-			Optional<Bebida> bebida = bebidaService.buscaByID(id);
-			return new ResponseEntity<Bebida>(bebida.get(), HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Bebida>(HttpStatus.BAD_REQUEST);
-		}
-	}
+	
 
 }
