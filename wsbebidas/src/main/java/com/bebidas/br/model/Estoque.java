@@ -20,7 +20,7 @@ public class Estoque {
 	@SequenceGenerator(name = "IdEstoque", sequenceName = "IdEstoque_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdEstoque")
 	@ApiModelProperty(notes = "Não é necessário informar")
-	private Long IdEstoque;
+	private Long idEstoque;
 
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false)
@@ -34,11 +34,11 @@ public class Estoque {
 	private Integer qtd;
 
 	public Long getIdEstoque() {
-		return IdEstoque;
+		return idEstoque;
 	}
 
 	public void setIdEstoque(Long idEstoque) {
-		IdEstoque = idEstoque;
+		this.idEstoque = idEstoque;
 	}
 
 	public Bebida getBebida() {

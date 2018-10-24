@@ -29,11 +29,11 @@ public class HistoricoBebida {
 	@SequenceGenerator(name = "IdHistorico", sequenceName = "IdHistorico_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdHistorico")
 	@ApiModelProperty(notes = "Não é necessário informar")
-	private Long IdHistorico;
+	private Long idHistorico;
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.TIMESTAMP)
-	@JsonSerialize(using=JsonDateSerializer.class)
+	@JsonSerialize(using = JsonDateSerializer.class)
 	@ApiModelProperty(notes = "data e hora da inserção do histórico")
 	private Date datahis;
 
@@ -50,11 +50,11 @@ public class HistoricoBebida {
 	private Estoque estoque;
 
 	public Long getIdHistorico() {
-		return IdHistorico;
+		return idHistorico;
 	}
 
 	public void setIdHistorico(Long idHistorico) {
-		IdHistorico = idHistorico;
+		this.idHistorico = idHistorico;
 	}
 
 	public Date getDatahis() {

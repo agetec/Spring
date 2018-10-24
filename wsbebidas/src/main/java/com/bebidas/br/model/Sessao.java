@@ -21,14 +21,14 @@ public class Sessao {
 	@SequenceGenerator(name = "IdSessao", sequenceName = "IdSessao_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdSessao")
 	@ApiModelProperty(notes = "Não é necessário informar")
-	private Integer IdSessao;
+	private Integer idSessao;
 
 	@Column(length = 250, nullable = false)
 	@ApiModelProperty(notes = "Descrição da sessão")
 	private String descricao;
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(nullable=false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false)
 	@ApiModelProperty(notes = "tipo de bebida da sessão")
 	private TipoBebida tipoBebida;
 
@@ -37,11 +37,11 @@ public class Sessao {
 	private Double capacidade;
 
 	public Integer getIdSessao() {
-		return IdSessao;
+		return idSessao;
 	}
 
 	public void setIdSessao(Integer idSessao) {
-		IdSessao = idSessao;
+		this.idSessao = idSessao;
 	}
 
 	public String getDescricao() {

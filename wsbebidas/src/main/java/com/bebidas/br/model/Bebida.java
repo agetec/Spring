@@ -21,7 +21,7 @@ public class Bebida {
 	@SequenceGenerator(name = "IdBebida", sequenceName = "IdBebida_seq")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "IdBebida")
 	@ApiModelProperty(notes = "Não é necessário informar")
-	private Long IdBebida;
+	private Long idBebida;
 
 	@Column(length = 250, nullable = false)
 	@ApiModelProperty(notes = "Nome da bebida")
@@ -31,18 +31,17 @@ public class Bebida {
 	@ApiModelProperty(notes = "volume da bebida. Informar em litros")
 	private Double volume;
 
-	@OneToOne(fetch=FetchType.EAGER)
-	@JoinColumn(nullable=false)
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false)
 	@ApiModelProperty(notes = "relacionamento do tipo da bebida")
 	private TipoBebida tipoBebida;
-	
-	
+
 	public Long getIdBebida() {
-		return IdBebida;
+		return idBebida;
 	}
 
 	public void setIdBebida(Long idBebida) {
-		IdBebida = idBebida;
+		this.idBebida = idBebida;
 	}
 
 	public String getNome() {

@@ -295,7 +295,7 @@ public class WsbebidasApplicationTests {
 			System.out.println("--Estoque por sessão--");
 			for (Sessao sessao : sessaos) {
 				Double vltEstoque = 0.00;
-				System.out.println(sessao.getDescricao());
+				System.out.println("--"+sessao.getDescricao()+"--");
 				System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
 				
 				response = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
@@ -308,11 +308,11 @@ public class WsbebidasApplicationTests {
 				
 				for (Estoque estoque : estoques) {
 					System.out.println("Bebida:" + estoque.getBebida().getNome());
-					System.out.println("Volume:" + estoque.getBebida().getVolume() + "Litros");
-					System.out.println("Qtd em Estoque:" + estoque.getQtd());
+					System.out.println("Volume da bebida:" + estoque.getBebida().getVolume() + "Litros");
+					System.out.println("Qtd em Estoque da sessão:" + estoque.getQtd());
 					vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
 				}
-				System.out.println("Volume total do estoque:" + vltEstoque);
+				System.out.println("Volume total do estoque da sessão:" + vltEstoque);
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
