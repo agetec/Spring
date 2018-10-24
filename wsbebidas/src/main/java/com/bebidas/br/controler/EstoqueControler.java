@@ -24,7 +24,7 @@ import io.swagger.annotations.Api;
 public class EstoqueControler {
 	@Autowired
 	EstoqueService service = new EstoqueService();
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoque", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodos() {
 		try {
@@ -33,11 +33,10 @@ public class EstoqueControler {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		 
+
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo",
-			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo(@RequestBody Integer tipo) {
 		try {
 			Collection<Estoque> estoques = service.buscarTodosEstoqueByTipo(tipo);
@@ -45,11 +44,10 @@ public class EstoqueControler {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		 
+
 	}
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueBySessao",
-			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueBySessao", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueBySessao(@RequestBody Integer sessao) {
 		try {
 			Collection<Estoque> estoques = service.buscarTodosEstoqueBySessao(sessao);
@@ -57,9 +55,21 @@ public class EstoqueControler {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
-		 
+
 	}
-	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/buscaEstoqueBebida", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Estoque> buscaEstoqueBebida(@RequestBody Estoque estoque) {
+		try {
+			Estoque estoqueResult = service.buscaEstoqueBebida(estoque.getBebida().getIdBebida(),
+					estoque.getSessao().getIdSessao());
+			return new ResponseEntity<Estoque>(estoqueResult, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarPorId(@PathVariable Integer Id) {
 		return null;

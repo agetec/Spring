@@ -163,7 +163,6 @@ public class WsbebidasApplicationTests {
 
 		sessao5.setDescricao("Sessão 5");
 		sessao5.setCapacidade(500.00);
-
 		sessaos.add(sessao1);
 		sessaos.add(sessao2);
 		sessaos.add(sessao3);
@@ -195,30 +194,9 @@ public class WsbebidasApplicationTests {
 			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
 				if (sessao.getDescricao().equals("Sessão 1")) {
-					Estoque estoque = new Estoque();
-					estoque.setBebida(bebida1);
-					estoque.setQtd(200);					
-					estoque.setSessao(sessao);
-					HistoricoBebida historicoBebida = new HistoricoBebida();
-					historicoBebida.setDatahis(new Date());
-					historicoBebida.setTipoMovimento("E");
-					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);
-					historicoBebida.setQtd(200);
-					salvarEstoque(historicoBebida);
+					salvarEstoque(popularEstoque(200, sessao, bebida1));
 				} else if (sessao.getDescricao().equals("Sessão 2")) {
-					Estoque estoque = new Estoque();
-					estoque.setBebida(bebida2);
-					estoque.setQtd(200);
-					estoque.setSessao(sessao);
-					HistoricoBebida historicoBebida = new HistoricoBebida();
-					historicoBebida.setDatahis(new Date());
-					historicoBebida.setTipoMovimento("E");
-					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);
-					historicoBebida.setQtd(200);
-					salvarEstoque(historicoBebida);
-
+					salvarEstoque(popularEstoque(200, sessao, bebida2));
 				}
 			}
 		}
@@ -234,32 +212,47 @@ public class WsbebidasApplicationTests {
 			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
 				if (sessao.getDescricao().equals("Sessão 3")) {
-					Estoque estoque = new Estoque();
-					estoque.setBebida(bebida1);
-					estoque.setQtd(200);
-					estoque.setSessao(sessao);
-					HistoricoBebida historicoBebida = new HistoricoBebida();
-					historicoBebida.setDatahis(new Date());
-					historicoBebida.setTipoMovimento("E");
-					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);
-					historicoBebida.setQtd(200);
-					salvarEstoque(historicoBebida);
+					salvarEstoque(popularEstoque(200, sessao, bebida1));
 				} else if (sessao.getDescricao().equals("Sessão 4")) {
-					Estoque estoque = new Estoque();
-					estoque.setBebida(bebida2);
-					estoque.setQtd(200);
-					estoque.setSessao(sessao);
-					HistoricoBebida historicoBebida = new HistoricoBebida();
-					historicoBebida.setDatahis(new Date());
-					historicoBebida.setTipoMovimento("E");
-					historicoBebida.setEstoque(estoque);
-					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setQtd(200);
-					salvarEstoque(historicoBebida);
+					salvarEstoque(popularEstoque(200, sessao, bebida2));
 				}
 			}
 		}
+	}
+
+	public HistoricoBebida popularEstoque(Integer qtd, Sessao sessao, Bebida bebida) {
+		String response = null;
+		Estoque estoque = new Estoque();		
+		estoque.setSessao(sessao);
+		estoque.setBebida(bebida);
+		try {
+			response = mockMvc.perform(MockMvcRequestBuilders.get("/buscaEstoqueBebida").content(asJsonString(estoque))
+					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andReturn()
+					.getResponse().getContentAsString();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Gson gson = new Gson();
+		estoque = gson.fromJson(response, Estoque.class);
+		if (estoque == null) {
+			estoque = new Estoque();
+			estoque.setBebida(bebida);
+			estoque.setQtdEstocar(qtd);
+			estoque.setSessao(sessao);
+		}else {
+			estoque.setQtdEstocar(qtd);
+		}
+		HistoricoBebida historicoBebida = new HistoricoBebida();
+		historicoBebida.setDatahis(new Date());
+		historicoBebida.setTipoMovimento("E");
+		historicoBebida.setEstoque(estoque);
+		historicoBebida.setResponsavel("Lucas");
+		historicoBebida.setQtd(qtd);
+		return historicoBebida;
 	}
 
 	public void saidaNbebidasAlcoolica(Integer qtdSaida) {

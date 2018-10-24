@@ -43,7 +43,7 @@ public class EstoqueService {
 		return estoqueRepository.findSessao(sessao); 
 	}
 	
-	public Estoque buscaEstoque(Long idBebida,Integer idSessao) {
-		return estoqueRepository.buscaEstoque(idBebida,idSessao);
+	public Estoque buscaEstoqueBebida(Long idBebida,Integer idSessao) {
+		return estoqueRepository.buscaEstoqueBebida(idBebida,idSessao);
 	}
 }
