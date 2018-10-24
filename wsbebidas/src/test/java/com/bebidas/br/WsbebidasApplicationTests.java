@@ -53,7 +53,7 @@ public class WsbebidasApplicationTests {
 		salvarBebida();
 		salvarSessao();
 		entradaBebidasNalcoolica();
-		entradaBebidasAlcoolica();	
+		entradaBebidasAlcoolica();
 		buscarTodosEstoque();
 	}
 
@@ -201,19 +201,8 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setDatahis(new Date());
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);				
+					historicoBebida.setEstoque(estoque);
 					salvarEstoque(historicoBebida);
-					
-					Estoque estoque1 = new Estoque();
-					estoque1.setBebida(bebida1);
-					estoque1.setQtd(200);
-					estoque1.setSessao(sessao);
-					HistoricoBebida historicoBebida1 = new HistoricoBebida();
-					historicoBebida1.setDatahis(new Date());
-					historicoBebida1.setTipoMovimento("E");
-					historicoBebida1.setResponsavel("Lucas");
-					historicoBebida1.setEstoque(estoque1);				
-					salvarEstoque(historicoBebida1);
 				} else if (sessao.getDescricao().equals("Sessão 2")) {
 					Estoque estoque = new Estoque();
 					estoque.setBebida(bebida2);
@@ -223,23 +212,14 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setDatahis(new Date());
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
-					historicoBebida.setEstoque(estoque);				
+					historicoBebida.setEstoque(estoque);
 					salvarEstoque(historicoBebida);
-					
-					Estoque estoque1 = new Estoque();
-					estoque1.setBebida(bebida2);
-					estoque1.setQtd(200);
-					estoque1.setSessao(sessao);
-					HistoricoBebida historicoBebida1 = new HistoricoBebida();
-					historicoBebida1.setDatahis(new Date());
-					historicoBebida1.setTipoMovimento("E");
-					historicoBebida1.setResponsavel("Lucas");
-					historicoBebida1.setEstoque(estoque1);				
-					salvarEstoque(historicoBebida1);
+
 				}
 			}
 		}
 	}
+
 	public void entradaBebidasAlcoolica() {
 		Bebida bebida1 = new Bebida();
 		Bebida bebida2 = new Bebida();
@@ -275,6 +255,7 @@ public class WsbebidasApplicationTests {
 			}
 		}
 	}
+
 	public void salvarEstoque(HistoricoBebida historicoBebida) {
 		String response = null;
 		try {
@@ -291,28 +272,29 @@ public class WsbebidasApplicationTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
+
 	public void buscarTodosEstoque() {
 		String response = null;
 		try {
-			response = mockMvc
-					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque")
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andReturn().getResponse().getContentAsString();
+			response = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque")
+					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andReturn()
+					.getResponse().getContentAsString();
 			Gson gson = new Gson();
-			Type listType = new TypeToken<ArrayList<Estoque>>(){}.getType();
+			Type listType = new TypeToken<ArrayList<Estoque>>() {
+			}.getType();
 			Collection<Estoque> estoques = gson.fromJson(response, listType);
 			System.out.println("--Estoque por sessão--");
-			for (Estoque estoque : estoques) {				
+			for (Estoque estoque : estoques) {
 				System.out.println(estoque.getSessao().getDescricao());
-				System.out.println("Tipo da Bebida:"+estoque.getSessao().getTipoBebida().getDescricao());
-				System.out.println("Bebida:"+estoque.getBebida().getNome());
-				System.out.println("Volume:"+estoque.getBebida().getVolume()+"Litros");
-				System.out.println("Qtd em Estoque:"+estoque.getQtd());
-				System.out.println("Volume total do estoque:"+estoque.getBebida().getVolume()*estoque.getQtd());
+				System.out.println("Tipo da Bebida:" + estoque.getSessao().getTipoBebida().getDescricao());
+				System.out.println("Bebida:" + estoque.getBebida().getNome());
+				System.out.println("Volume:" + estoque.getBebida().getVolume() + "Litros");
+				System.out.println("Qtd em Estoque:" + estoque.getQtd());
+				System.out.println("Volume total do estoque:" + estoque.getQtd() * estoque.getBebida().getVolume());
 			}
-		
+
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -321,9 +303,7 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
+
 	public TipoBebida buscarTipo(String tipo) {
 		return tpService.buscarTipoBebdidaByTipo(tipo);
 	}
