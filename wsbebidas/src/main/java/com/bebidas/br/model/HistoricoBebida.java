@@ -49,6 +49,9 @@ public class HistoricoBebida {
 	@JoinColumn(nullable = false)
 	private Estoque estoque;
 
+	@JoinColumn(nullable = false)
+	private Integer qtd;
+
 	public Long getIdHistorico() {
 		return idHistorico;
 	}
@@ -87,6 +90,14 @@ public class HistoricoBebida {
 
 	public void setEstoque(Estoque estoque) {
 		this.estoque = estoque;
+	}
+
+	public Integer getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(Integer qtd) {
+		this.qtd = qtd;
 	}
 
 }

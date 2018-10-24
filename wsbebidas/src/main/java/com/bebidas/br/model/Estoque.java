@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import io.swagger.annotations.ApiModelProperty;
 
@@ -32,6 +33,9 @@ public class Estoque {
 
 	@Column(nullable = false)
 	private Integer qtd;
+	
+	@Transient
+	private Integer qtdEstocar;
 
 	public Long getIdEstoque() {
 		return idEstoque;
@@ -64,5 +68,14 @@ public class Estoque {
 	public void setQtd(Integer qtd) {
 		this.qtd = qtd;
 	}
+
+	public Integer getQtdEstocar() {
+		return qtdEstocar;
+	}
+
+	public void setQtdEstocar(Integer qtdEstocar) {
+		this.qtdEstocar = qtdEstocar;
+	}
+	
 
 }

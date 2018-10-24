@@ -101,24 +101,24 @@ public class WsbebidasApplicationTests {
 
 		tipoBebida = buscarTipo("NA");
 		Bebida bebida = new Bebida();
-		bebida.setNome("Coca-cola");
+		bebida.setNome("Coca-cola 2l");
 		bebida.setTipoBebida(tipoBebida);
 		bebida.setVolume(2.00);
 		bebidas.add(bebida);
 		Bebida bebida2 = new Bebida();
-		bebida2.setNome("Fanta");
+		bebida2.setNome("Fanta 2l");
 		bebida2.setTipoBebida(tipoBebida);
 		bebida2.setVolume(2.00);
 		bebidas.add(bebida2);
 
 		tipoBebida = buscarTipo("A");
 		Bebida bebida3 = new Bebida();
-		bebida3.setNome("Cerveja");
+		bebida3.setNome("Cerveja 1l");
 		bebida3.setTipoBebida(tipoBebida);
 		bebida3.setVolume(1.00);
 		bebidas.add(bebida3);
 		Bebida bebida4 = new Bebida();
-		bebida4.setNome("Pinga");
+		bebida4.setNome("Pinga 1.5l");
 		bebida4.setTipoBebida(tipoBebida);
 		bebida4.setVolume(1.5);
 		bebidas.add(bebida4);
@@ -189,8 +189,8 @@ public class WsbebidasApplicationTests {
 		Bebida bebida1 = new Bebida();
 		Bebida bebida2 = new Bebida();
 		Collection<Sessao> sess = new ArrayList<Sessao>();
-		bebida1 = buscarNomeBebida("Coca-cola");
-		bebida2 = buscarNomeBebida("Fanta");
+		bebida1 = buscarNomeBebida("Coca-cola 2l");
+		bebida2 = buscarNomeBebida("Fanta 2l");
 		if (bebida1 != null && bebida2 != null) {
 			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
@@ -258,6 +258,78 @@ public class WsbebidasApplicationTests {
 		}
 	}
 
+	public void saidaNbebidasAlcoolica(Integer qtdSaida) {
+		String response = null;
+		Gson gson = new Gson();
+		Type listTypeE = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque").contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listTypeE = new TypeToken<ArrayList<Estoque>>() {
+			}.getType();
+			Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+			for (Estoque estoque : estoques) {
+				if (estoque.getSessao().getDescricao().equals("Sessão 1")) {
+					if (estoque.getBebida().getNome().equals("Coca-cola 2l")) {
+						estoque.setQtdEstocar(qtdSaida);
+						HistoricoBebida historicoBebida = new HistoricoBebida();
+						historicoBebida.setDatahis(new Date());
+						historicoBebida.setTipoMovimento("S");
+						historicoBebida.setResponsavel("Lucas");
+						historicoBebida.setEstoque(estoque);
+						salvarEstoque(historicoBebida);
+					}
+
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public void saidaBebidasAlcoolica(Integer qtdSaida) {
+		String response = null;
+		Gson gson = new Gson();
+		Type listTypeE = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque").contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listTypeE = new TypeToken<ArrayList<Estoque>>() {
+			}.getType();
+			Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+			for (Estoque estoque : estoques) {
+				if (estoque.getSessao().getDescricao().equals("Sessão 3")) {
+					if (estoque.getBebida().getNome().equals("Cerveja 1l")) {
+						estoque.setQtdEstocar(qtdSaida);
+						HistoricoBebida historicoBebida = new HistoricoBebida();
+						historicoBebida.setDatahis(new Date());
+						historicoBebida.setTipoMovimento("S");
+						historicoBebida.setResponsavel("Lucas");
+						historicoBebida.setEstoque(estoque);
+						salvarEstoque(historicoBebida);
+					}
+
+				}
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	public void salvarEstoque(HistoricoBebida historicoBebida) {
 		String response = null;
 		try {
@@ -289,30 +361,31 @@ public class WsbebidasApplicationTests {
 					.perform(MockMvcRequestBuilders.get("/buscarTodosSess").contentType(MediaType.APPLICATION_JSON)
 							.accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			listType = new TypeToken<ArrayList<Sessao>>() {}.getType();
+			listType = new TypeToken<ArrayList<Sessao>>() {
+			}.getType();
 			Collection<Sessao> sessaos = gson.fromJson(responseSessao, listType);
 
 			System.out.println("--Estoque por sessão--\r\n");
-			for (Sessao sessao : sessaos) {				
+			for (Sessao sessao : sessaos) {
 				System.out.println("--" + sessao.getDescricao() + "--");
-				if(sessao.getTipoBebida()!=null) {
-				System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
-				response = mockMvc
-						.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
-								.content(asJsonString(sessao.getIdSessao())).contentType(MediaType.APPLICATION_JSON)
-								.accept(MediaType.APPLICATION_JSON))
-						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-				listTypeE = new TypeToken<ArrayList<Estoque>>() {
-				}.getType();
-				Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+				if (sessao.getTipoBebida() != null) {
+					System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
+					response = mockMvc
+							.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
+									.content(asJsonString(sessao.getIdSessao())).contentType(MediaType.APPLICATION_JSON)
+									.accept(MediaType.APPLICATION_JSON))
+							.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+					listTypeE = new TypeToken<ArrayList<Estoque>>() {
+					}.getType();
+					Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
 
-				for (Estoque estoque : estoques) {
-					vltEstoque=0.00;
-					System.out.println("Bebida:" + estoque.getBebida().getNome());
-					System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
-					System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
-					vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
-				}
+					for (Estoque estoque : estoques) {
+						vltEstoque = 0.00;
+						System.out.println("Bebida:" + estoque.getBebida().getNome());
+						System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
+						System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
+						vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
+					}
 				}
 				System.out.println("Capacidade da Sessão: " + sessao.getCapacidade() + " Litros");
 				System.out.println("Volume total do estoque da sessão: " + vltEstoque + " Litros" + "\r\n");
@@ -366,8 +439,9 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 	}
+
 	public void BuscarEstoqueTipoBySessao() {
-		
+
 	}
 
 	public TipoBebida buscarTipo(String tipo) {

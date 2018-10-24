@@ -18,7 +18,11 @@ public class EstoqueService {
 	public Estoque salvar(Estoque estoque) {
 		return estoqueRepository.save(estoque);
 	}
-
+	
+	public Integer countQtqEstoque(Integer sessao) {
+		return estoqueRepository.countQtqEstoque(sessao);
+	}
+	
 	public Collection<Estoque> buscarTodos() {
 		return estoqueRepository.findAll();
 	}

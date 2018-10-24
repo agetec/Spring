@@ -12,4 +12,6 @@ public interface SessaoRepository extends JpaRepository<Sessao, Integer>{
 
 	@Query(value="select s from #{#entityName} s where s.tipoBebida.idTipoBebida=:tipo")
 	Collection<Sessao> findTipo(@Param("tipo") Integer tipo);
+	
+	
 }

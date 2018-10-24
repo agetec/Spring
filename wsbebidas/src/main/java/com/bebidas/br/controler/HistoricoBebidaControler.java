@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.HistoricoBebida;
+import com.bebidas.br.service.EstoqueService;
 import com.bebidas.br.service.HistoricoBebidaService;
 
 import io.swagger.annotations.Api;
@@ -24,15 +26,37 @@ public class HistoricoBebidaControler {
 	@Autowired
 	HistoricoBebidaService service = new HistoricoBebidaService();
 
-	@RequestMapping(method = RequestMethod.POST, value = "/salvarHisBebida", consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<HistoricoBebida> salvar(@RequestBody HistoricoBebida historicoBebida) {
+	@RequestMapping(method = RequestMethod.POST, value = "/salvarHisBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity salvar(@RequestBody HistoricoBebida historicoBebida) {
 		try {
-			service.salvar(historicoBebida);
-			return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
+			if (validaQtdEstoque(historicoBebida)) {
+				if (historicoBebida.getTipoMovimento().equals("S"))
+					historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
+				historicoBebida.getEstoque()
+						.setQtd(historicoBebida.getEstoque().getQtd() + historicoBebida.getEstoque().getQtdEstocar());
+				service.salvar(historicoBebida);
+				return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
+			}
+			return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	public boolean validaQtdEstoque(HistoricoBebida historicoBebida) {
+		if (historicoBebida.getTipoMovimento().equals("S")) {
+			if (historicoBebida.getEstoque().getQtd() > historicoBebida.getEstoque().getQtdEstocar())
+				return true;
+		} else if (historicoBebida.getTipoMovimento().equals("E")) {
+			if (somaEstocar(historicoBebida) < historicoBebida.getEstoque().getSessao().getCapacidade())
+				return true;
+		}
+		return false;
+	}
+
+	public Integer somaEstocar(HistoricoBebida historicoBebida) {
+		return new EstoqueService().countQtqEstoque(historicoBebida.getEstoque().getSessao().getIdSessao())
+				+ historicoBebida.getEstoque().getQtdEstocar();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosHis", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -40,8 +64,7 @@ public class HistoricoBebidaControler {
 		return null;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdHis", consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdHis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<HistoricoBebida>> buscarPorId(Integer Id) {
 		return null;
 	}
