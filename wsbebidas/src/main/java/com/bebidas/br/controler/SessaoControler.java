@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.service.SessaoService;
 
@@ -34,15 +35,14 @@ public class SessaoControler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirSessao", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void excluir(@RequestBody Sessao sessao) {
-
-	}
-
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosSess", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Sessao>> buscarTodos() {
-		return null;
+		try {
+			Collection<Sessao> sessaos = service.buscarTodos();
+			return new ResponseEntity<Collection<Sessao>>(sessaos, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdSess", consumes = MediaType.APPLICATION_JSON_VALUE,

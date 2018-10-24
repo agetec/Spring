@@ -1,5 +1,8 @@
 package com.bebidas.br;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -276,25 +279,41 @@ public class WsbebidasApplicationTests {
 	}
 
 	public void buscarTodosEstoque() {
+		String responseSessao = null;
 		String response = null;
+		Gson gson = new Gson();
+		Type listType = null;
+		Type listTypeE = null;
 		try {
-			response = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque")
-					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andReturn()
-					.getResponse().getContentAsString();
-			Gson gson = new Gson();
-			Type listType = new TypeToken<ArrayList<Estoque>>() {
-			}.getType();
-			Collection<Estoque> estoques = gson.fromJson(response, listType);
+			responseSessao = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosSess")					
+					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn()
+					.getResponse().getContentAsString();			
+			listType = new TypeToken<ArrayList<Sessao>>() {	}.getType();			
+			Collection<Sessao> sessaos = gson.fromJson(responseSessao, listType);
+			
 			System.out.println("--Estoque por sessão--");
-			for (Estoque estoque : estoques) {
-				System.out.println(estoque.getSessao().getDescricao());
-				System.out.println("Tipo da Bebida:" + estoque.getSessao().getTipoBebida().getDescricao());
-				System.out.println("Bebida:" + estoque.getBebida().getNome());
-				System.out.println("Volume:" + estoque.getBebida().getVolume() + "Litros");
-				System.out.println("Qtd em Estoque:" + estoque.getQtd());
-				System.out.println("Volume total do estoque:" + estoque.getQtd() * estoque.getBebida().getVolume());
+			for (Sessao sessao : sessaos) {
+				Double vltEstoque = 0.00;
+				System.out.println(sessao.getDescricao());
+				System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
+				
+				response = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
+						.content(asJsonString(sessao.getIdSessao()))						
+						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andExpect(status().isCreated()).andReturn()
+						.getResponse().getContentAsString();
+				listTypeE = new TypeToken<ArrayList<Estoque>>() {}.getType();
+				Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+				
+				for (Estoque estoque : estoques) {
+					System.out.println("Bebida:" + estoque.getBebida().getNome());
+					System.out.println("Volume:" + estoque.getBebida().getVolume() + "Litros");
+					System.out.println("Qtd em Estoque:" + estoque.getQtd());
+					vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
+				}
+				System.out.println("Volume total do estoque:" + vltEstoque);
 			}
-
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -31,8 +31,11 @@ public class EstoqueService {
 		estoqueRepository.delete(estoque);
 	}
 
-	public Collection<Estoque> buscarTodosEstoqueByTipo() {
-		// TODO Auto-generated method stub
-		return null;
+	public Collection<Estoque> buscarTodosEstoqueByTipo(Integer tipo) {
+		return estoqueRepository.findTipo(tipo);
+	}
+
+	public Collection<Estoque> buscarTodosEstoqueBySessao(Integer sessao) {
+		return estoqueRepository.findSessao(sessao);
 	}
 }

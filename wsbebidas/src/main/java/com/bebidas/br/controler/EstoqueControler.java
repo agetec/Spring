@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,10 +36,23 @@ public class EstoqueControler {
 		 
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo() {
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo(@RequestBody Integer tipo) {
 		try {
-			Collection<Estoque> estoques = service.buscarTodosEstoqueByTipo();
+			Collection<Estoque> estoques = service.buscarTodosEstoqueByTipo(tipo);
+			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		 
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueBySessao",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueBySessao(@RequestBody Integer sessao) {
+		try {
+			Collection<Estoque> estoques = service.buscarTodosEstoqueBySessao(sessao);
 			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -46,7 +61,7 @@ public class EstoqueControler {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarPorId(Integer Id) {
+	public ResponseEntity<Collection<Estoque>> buscarPorId(@PathVariable Integer Id) {
 		return null;
 	}
 
