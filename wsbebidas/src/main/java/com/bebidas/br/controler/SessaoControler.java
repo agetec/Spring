@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.service.SessaoService;
 
