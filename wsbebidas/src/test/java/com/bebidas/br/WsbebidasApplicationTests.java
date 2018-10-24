@@ -197,13 +197,14 @@ public class WsbebidasApplicationTests {
 				if (sessao.getDescricao().equals("Sessão 1")) {
 					Estoque estoque = new Estoque();
 					estoque.setBebida(bebida1);
-					estoque.setQtd(200);
+					estoque.setQtd(200);					
 					estoque.setSessao(sessao);
 					HistoricoBebida historicoBebida = new HistoricoBebida();
 					historicoBebida.setDatahis(new Date());
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);
+					historicoBebida.setQtd(200);
 					salvarEstoque(historicoBebida);
 				} else if (sessao.getDescricao().equals("Sessão 2")) {
 					Estoque estoque = new Estoque();
@@ -215,6 +216,7 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);
+					historicoBebida.setQtd(200);
 					salvarEstoque(historicoBebida);
 
 				}
@@ -241,6 +243,7 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setResponsavel("Lucas");
 					historicoBebida.setEstoque(estoque);
+					historicoBebida.setQtd(200);
 					salvarEstoque(historicoBebida);
 				} else if (sessao.getDescricao().equals("Sessão 4")) {
 					Estoque estoque = new Estoque();
@@ -252,6 +255,7 @@ public class WsbebidasApplicationTests {
 					historicoBebida.setTipoMovimento("E");
 					historicoBebida.setEstoque(estoque);
 					historicoBebida.setResponsavel("Lucas");
+					historicoBebida.setQtd(200);
 					salvarEstoque(historicoBebida);
 				}
 			}
