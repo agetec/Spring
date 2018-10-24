@@ -1,6 +1,7 @@
 package com.bebidas.br.controler;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.TipoBebidaService;
 
@@ -41,12 +43,27 @@ public class TipoBebidaControler {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosTp", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<TipoBebida>> buscarTodos() {
-		return null;
+		try {
+			Collection<TipoBebida> tipoBebidas = service.buscarTodos();
+			return new ResponseEntity<Collection<TipoBebida>>(tipoBebidas, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdTp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<TipoBebida>> buscarPorId(Integer Id) {
-		return null;
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTipoTp",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<TipoBebida> buscarTipoTp(@RequestBody String tipo) {
+		try {
+			TipoBebida tipoBebida = service.buscarTipoBebdidaByTipo(tipo);
+			return new ResponseEntity<TipoBebida>(tipoBebida, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		 
 	}
+	
+	
+	
 
 }

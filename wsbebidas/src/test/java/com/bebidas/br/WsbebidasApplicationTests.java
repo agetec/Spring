@@ -1,6 +1,5 @@
 package com.bebidas.br;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.io.UnsupportedEncodingException;
@@ -58,6 +57,7 @@ public class WsbebidasApplicationTests {
 		entradaBebidasNalcoolica();
 		entradaBebidasAlcoolica();
 		buscarTodosEstoque();
+		buscarEstoqueByTipo();
 	}
 
 	@Before
@@ -162,7 +162,6 @@ public class WsbebidasApplicationTests {
 		sessao4.setCapacidade(500.00);
 
 		sessao5.setDescricao("Sessão 5");
-		sessao5.setTipoBebida(buscarTipo("A"));
 		sessao5.setCapacidade(500.00);
 
 		sessaos.add(sessao1);
@@ -284,35 +283,80 @@ public class WsbebidasApplicationTests {
 		Gson gson = new Gson();
 		Type listType = null;
 		Type listTypeE = null;
+		Double vltEstoque = 0.00;
 		try {
-			responseSessao = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosSess")					
-					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn()
-					.getResponse().getContentAsString();			
-			listType = new TypeToken<ArrayList<Sessao>>() {	}.getType();			
+			responseSessao = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosSess").contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listType = new TypeToken<ArrayList<Sessao>>() {
+			}.getType();
 			Collection<Sessao> sessaos = gson.fromJson(responseSessao, listType);
-			
-			System.out.println("--Estoque por sessão--");
-			for (Sessao sessao : sessaos) {
-				Double vltEstoque = 0.00;
-				System.out.println("--"+sessao.getDescricao()+"--");
+
+			System.out.println("--Estoque por sessão--\r\n");
+			for (Sessao sessao : sessaos) {				
+				System.out.println("--" + sessao.getDescricao() + "--");
+				if(sessao.getTipoBebida()!=null) {
 				System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
-				
-				response = mockMvc.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
-						.content(asJsonString(sessao.getIdSessao()))						
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andExpect(status().isCreated()).andReturn()
-						.getResponse().getContentAsString();
-				listTypeE = new TypeToken<ArrayList<Estoque>>() {}.getType();
+				response = mockMvc
+						.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
+								.content(asJsonString(sessao.getIdSessao())).contentType(MediaType.APPLICATION_JSON)
+								.accept(MediaType.APPLICATION_JSON))
+						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+				listTypeE = new TypeToken<ArrayList<Estoque>>() {
+				}.getType();
 				Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
-				
+
 				for (Estoque estoque : estoques) {
 					System.out.println("Bebida:" + estoque.getBebida().getNome());
-					System.out.println("Volume da bebida:" + estoque.getBebida().getVolume() + "Litros");
-					System.out.println("Qtd em Estoque da sessão:" + estoque.getQtd());
+					System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
+					System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
 					vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
 				}
-				System.out.println("Volume total do estoque da sessão:" + vltEstoque);
+				}
+				System.out.println("Capacidade da Sessão: " + sessao.getCapacidade() + " Litros");
+				System.out.println("Volume total do estoque da sessão: " + vltEstoque + " Litros" + "\r\n");
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void buscarEstoqueByTipo() {
+		String responsetTipo = null;
+		String response = null;
+		Gson gson = new Gson();
+		Type listType = null;
+		Type listTypeE = null;
+		try {
+			responsetTipo = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosTp").contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listType = new TypeToken<ArrayList<TipoBebida>>() {
+			}.getType();
+			Collection<TipoBebida> tipoBebidas = gson.fromJson(responsetTipo, listType);
+
+			System.out.println("\r\n--Estoque por tipo--");
+			for (TipoBebida tipoBebida : tipoBebidas) {
+				Double vltEstoque = 0.00;
+				System.out.println("\r\n--" + tipoBebida.getDescricao() + "--");
+				response = mockMvc
+						.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueByTipo")
+								.content(asJsonString(tipoBebida.getIdTipoBebida()))
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+				listTypeE = new TypeToken<ArrayList<Estoque>>() {
+				}.getType();
+				Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+				for (Estoque estoque : estoques) {
+					vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
+				}
+				System.out.println("Volume total do estoque do tipo: " + vltEstoque + " Litros");
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -324,15 +368,64 @@ public class WsbebidasApplicationTests {
 	}
 
 	public TipoBebida buscarTipo(String tipo) {
-		return tpService.buscarTipoBebdidaByTipo(tipo);
+		String response = null;
+		TipoBebida tipoBebida = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTipoTp").content(tipo)
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			tipoBebida = gson.fromJson(response, TipoBebida.class);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tipoBebida;
+
 	}
 
 	public Bebida buscarTipoBebida(Integer tipo) {
-		return bService.findTipo(tipo);
+		String response = null;
+		Bebida bebida = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarBebidaTpById").content(asJsonString(tipo))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			bebida = gson.fromJson(response, Bebida.class);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bebida;
 	}
 
 	public Bebida buscarNomeBebida(String nome) {
-		return bService.findNome(nome);
+		String response = null;
+		Bebida bebida = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarBebidaByNome").content(nome)
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			bebida = gson.fromJson(response, Bebida.class);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return bebida;
 	}
 
 	public Collection<Sessao> buscarTipoSessao(Integer tipo) {

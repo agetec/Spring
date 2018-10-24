@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bebidas.br.model.Bebida;
+import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.BebidaService;
 
 import io.swagger.annotations.Api;
@@ -44,20 +45,6 @@ public class BebidaControler {
 		}
 	}
 
-	@ApiOperation(value = "excluir bebida")
-	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-
-	@RequestMapping(method = RequestMethod.DELETE, value = "/excluirBebida", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Object> excluir(@RequestBody Bebida bebida) {
-		try {
-			bebidaService.excluir(bebida);
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-	}
-
 	@ApiOperation(value = "Listar todas bebidas", response = Collection.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
@@ -71,7 +58,29 @@ public class BebidaControler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaTpById",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Bebida> buscarBebidaTpById(@RequestBody Integer tipo) {
+		try {
+			Bebida bebida = bebidaService.findTipo(tipo);
+			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		 
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaByNome",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Bebida> buscarBebidaByNome(@RequestBody String nome) {
+		try {
+			Bebida bebida = bebidaService.findNome(nome);
+			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		 
+	}
 	@ApiOperation(value = "Listar bebida por id", response = Bebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })

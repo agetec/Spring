@@ -10,7 +10,7 @@ import com.bebidas.br.model.Estoque;
 public interface EstoqueRepository extends JpaRepository<Estoque, Long>{
 
 	
-	@Query("SELECT  e FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.tipoBebida.idTipoBebida ="
+	@Query("SELECT  e FROM  Estoque e INNER JOIN Bebida b ON e.bebida.idBebida = b.idBebida WHERE  b.tipoBebida.idTipoBebida ="
 			+ " :tipo")
 	Collection<Estoque> findTipo(@Param("tipo") Integer tipo);
 	

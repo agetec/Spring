@@ -28,7 +28,6 @@ public class Sessao {
 	private String descricao;
 
 	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(nullable = false)
 	@ApiModelProperty(notes = "tipo de bebida da sessão")
 	private TipoBebida tipoBebida;
 
