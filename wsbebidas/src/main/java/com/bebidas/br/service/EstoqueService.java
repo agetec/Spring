@@ -40,6 +40,10 @@ public class EstoqueService {
 	}
 
 	public Collection<Estoque> buscarTodosEstoqueBySessao(Integer sessao) {
-		return estoqueRepository.findSessao(sessao);
+		return estoqueRepository.findSessao(sessao); 
+	}
+	
+	public Estoque buscaEstoque(Long idBebida,Integer idSessao) {
+		return estoqueRepository.buscaEstoque(idBebida,idSessao);
 	}
 }

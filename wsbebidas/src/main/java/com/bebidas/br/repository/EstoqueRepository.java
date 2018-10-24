@@ -8,19 +8,19 @@ import org.springframework.data.repository.query.Param;
 
 import com.bebidas.br.model.Estoque;
 
-public interface EstoqueRepository extends JpaRepository<Estoque, Long>{
+public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 
-	
 	@Query("SELECT  e FROM  Estoque e INNER JOIN Bebida b ON e.bebida.idBebida = b.idBebida WHERE  b.tipoBebida.idTipoBebida ="
 			+ " :tipo")
 	Collection<Estoque> findTipo(@Param("tipo") Integer tipo);
-	
-	@Query("SELECT  e FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.idSessao = :sessao" )
+
+	@Query("SELECT  e FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.idSessao = :sessao")
 	Collection<Estoque> findSessao(@Param("sessao") Integer sessao);
-	
-	
-	@Query("SELECT  sum(e.qtd) FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.idSessao = :sessao" )
+
+	@Query("SELECT  sum(e.qtd) FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.idSessao = :sessao")
 	Integer countQtqEstoque(@Param("sessao") Integer sessao);
-	
-	
+
+	@Query("SELECT  e FROM  Estoque  e where e.sessao.idSessao=:idSessao and .bebida.idBebida = :idBebida")
+	Estoque buscaEstoque(@Param("idBebida") Long idBebida, @Param("idSessao") Integer idSessao);
+
 }
