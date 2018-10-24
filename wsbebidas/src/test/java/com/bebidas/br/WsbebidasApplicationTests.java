@@ -283,14 +283,13 @@ public class WsbebidasApplicationTests {
 		Gson gson = new Gson();
 		Type listType = null;
 		Type listTypeE = null;
-		Double vltEstoque = 0.00;
+		Double vltEstoque = null;
 		try {
 			responseSessao = mockMvc
 					.perform(MockMvcRequestBuilders.get("/buscarTodosSess").contentType(MediaType.APPLICATION_JSON)
 							.accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			listType = new TypeToken<ArrayList<Sessao>>() {
-			}.getType();
+			listType = new TypeToken<ArrayList<Sessao>>() {}.getType();
 			Collection<Sessao> sessaos = gson.fromJson(responseSessao, listType);
 
 			System.out.println("--Estoque por sessão--\r\n");
@@ -308,6 +307,7 @@ public class WsbebidasApplicationTests {
 				Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
 
 				for (Estoque estoque : estoques) {
+					vltEstoque=0.00;
 					System.out.println("Bebida:" + estoque.getBebida().getNome());
 					System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
 					System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
@@ -365,6 +365,9 @@ public class WsbebidasApplicationTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public void BuscarEstoqueTipoBySessao() {
+		
 	}
 
 	public TipoBebida buscarTipo(String tipo) {
