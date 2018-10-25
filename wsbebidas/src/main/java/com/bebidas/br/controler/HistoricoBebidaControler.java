@@ -43,9 +43,9 @@ public class HistoricoBebidaControler {
 					if (historicoBebida.getTipoMovimento().equals("S"))
 						historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
 					historicoBebida.getEstoque().setQtd(somaEstoque(historicoBebida));
-					
-					service.salvar(historicoBebida);
 					estoqueService.salvar(historicoBebida.getEstoque());
+					service.salvar(historicoBebida);
+					
 					return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
 				}
 				return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.OK);
