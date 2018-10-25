@@ -1,7 +1,5 @@
 package com.bebidas.br.controler;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,6 +25,8 @@ import io.swagger.annotations.ApiResponses;
 public class HistoricoBebidaControler {
 	@Autowired
 	HistoricoBebidaService service = new HistoricoBebidaService();
+	@Autowired
+	EstoqueService estoqueService = new EstoqueService();
 
 	@ApiOperation(value = "salvar histórico do estoque de bebidas", response = HistoricoBebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
@@ -63,7 +63,7 @@ public class HistoricoBebidaControler {
 	public Integer somaEstocar(HistoricoBebida historicoBebida) {
 		if (historicoBebida.getEstoque().getQtd() == null)
 			historicoBebida.getEstoque().setQtd(0);
-		return new EstoqueService().countQtqEstoque(historicoBebida.getEstoque().getSessao().getIdSessao())
+		return estoqueService.countQtqEstoque(historicoBebida.getEstoque().getSessao().getIdSessao())
 				+ historicoBebida.getEstoque().getQtdEstocar();
 	}
 

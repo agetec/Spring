@@ -19,8 +19,8 @@ public class EstoqueService {
 		return estoqueRepository.save(estoque);
 	}
 	
-	public Integer countQtqEstoque(Integer sessao) {
-		return estoqueRepository.countQtqEstoque(sessao);
+	public Integer countQtqEstoque(Integer idSessao) {
+		return estoqueRepository.countQtqEstoque(idSessao);
 	}
 	
 	public Collection<Estoque> buscarTodos() {
