@@ -32,4 +32,8 @@ public class HistoricoBebidaService {
 	public void excluir(HistoricoBebida historicoBebida) {
 		historicoBebidaRepository.delete(historicoBebida);
 	}
+
+	public Collection<HistoricoBebida> buscarByTipoSessao(Integer sessao, Integer tipo) {
+		return historicoBebidaRepository.buscarByTipoSessao(sessao,tipo);
+	}
 }

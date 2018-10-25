@@ -1,14 +1,16 @@
 package com.bebidas.br.controler;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bebidas.br.model.HistoricoBebida;
@@ -56,6 +58,22 @@ public class HistoricoBebidaControler {
 			e.printStackTrace();
 			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@ApiOperation(value = "busca histórico por sessão e tipo", response = Collection.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity buscarByTipoSessao(@RequestParam(name="idSessao") Integer idSessao, @RequestParam(name="tipo") Integer tipo) {
+		try {
+			Collection<HistoricoBebida> historicoBebidas = service.buscarByTipoSessao(idSessao,tipo);
+			return new ResponseEntity<Collection<HistoricoBebida>>(historicoBebidas, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
+		}
+
 	}
 
 	public boolean validaTipoBebida(HistoricoBebida historicoBebida) {
