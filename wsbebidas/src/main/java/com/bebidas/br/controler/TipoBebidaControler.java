@@ -57,7 +57,7 @@ public class TipoBebidaControler {
 		}
 	}
 
-	@ApiOperation(value = "buscar tipos de bebida por tipo", response = TipoBebida.class)
+	@ApiOperation(value = "buscar tipos de bebida por tp", response = TipoBebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
