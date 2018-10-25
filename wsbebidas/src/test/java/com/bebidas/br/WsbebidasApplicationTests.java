@@ -15,6 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -51,11 +52,10 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		salvarTipoBebida();
+		salvarTipoBebida("Bebida não Alcoólica", "NA");
 		salvarBebida();
-		salvarSessao();
-		entradaBebidasNalcoolica();
-		entradaBebidasAlcoolica();
+		salvarSessao("Sessão 1", "NA", 400.00);
+		entradaBebidas("Coca-cola 1l", 200, "Sessão 1");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
 	}
@@ -66,35 +66,30 @@ public class WsbebidasApplicationTests {
 		this.mockMvc = builder.build();
 	}
 
-	public void salvarTipoBebida() {
+	/**
+	 * 
+	 * @param desc
+	 *            Infome a descrição do tipo
+	 * @param tp
+	 *            Informe a tipo ('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
+	 */
+	public void salvarTipoBebida(String desc, String tipo) {
 		try {
-			Collection<TipoBebida> tipoBebidas = new ArrayList<TipoBebida>();
 			TipoBebida tipoBebida = new TipoBebida();
-			tipoBebida.setDescricao("Bebidas Alcoólicas");
-			tipoBebida.setTipo("A");
-			tipoBebidas.add(tipoBebida);
-
-			TipoBebida tipoBebida1 = new TipoBebida();
-			tipoBebida1.setDescricao("Bebidas não Alcoólicas");
-			tipoBebida1.setTipo("NA");
-			tipoBebidas.add(tipoBebida1);
-
-			for (TipoBebida tipoBebida2 : tipoBebidas) {
-				String response = mockMvc
-						.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida2))
-								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andReturn().getResponse().getContentAsString();
-				Gson gson = new Gson();
-				TipoBebida tipoBebida3 = gson.fromJson(response, TipoBebida.class);
-
-			}
-
+			tipoBebida.setDescricao(desc);
+			tipoBebida.setTipo(tipo);
+			String response = mockMvc
+					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			TipoBebida tipoBebid = gson.fromJson(response, TipoBebida.class);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-
+	
 	public void salvarBebida() {
 		Collection<Bebida> bebidas = new ArrayList<Bebida>();
 		TipoBebida tipoBebida;
@@ -104,131 +99,126 @@ public class WsbebidasApplicationTests {
 		bebida.setNome("Coca-cola 2l");
 		bebida.setTipoBebida(tipoBebida);
 		bebida.setVolume(2.00);
-		bebidas.add(bebida);
-		Bebida bebida2 = new Bebida();
-		bebida2.setNome("Fanta 2l");
-		bebida2.setTipoBebida(tipoBebida);
-		bebida2.setVolume(2.00);
-		bebidas.add(bebida2);
-
-		tipoBebida = buscarTipo("A");
-		Bebida bebida3 = new Bebida();
-		bebida3.setNome("Cerveja 1l");
-		bebida3.setTipoBebida(tipoBebida);
-		bebida3.setVolume(1.00);
-		bebidas.add(bebida3);
-		Bebida bebida4 = new Bebida();
-		bebida4.setNome("Pinga 1.5l");
-		bebida4.setTipoBebida(tipoBebida);
-		bebida4.setVolume(1.5);
-		bebidas.add(bebida4);
-
-		for (Bebida bebi : bebidas) {
-			try {
-				String response = mockMvc
-						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebi))
-								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andReturn().getResponse().getContentAsString();
-				Gson gson = new Gson();
-				Bebida bebida5 = gson.fromJson(response, Bebida.class);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void salvarSessao() {
-		Sessao sessao1 = new Sessao();
-		Sessao sessao2 = new Sessao();
-		Sessao sessao3 = new Sessao();
-		Sessao sessao4 = new Sessao();
-		Sessao sessao5 = new Sessao();
-		Collection<Sessao> sessaos = new ArrayList<Sessao>();
-		sessao1.setDescricao("Sessão 1");
-		sessao1.setTipoBebida(buscarTipo("NA"));
-		sessao1.setCapacidade(400.00);
-
-		sessao2.setDescricao("Sessão 2");
-		sessao2.setTipoBebida(buscarTipo("NA"));
-		sessao2.setCapacidade(400.00);
-
-		sessao3.setDescricao("Sessão 3");
-		sessao3.setTipoBebida(buscarTipo("A"));
-		sessao3.setCapacidade(500.00);
-
-		sessao4.setDescricao("Sessão 4");
-		sessao4.setTipoBebida(buscarTipo("A"));
-		sessao4.setCapacidade(500.00);
-
-		sessao5.setDescricao("Sessão 5");
-		sessao5.setCapacidade(500.00);
-		sessaos.add(sessao1);
-		sessaos.add(sessao2);
-		sessaos.add(sessao3);
-		sessaos.add(sessao4);
-		sessaos.add(sessao5);
-		for (Sessao sess : sessaos) {
-			try {
-				String response = mockMvc
-						.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sess))
-								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andReturn().getResponse().getContentAsString();
-				Gson gson = new Gson();
-				Sessao sessao = gson.fromJson(response, Sessao.class);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		try {
+			String response = mockMvc
+					.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			Bebida bebida5 = gson.fromJson(response, Bebida.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 	}
 
-	public void entradaBebidasNalcoolica() {
-		Bebida bebida1 = new Bebida();
-		Bebida bebida2 = new Bebida();
+	/**
+	 * 
+	 * @param desc
+	 *            Infome a descrição da sessão
+	 * @param tp
+	 *            Informe a tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
+	 * @param Capacidade
+	 *            Informe a capacidade da sessão
+	 */
+	public void salvarSessao(String desc, String tp, Double Capacidade) {
+		Sessao sessao = new Sessao();
+
+		sessao.setDescricao(desc);
+		sessao.setTipoBebida(buscarTipo(tp));
+		sessao.setCapacidade(Capacidade);
+		try {
+			String response = mockMvc
+					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sessao))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			Sessao sess = gson.fromJson(response, Sessao.class);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param b
+	 *            Infome a bebida
+	 * @param qtd
+	 *            Informe a quantidade
+	 * @param s
+	 *            Informe a sessão
+	 */
+	public void entradaBebidas(String b, Integer qtd, String s) {
+		Bebida bebida = new Bebida();
 		Collection<Sessao> sess = new ArrayList<Sessao>();
-		bebida1 = buscarNomeBebida("Coca-cola 2l");
-		bebida2 = buscarNomeBebida("Fanta 2l");
-		if (bebida1 != null && bebida2 != null) {
-			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
+		bebida = buscarNomeBebida(b);
+		if (bebida != null) {
+			sess = buscarTipoSessao(bebida.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
-				if (sessao.getDescricao().equals("Sessão 1")) {
-					salvarEstoque(popularEstoque(200, sessao, bebida1));
-				} else if (sessao.getDescricao().equals("Sessão 2")) {
-					salvarEstoque(popularEstoque(200, sessao, bebida2));
+				if (sessao.getDescricao().equals(s)) {
+					salvarEstoque(popularEstoque(qtd, sessao, bebida));
 				}
 			}
 		}
 	}
 
-	public void entradaBebidasAlcoolica() {
-		Bebida bebida1 = new Bebida();
-		Bebida bebida2 = new Bebida();
-		Collection<Sessao> sess = new ArrayList<Sessao>();
-		bebida1 = buscarNomeBebida("Cerveja");
-		bebida2 = buscarNomeBebida("Pinga");
-		if (bebida1 != null && bebida2 != null) {
-			sess = buscarTipoSessao(bebida1.getTipoBebida().getIdTipoBebida());
-			for (Sessao sessao : sess) {
-				if (sessao.getDescricao().equals("Sessão 3")) {
-					salvarEstoque(popularEstoque(200, sessao, bebida1));
-				} else if (sessao.getDescricao().equals("Sessão 4")) {
-					salvarEstoque(popularEstoque(200, sessao, bebida2));
+	/**
+	 * 
+	 * @param b
+	 *            Infome a bebida
+	 * @param qtd
+	 *            Informe a quantidade
+	 * @param s
+	 *            Informe a sessão
+	 */
+	public void saidabebidas(String b, Integer qtdSaida, String s) {
+		String response = null;
+		Gson gson = new Gson();
+		Type listTypeE = null;
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque").contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listTypeE = new TypeToken<ArrayList<Estoque>>() {
+			}.getType();
+			Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
+			for (Estoque estoque : estoques) {
+				if (estoque.getSessao().getDescricao().equals(s)) {
+					if (estoque.getBebida().getNome().equals(b)) {
+						estoque.setQtdEstocar(qtdSaida);
+						HistoricoBebida historicoBebida = new HistoricoBebida();
+						historicoBebida.setDatahis(new Date());
+						historicoBebida.setTipoMovimento("S");
+						historicoBebida.setResponsavel("Lucas");
+						historicoBebida.setEstoque(estoque);
+						historicoBebida.setQtd(qtdSaida);
+						salvarEstoque(historicoBebida);
+					}
 				}
 			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
 	public HistoricoBebida popularEstoque(Integer qtd, Sessao sessao, Bebida bebida) {
 		String response = null;
-		Estoque estoque = new Estoque();		
+		Estoque estoque = new Estoque();
 		estoque.setSessao(sessao);
 		estoque.setBebida(bebida);
 		try {
-			response = mockMvc.perform(MockMvcRequestBuilders.get("/buscaEstoqueBebida").content(asJsonString(estoque))
-					.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andReturn()
-					.getResponse().getContentAsString();
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscaEstoqueBebida").content(asJsonString(estoque))
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -243,7 +233,7 @@ public class WsbebidasApplicationTests {
 			estoque.setBebida(bebida);
 			estoque.setQtdEstocar(qtd);
 			estoque.setSessao(sessao);
-		}else {
+		} else {
 			estoque.setQtdEstocar(qtd);
 		}
 		HistoricoBebida historicoBebida = new HistoricoBebida();
@@ -253,78 +243,6 @@ public class WsbebidasApplicationTests {
 		historicoBebida.setResponsavel("Lucas");
 		historicoBebida.setQtd(qtd);
 		return historicoBebida;
-	}
-
-	public void saidaNbebidasAlcoolica(Integer qtdSaida) {
-		String response = null;
-		Gson gson = new Gson();
-		Type listTypeE = null;
-		try {
-			response = mockMvc
-					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque").contentType(MediaType.APPLICATION_JSON)
-							.accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			listTypeE = new TypeToken<ArrayList<Estoque>>() {
-			}.getType();
-			Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
-			for (Estoque estoque : estoques) {
-				if (estoque.getSessao().getDescricao().equals("Sessão 1")) {
-					if (estoque.getBebida().getNome().equals("Coca-cola 2l")) {
-						estoque.setQtdEstocar(qtdSaida);
-						HistoricoBebida historicoBebida = new HistoricoBebida();
-						historicoBebida.setDatahis(new Date());
-						historicoBebida.setTipoMovimento("S");
-						historicoBebida.setResponsavel("Lucas");
-						historicoBebida.setEstoque(estoque);
-						historicoBebida.setQtd(qtdSaida);
-						salvarEstoque(historicoBebida);
-					}
-				}
-			}
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	public void saidaBebidasAlcoolica(Integer qtdSaida) {
-		String response = null;
-		Gson gson = new Gson();
-		Type listTypeE = null;
-		try {
-			response = mockMvc
-					.perform(MockMvcRequestBuilders.get("/buscarTodosEstoque").contentType(MediaType.APPLICATION_JSON)
-							.accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			listTypeE = new TypeToken<ArrayList<Estoque>>() {
-			}.getType();
-			Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
-			for (Estoque estoque : estoques) {
-				if (estoque.getSessao().getDescricao().equals("Sessão 3")) {
-					if (estoque.getBebida().getNome().equals("Cerveja 1l")) {
-						estoque.setQtdEstocar(qtdSaida);
-						HistoricoBebida historicoBebida = new HistoricoBebida();
-						historicoBebida.setDatahis(new Date());
-						historicoBebida.setTipoMovimento("S");
-						historicoBebida.setResponsavel("Lucas");
-						historicoBebida.setQtd(qtdSaida);
-						historicoBebida.setEstoque(estoque);
-						salvarEstoque(historicoBebida);
-					}
-				}
-			}
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	public void salvarEstoque(HistoricoBebida historicoBebida) {
@@ -435,10 +353,6 @@ public class WsbebidasApplicationTests {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-
-	public void BuscarEstoqueTipoBySessao() {
-
 	}
 
 	public TipoBebida buscarTipo(String tipo) {
