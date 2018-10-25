@@ -31,8 +31,7 @@ public class HistoricoBebidaControler {
 			if (validaQtdEstoque(historicoBebida)) {
 				if (historicoBebida.getTipoMovimento().equals("S"))
 					historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
-				historicoBebida.getEstoque()
-						.setQtd(historicoBebida.getEstoque().getQtd() + historicoBebida.getEstoque().getQtdEstocar());
+				historicoBebida.getEstoque().setQtd(somaEstoque(historicoBebida));
 				service.salvar(historicoBebida);
 				return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
 			}
@@ -59,6 +58,10 @@ public class HistoricoBebidaControler {
 			historicoBebida.getEstoque().setQtd(0);
 		return new EstoqueService().countQtqEstoque(historicoBebida.getEstoque().getSessao().getIdSessao())
 				+ historicoBebida.getEstoque().getQtdEstocar();
+	}
+
+	public Integer somaEstoque(HistoricoBebida historicoBebida) {
+		return historicoBebida.getEstoque().getQtd() + historicoBebida.getEstoque().getQtdEstocar();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosHis", produces = MediaType.APPLICATION_JSON_VALUE)

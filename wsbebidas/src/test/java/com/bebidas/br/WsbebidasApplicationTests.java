@@ -41,12 +41,12 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		salvarTipoBebida("Bebidas não Alcoólicas", "NA");
-		//salvarBebida("Coca-cola 2l", "NA", 2.00);
-		//salvarSessao("Sessão 1", "NA", 400.00);
-		//entradaBebidas("Coca-cola 2l", 200, "Sessão 1");
-		//buscarTodosEstoque();
-		//buscarEstoqueByTipo();
+		// salvarTipoBebida("Bebidas não Alcoólicas", "NA");
+		//salvarBebida("Pinga 1.5l", "A", 1.5);
+		//salvarSessao("Sessão 5", "A", 500.00);
+		entradaBebidas("Coca-cola 2l", 200, "Sessão 1");
+		// buscarTodosEstoque();
+		// buscarEstoqueByTipo();
 	}
 
 	@Before
@@ -54,6 +54,7 @@ public class WsbebidasApplicationTests {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		this.mockMvc = builder.build();
 	}
+
 	/**
 	 * 
 	 * @param desc
@@ -399,7 +400,8 @@ public class WsbebidasApplicationTests {
 
 	/**
 	 * 
-	 * @param obj objeto a ser transformado
+	 * @param obj
+	 *            objeto a ser transformado
 	 * @return retorna uma String em formato json para envio por post ou get
 	 */
 	public static String asJsonString(final Object obj) {
