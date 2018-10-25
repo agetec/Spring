@@ -41,10 +41,10 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		//salvarTipoBebida("Bebidas Alcoólicas", "A");
-		//salvarBebida("Pinga 1,5l", "A", 1.50);
+		// salvarTipoBebida("Bebidas Alcoólicas", "A");
+		// salvarBebida("Pinga 1,5l", "A", 1.50);
 		salvarSessao("Sessão 5", "A", 500.00);
-		//entradaBebidas("Pinga 1,5l", 200, "Sessão 4");
+		entradaBebidas("Pinga 1,5l", 200, "Sessão 4", "Lucas", "E");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
 	}
@@ -70,8 +70,7 @@ public class WsbebidasApplicationTests {
 			String response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated())
-					.andReturn().getResponse().getContentAsString();
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			TipoBebida tipoBebid = gson.fromJson(response, TipoBebida.class);
 		} catch (Exception e) {
@@ -85,7 +84,8 @@ public class WsbebidasApplicationTests {
 	 * @param bebida
 	 *            informe o nome da bebida
 	 * @param tp
-	 *            informe o tp do tipo da bebida ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
+	 *            informe o tp do tipo da bebida ('NA'= NÃO ALCOOÓLICA,
+	 *            'A'=ALCOÓLICA e etc...)
 	 * @param volume
 	 *            informe o volume(exemplo 1l=1.00 / 2l=2.00 / 2,5l=2.5)
 	 */
@@ -101,8 +101,7 @@ public class WsbebidasApplicationTests {
 				String response = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andExpect(status().isCreated())
-						.andReturn().getResponse().getContentAsString();
+						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 				Gson gson = new Gson();
 				Bebida bebida5 = gson.fromJson(response, Bebida.class);
 			} catch (Exception e) {
@@ -118,7 +117,8 @@ public class WsbebidasApplicationTests {
 	 * @param desc
 	 *            Infome a descrição da sessão
 	 * @param tp
-	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA e etc...)
+	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA
+	 *            e etc...)
 	 * @param Capacidade
 	 *            Informe a capacidade da sessão
 	 */
@@ -132,8 +132,7 @@ public class WsbebidasApplicationTests {
 			String response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sessao))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated())
-					.andReturn().getResponse().getContentAsString();
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			Sessao sess = gson.fromJson(response, Sessao.class);
 		} catch (Exception e) {
@@ -151,8 +150,12 @@ public class WsbebidasApplicationTests {
 	 *            Informe a quantidade
 	 * @param s
 	 *            Informe a sessão
+	 * @param responsavel
+	 *            Informe o responsavel pela inclusao
+	 * @param tipoMovimento
+	 *            Informe o tipo do movimento E=entrada e S=saída
 	 */
-	public void entradaBebidas(String b, Integer qtd, String s) {
+	public void entradaBebidas(String b, Integer qtd, String s, String responsavel, String tipoMovimento) {
 		Bebida bebida = new Bebida();
 		Collection<Sessao> sess = new ArrayList<Sessao>();
 		bebida = buscarNomeBebida(b);
@@ -160,7 +163,7 @@ public class WsbebidasApplicationTests {
 			sess = buscarTipoSessao(bebida.getTipoBebida().getIdTipoBebida());
 			for (Sessao sessao : sess) {
 				if (sessao.getDescricao().equals(s)) {
-					salvarEstoque(popularEstoque(qtd, sessao, bebida));
+					salvarEstoque(popularEstoque(qtd, sessao, bebida, responsavel, tipoMovimento));
 				}
 			}
 		}
@@ -174,8 +177,13 @@ public class WsbebidasApplicationTests {
 	 *            Informe a quantidade
 	 * @param s
 	 *            Informe a sessão
+	 * @param responsavel
+	 *            Informe o responsavel pela inclusao
+	 * @param tipoMovimento
+	 *            Informe o tipo do movimento E=entrada e S=saída
 	 */
-	public void saidabebidas(String b, Integer qtdSaida, String s) {
+	public void saidabebidas(String b, Integer qtdSaida, String s, String responsavel,
+			String tipoMovimento) {
 		String response = null;
 		Gson gson = new Gson();
 		Type listTypeE = null;
@@ -191,13 +199,7 @@ public class WsbebidasApplicationTests {
 				if (estoque.getSessao().getDescricao().equals(s)) {
 					if (estoque.getBebida().getNome().equals(b)) {
 						estoque.setQtdEstocar(qtdSaida);
-						HistoricoBebida historicoBebida = new HistoricoBebida();
-						historicoBebida.setDatahis(new Date());
-						historicoBebida.setTipoMovimento("S");
-						historicoBebida.setResponsavel("Lucas");
-						historicoBebida.setEstoque(estoque);
-						historicoBebida.setQtd(qtdSaida);
-						salvarEstoque(historicoBebida);
+						salvarEstoque(salvarHistorico(tipoMovimento, responsavel, estoque, qtdSaida));
 					}
 				}
 			}
@@ -210,7 +212,8 @@ public class WsbebidasApplicationTests {
 		}
 	}
 
-	public HistoricoBebida popularEstoque(Integer qtd, Sessao sessao, Bebida bebida) {
+	public HistoricoBebida popularEstoque(Integer qtd, Sessao sessao, Bebida bebida, String responsavel,
+			String tipoMovimento) {
 		String response = null;
 		Estoque estoque = new Estoque();
 		estoque.setSessao(sessao);
@@ -219,8 +222,7 @@ public class WsbebidasApplicationTests {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.get("/buscaEstoqueBebida").content(asJsonString(estoque))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated())
-					.andReturn().getResponse().getContentAsString();
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -238,11 +240,18 @@ public class WsbebidasApplicationTests {
 		} else {
 			estoque.setQtdEstocar(qtd);
 		}
+		return salvarHistorico(tipoMovimento, responsavel, estoque, qtd);
+		
+	}
+
+	public HistoricoBebida salvarHistorico(String tipoMovimento, String responsavel, Estoque estoque, Integer qtd) {
 		HistoricoBebida historicoBebida = new HistoricoBebida();
 		historicoBebida.setDatahis(new Date());
-		historicoBebida.setTipoMovimento("E");
-		historicoBebida.setEstoque(estoque);
+		historicoBebida.setTipoMovimento("S");
 		historicoBebida.setResponsavel("Lucas");
+		historicoBebida.setEstoque(estoque);
+		historicoBebida.setSessao(estoque.getSessao().getDescricao());
+		historicoBebida.setTipo(estoque.getSessao().getTipoBebida().getDescricao());
 		historicoBebida.setQtd(qtd);
 		return historicoBebida;
 	}
@@ -385,8 +394,7 @@ public class WsbebidasApplicationTests {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.get("/buscarBebidaByNome").content(nome)
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated())
-					.andReturn().getResponse().getContentAsString();
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			bebida = gson.fromJson(response, Bebida.class);
 		} catch (UnsupportedEncodingException e) {

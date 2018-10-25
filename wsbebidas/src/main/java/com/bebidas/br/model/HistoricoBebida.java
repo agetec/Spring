@@ -48,9 +48,11 @@ public class HistoricoBebida {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(nullable = false)
 	private Estoque estoque;
-
+	
+	@Column(nullable = false)
 	private String tipo;
-
+	
+	@Column(nullable = false)
 	private String sessao;
 
 	@JoinColumn(nullable = false)
