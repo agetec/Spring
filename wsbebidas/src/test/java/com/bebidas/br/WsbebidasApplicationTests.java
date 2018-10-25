@@ -43,7 +43,7 @@ public class WsbebidasApplicationTests {
 	public void contextLoads() {
 		//salvarTipoBebida("Bebidas Alcoólicas", "A");
 		//salvarBebida("Pinga 1,5l", "A", 1.50);
-		//salvarSessao("Sessão 5", "A", 500.00);
+		salvarSessao("Sessão 5", "A", 500.00);
 		//entradaBebidas("Pinga 1,5l", 200, "Sessão 4");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
@@ -118,7 +118,7 @@ public class WsbebidasApplicationTests {
 	 * @param desc
 	 *            Infome a descrição da sessão
 	 * @param tp
-	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
+	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA e etc...)
 	 * @param Capacidade
 	 *            Informe a capacidade da sessão
 	 */
