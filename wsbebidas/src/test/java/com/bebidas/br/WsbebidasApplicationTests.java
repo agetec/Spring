@@ -41,13 +41,13 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		// salvarTipoBebida("Bebidas Alcoólicas", "A");
-		// salvarBebida("Pinga 1,5l", "A", 1.50);
+		//salvarTipoBebida("Bebidas Alcoólicas", "A");
+		//salvarBebida("Pinga 1,5l", "A", 1.50);
 		//salvarSessao("Sessão 5", "A", 500.00);
 		//entradaBebidas("Pinga 1,5l", 200, "Sessão 4", "Lucas", "E");
-		saidabebidas("Pinga 1,5l", 5, "Sessão 4", "Lucas", "S");
-		buscarTodosEstoque();
-		buscarEstoqueByTipo();
+		//saidabebidas("Pinga 1,5l", 5, "Sessão 4", "Lucas", "S");
+		//buscarTodosEstoque();
+		//buscarEstoqueByTipo();
 	}
 
 	@Before
@@ -248,8 +248,8 @@ public class WsbebidasApplicationTests {
 	public HistoricoBebida salvarHistorico(String tipoMovimento, String responsavel, Estoque estoque, Integer qtd) {
 		HistoricoBebida historicoBebida = new HistoricoBebida();
 		historicoBebida.setDatahis(new Date());
-		historicoBebida.setTipoMovimento("S");
-		historicoBebida.setResponsavel("Lucas");
+		historicoBebida.setTipoMovimento(tipoMovimento);
+		historicoBebida.setResponsavel(responsavel);
 		historicoBebida.setEstoque(estoque);
 		historicoBebida.setSessao(estoque.getSessao().getDescricao());
 		historicoBebida.setTipo(estoque.getSessao().getTipoBebida().getDescricao());
