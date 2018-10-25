@@ -39,7 +39,7 @@ public class HistoricoBebidaControler {
 			return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<>("servidor não entendeu a reuisição", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
 
