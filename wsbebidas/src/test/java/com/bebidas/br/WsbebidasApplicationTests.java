@@ -53,7 +53,7 @@ public class WsbebidasApplicationTests {
 	@Test
 	public void contextLoads() {
 		salvarTipoBebida("Bebida não Alcoólica", "NA");
-		salvarBebida();
+		salvarBebida("Coca-cola", "NA", 2.00);
 		salvarSessao("Sessão 1", "NA", 400.00);
 		entradaBebidas("Coca-cola 1l", 200, "Sessão 1");
 		buscarTodosEstoque();
@@ -65,7 +65,6 @@ public class WsbebidasApplicationTests {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		this.mockMvc = builder.build();
 	}
-
 	/**
 	 * 
 	 * @param desc
@@ -89,26 +88,35 @@ public class WsbebidasApplicationTests {
 			e.printStackTrace();
 		}
 	}
-	
-	public void salvarBebida() {
-		Collection<Bebida> bebidas = new ArrayList<Bebida>();
-		TipoBebida tipoBebida;
 
-		tipoBebida = buscarTipo("NA");
-		Bebida bebida = new Bebida();
-		bebida.setNome("Coca-cola 2l");
-		bebida.setTipoBebida(tipoBebida);
-		bebida.setVolume(2.00);
-		try {
-			String response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andReturn().getResponse().getContentAsString();
-			Gson gson = new Gson();
-			Bebida bebida5 = gson.fromJson(response, Bebida.class);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	/**
+	 * 
+	 * @param bebida
+	 *            informe o nome da bebida
+	 * @param tipo
+	 *            informe o nome da bebida
+	 * @param volume
+	 *            informe o volume(exemplo 1l=1.00 / 2l=2.00 / 2,5l=2.5)
+	 */
+	public void salvarBebida(String nome, String tipo, Double volume) {
+		TipoBebida tipoBebida;
+		tipoBebida = buscarTipo(tipo);
+		if (tipoBebida != null) {
+			Bebida bebida = new Bebida();
+			bebida.setNome(nome);
+			bebida.setTipoBebida(tipoBebida);
+			bebida.setVolume(volume);
+			try {
+				String response = mockMvc
+						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andReturn().getResponse().getContentAsString();
+				Gson gson = new Gson();
+				Bebida bebida5 = gson.fromJson(response, Bebida.class);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
