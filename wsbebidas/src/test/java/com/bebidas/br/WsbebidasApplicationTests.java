@@ -21,7 +21,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.HistoricoBebida;
@@ -57,7 +56,6 @@ public class WsbebidasApplicationTests {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		this.mockMvc = builder.build();
 	}
-
 	/**
 	 * 
 	 * @param desc
