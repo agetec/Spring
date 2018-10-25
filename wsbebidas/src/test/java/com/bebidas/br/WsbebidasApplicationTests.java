@@ -44,8 +44,8 @@ public class WsbebidasApplicationTests {
 		//salvarTipoBebida("Bebidas Alcoólicas", "A");
 		//salvarBebida("Pinga 1,5l", "A", 1.50);
 		//salvarSessao("Sessão 5", "A", 500.00);
-		entradaBebidas("Coca-cola 2l", 200, "Sessão 1");
-		// buscarTodosEstoque();
+		//entradaBebidas("Pinga 1,5l", 200, "Sessão 4");
+		buscarTodosEstoque();
 		// buscarEstoqueByTipo();
 	}
 
