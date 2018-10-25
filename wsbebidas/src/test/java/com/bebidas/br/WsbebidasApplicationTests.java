@@ -46,8 +46,8 @@ public class WsbebidasApplicationTests {
 		//salvarSessao("Sessão 5", "A", 500.00);
 		//entradaBebidas("Pinga 1,5l", 200, "Sessão 3", "Lucas", "E");
 		//saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
-		//buscarTodosEstoque();
-		//buscarEstoqueByTipo();
+		buscarTodosEstoque();
+		buscarEstoqueByTipo();
 	}
 
 	@Before
@@ -296,6 +296,7 @@ public class WsbebidasApplicationTests {
 			for (Sessao sessao : sessaos) {
 				System.out.println("--" + sessao.getDescricao() + "--");
 				if (sessao.getTipoBebida() != null) {
+					vltEstoque = 0.00;
 					System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
 					response = mockMvc
 							.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
@@ -307,7 +308,7 @@ public class WsbebidasApplicationTests {
 					Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
 
 					for (Estoque estoque : estoques) {
-						vltEstoque = 0.00;
+						
 						System.out.println("Bebida:" + estoque.getBebida().getNome());
 						System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
 						System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
@@ -315,7 +316,7 @@ public class WsbebidasApplicationTests {
 					}
 				}
 				System.out.println("Capacidade da Sessão: " + sessao.getCapacidade() + " Litros");
-				System.out.println("Volume total do estoque da sessão: " + vltEstoque + " Litros" + "\r\n");
+				System.out.println(vltEstoque==null?"Volume total do estoque da sessão: "+0.00:"Volume total do estoque da sessão: " +vltEstoque + " Litros" + "\r\n");
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
