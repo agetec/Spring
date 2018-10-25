@@ -37,6 +37,7 @@ public class SessaoControler {
 			service.salvar(sessao);
 			return new ResponseEntity<Sessao>(sessao, HttpStatus.CREATED);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -46,12 +47,13 @@ public class SessaoControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosSess", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Sessao>> buscarTodos() {
+	public ResponseEntity buscarTodos() {
 		try {
 			Collection<Sessao> sessaos = service.buscarTodos();
 			return new ResponseEntity<Collection<Sessao>>(sessaos, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
 

@@ -33,12 +33,13 @@ public class BebidaControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Bebida> salvar(@RequestBody Bebida bebida) {
+	public ResponseEntity salvar(@RequestBody Bebida bebida) {
 		try {
 			bebidaService.salvar(bebida);
 			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -47,12 +48,13 @@ public class BebidaControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodos", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Bebida>> buscarTodos() {
+	public ResponseEntity buscarTodos() {
 		try {
 			Collection<Bebida> bebidas = bebidaService.buscarTodos();
 			return new ResponseEntity<Collection<Bebida>>(bebidas, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
@@ -62,12 +64,13 @@ public class BebidaControler {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaByNome",
 			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Bebida> buscarBebidaByNome(@RequestBody String nome) {
+	public ResponseEntity buscarBebidaByNome(@RequestBody String nome) {
 		try {
 			Bebida bebida = bebidaService.findNome(nome);
 			return new ResponseEntity<Bebida>(bebida, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 		 
 	}

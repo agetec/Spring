@@ -32,12 +32,13 @@ public class EstoqueControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoque", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarTodos() {
+	public ResponseEntity buscarTodos() {
 		try {
 			Collection<Estoque> estoques = service.buscarTodos();
 			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -47,12 +48,13 @@ public class EstoqueControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo(@RequestBody Integer tipo) {
+	public ResponseEntity buscarTodosEstoqueByTipo(@RequestBody Integer tipo) {
 		try {
 			Collection<Estoque> estoques = service.buscarTodosEstoqueByTipo(tipo);
 			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -62,12 +64,13 @@ public class EstoqueControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueBySessao", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueBySessao(@RequestBody Integer sessao) {
+	public ResponseEntity buscarTodosEstoqueBySessao(@RequestBody Integer sessao) {
 		try {
 			Collection<Estoque> estoques = service.buscarTodosEstoqueBySessao(sessao);
 			return new ResponseEntity<Collection<Estoque>>(estoques, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 
 	}
@@ -77,13 +80,14 @@ public class EstoqueControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscaEstoqueBebida", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Estoque> buscaEstoqueBebida(@RequestBody Estoque estoque) {
+	public ResponseEntity buscaEstoqueBebida(@RequestBody Estoque estoque) {
 		try {
 			Estoque estoqueResult = service.buscaEstoqueBebida(estoque.getBebida().getIdBebida(),
 					estoque.getSessao().getIdSessao());
 			return new ResponseEntity<Estoque>(estoqueResult, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 
 	}

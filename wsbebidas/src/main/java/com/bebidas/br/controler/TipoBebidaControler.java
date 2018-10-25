@@ -37,40 +37,40 @@ public class TipoBebidaControler {
 			service.salvar(tipoBebida);
 			return new ResponseEntity<TipoBebida>(tipoBebida, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>("servidor não entendeu a requisição",HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
+
 	@ApiOperation(value = "buscar todos os tipos de bebida", response = Collection.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosTp", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<TipoBebida>> buscarTodos() {
+	public ResponseEntity buscarTodos() {
 		try {
 			Collection<TipoBebida> tipoBebidas = service.buscarTodos();
 			return new ResponseEntity<Collection<TipoBebida>>(tipoBebidas, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
 	@ApiOperation(value = "buscar tipos de bebida por tipo", response = TipoBebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTipoTp",
-			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<TipoBebida> buscarTipoTp(@RequestBody String tipo) {
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarTipoTp", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity buscarTipoTp(@RequestBody String tipo) {
 		try {
 			TipoBebida tipoBebida = service.buscarTipoBebdidaByTipo(tipo);
 			return new ResponseEntity<TipoBebida>(tipoBebida, HttpStatus.CREATED);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
-		 
+
 	}
-	
-	
-	
 
 }
