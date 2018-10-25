@@ -49,6 +49,10 @@ public class HistoricoBebida {
 	@JoinColumn(nullable = false)
 	private Estoque estoque;
 
+	private String tipo;
+
+	private String sessao;
+
 	@JoinColumn(nullable = false)
 	private Integer qtd;
 
@@ -98,6 +102,22 @@ public class HistoricoBebida {
 
 	public void setQtd(Integer qtd) {
 		this.qtd = qtd;
+	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+
+	public String getSessao() {
+		return sessao;
+	}
+
+	public void setSessao(String sessao) {
+		this.sessao = sessao;
 	}
 
 }
