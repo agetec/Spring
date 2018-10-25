@@ -7,9 +7,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 import javax.ws.rs.core.MediaType;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
