@@ -38,6 +38,7 @@ public class HistoricoBebidaControler {
 			}
 			return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.FORBIDDEN);
 		} catch (Exception e) {
+			
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -54,6 +55,8 @@ public class HistoricoBebidaControler {
 	}
 
 	public Integer somaEstocar(HistoricoBebida historicoBebida) {
+		if (historicoBebida.getEstoque().getQtd() == null)
+			historicoBebida.getEstoque().setQtd(0);
 		return new EstoqueService().countQtqEstoque(historicoBebida.getEstoque().getSessao().getIdSessao())
 				+ historicoBebida.getEstoque().getQtdEstocar();
 	}
