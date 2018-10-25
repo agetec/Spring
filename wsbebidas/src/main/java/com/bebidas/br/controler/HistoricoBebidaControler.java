@@ -30,24 +30,35 @@ public class HistoricoBebidaControler {
 
 	@ApiOperation(value = "salvar histórico do estoque de bebidas", response = HistoricoBebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida")
-	,@ApiResponse(code = 403, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida")})
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida"),
+			@ApiResponse(code = 403, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarHisBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity salvar(@RequestBody HistoricoBebida historicoBebida) {
 		try {
-			if (validaQtdEstoque(historicoBebida)) {
-				if (historicoBebida.getTipoMovimento().equals("S"))
-					historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
-				historicoBebida.getEstoque().setQtd(somaEstoque(historicoBebida));
-				service.salvar(historicoBebida);
-				return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
+			if (validaTipoBebida(historicoBebida)) {
+				if (validaQtdEstoque(historicoBebida)) {
+					if (historicoBebida.getTipoMovimento().equals("S"))
+						historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
+					historicoBebida.getEstoque().setQtd(somaEstoque(historicoBebida));
+					service.salvar(historicoBebida);
+					return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
+				}
+				return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.OK);
 			}
-			return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.OK);
+			return new ResponseEntity<>("tipo da bebida não é o mesmo tipo de bebida da sessão", HttpStatus.OK);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
+	}
+
+	public boolean validaTipoBebida(HistoricoBebida historicoBebida) {
+		if (historicoBebida.getEstoque().getSessao().getTipoBebida().getIdTipoBebida()
+				.equals(historicoBebida.getEstoque().getBebida().getTipoBebida().getIdTipoBebida()))
+			return true;
+		return false;
 	}
 
 	public boolean validaQtdEstoque(HistoricoBebida historicoBebida) {
