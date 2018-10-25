@@ -17,6 +17,9 @@ import com.bebidas.br.service.EstoqueService;
 import com.bebidas.br.service.HistoricoBebidaService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @Api(value = "onlinestore", description = "Operações para controle de historico de bebidas do estoque")
@@ -24,6 +27,10 @@ import io.swagger.annotations.Api;
 public class HistoricoBebidaControler {
 	@Autowired
 	HistoricoBebidaService service = new HistoricoBebidaService();
+
+	@ApiOperation(value = "salvar histórico do estoque de bebidas", response = HistoricoBebida.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarHisBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity salvar(@RequestBody HistoricoBebida historicoBebida) {
@@ -64,13 +71,4 @@ public class HistoricoBebidaControler {
 		return historicoBebida.getEstoque().getQtd() + historicoBebida.getEstoque().getQtdEstocar();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosHis", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<HistoricoBebida>> buscarTodos() {
-		return null;
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdHis", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<HistoricoBebida>> buscarPorId(Integer Id) {
-		return null;
-	}
 }

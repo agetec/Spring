@@ -13,10 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Estoque;
 import com.bebidas.br.service.EstoqueService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @RestController
 @Api(value = "onlinestore", description = "Operações para controle de estoque da sessão de bebidas")
@@ -25,6 +29,10 @@ public class EstoqueControler {
 	@Autowired
 	EstoqueService service = new EstoqueService();
 
+	@ApiOperation(value = "busca todas as bebidas no estoque", response = Estoque.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoque", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodos() {
 		try {
@@ -36,6 +44,10 @@ public class EstoqueControler {
 
 	}
 
+	@ApiOperation(value = "busca todas as bebidas no estoque por tipo", response = Collection.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
+	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueByTipo", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueByTipo(@RequestBody Integer tipo) {
 		try {
@@ -46,6 +58,10 @@ public class EstoqueControler {
 		}
 
 	}
+	
+	@ApiOperation(value = "busca todas as bebidas no estoque por sessão", response = Collection.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodosEstoqueBySessao", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Estoque>> buscarTodosEstoqueBySessao(@RequestBody Integer sessao) {
@@ -57,6 +73,10 @@ public class EstoqueControler {
 		}
 
 	}
+	
+	@ApiOperation(value = "buscar estoque por bebida e sessão", response = Estoque.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscaEstoqueBebida", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estoque> buscaEstoqueBebida(@RequestBody Estoque estoque) {
@@ -68,11 +88,6 @@ public class EstoqueControler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 
-	}
-
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorIdEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Collection<Estoque>> buscarPorId(@PathVariable Integer Id) {
-		return null;
 	}
 
 }

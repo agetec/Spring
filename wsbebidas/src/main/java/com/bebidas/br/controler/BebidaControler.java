@@ -30,7 +30,7 @@ public class BebidaControler {
 
 	@ApiOperation(value = "salvar bebida", response = Bebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Bebida> salvar(@RequestBody Bebida bebida) {
@@ -44,7 +44,7 @@ public class BebidaControler {
 
 	@ApiOperation(value = "Listar todas bebidas", response = Collection.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodos", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Collection<Bebida>> buscarTodos() {
@@ -55,6 +55,10 @@ public class BebidaControler {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	@ApiOperation(value = "Listar bebidas por nome", response = Bebida.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarBebidaByNome",
 			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
