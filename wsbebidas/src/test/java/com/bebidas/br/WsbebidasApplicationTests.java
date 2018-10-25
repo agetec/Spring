@@ -73,6 +73,7 @@ public class WsbebidasApplicationTests {
 			String response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated())
 					.andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			TipoBebida tipoBebid = gson.fromJson(response, TipoBebida.class);
@@ -103,6 +104,7 @@ public class WsbebidasApplicationTests {
 				String response = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+						.andExpect(status().isCreated())
 						.andReturn().getResponse().getContentAsString();
 				Gson gson = new Gson();
 				Bebida bebida5 = gson.fromJson(response, Bebida.class);
@@ -133,6 +135,7 @@ public class WsbebidasApplicationTests {
 			String response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sessao))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated())
 					.andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			Sessao sess = gson.fromJson(response, Sessao.class);
@@ -219,6 +222,7 @@ public class WsbebidasApplicationTests {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.get("/buscaEstoqueBebida").content(asJsonString(estoque))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated())
 					.andReturn().getResponse().getContentAsString();
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -252,7 +256,7 @@ public class WsbebidasApplicationTests {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarHisBebida").content(asJsonString(historicoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andReturn().getResponse().getContentAsString();
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			HistoricoBebida historicoBebidar = gson.fromJson(response, HistoricoBebida.class);
 		} catch (UnsupportedEncodingException e) {
@@ -384,6 +388,7 @@ public class WsbebidasApplicationTests {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.get("/buscarBebidaByNome").content(nome)
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated())
 					.andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
 			bebida = gson.fromJson(response, Bebida.class);
