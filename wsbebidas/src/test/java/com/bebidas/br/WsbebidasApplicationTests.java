@@ -52,10 +52,10 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		salvarTipoBebida("Bebida não Alcoólica", "NA");
-		salvarBebida("Coca-cola", "NA", 2.00);
+		salvarTipoBebida("Bebidas não Alcoólicas", "NA");
+		salvarBebida("Coca-cola 2l", "NA", 2.00);
 		salvarSessao("Sessão 1", "NA", 400.00);
-		entradaBebidas("Coca-cola 1l", 200, "Sessão 1");
+		entradaBebidas("Coca-cola 2l", 200, "Sessão 1");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
 	}
