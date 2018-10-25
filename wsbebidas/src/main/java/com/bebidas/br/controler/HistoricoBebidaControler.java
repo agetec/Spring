@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +35,7 @@ public class HistoricoBebidaControler {
 			@ApiResponse(code = 403, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarHisBebida", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	
 	public ResponseEntity salvar(@RequestBody HistoricoBebida historicoBebida) {
 		try {
 			if (validaTipoBebida(historicoBebida)) {
@@ -41,7 +43,9 @@ public class HistoricoBebidaControler {
 					if (historicoBebida.getTipoMovimento().equals("S"))
 						historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
 					historicoBebida.getEstoque().setQtd(somaEstoque(historicoBebida));
+					
 					service.salvar(historicoBebida);
+					estoqueService.salvar(historicoBebida.getEstoque());
 					return new ResponseEntity<HistoricoBebida>(historicoBebida, HttpStatus.CREATED);
 				}
 				return new ResponseEntity<>("qtd indisponível para entrada/saída", HttpStatus.OK);

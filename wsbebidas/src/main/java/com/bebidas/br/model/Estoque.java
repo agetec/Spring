@@ -1,5 +1,7 @@
 package com.bebidas.br.model;
 
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,6 +38,7 @@ public class Estoque {
 	
 	@Transient
 	private Integer qtdEstocar;
+	
 
 	public Long getIdEstoque() {
 		return idEstoque;

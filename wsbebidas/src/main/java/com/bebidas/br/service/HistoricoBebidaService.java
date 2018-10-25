@@ -3,6 +3,8 @@ package com.bebidas.br.service;
 import java.util.Collection;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,7 @@ public class HistoricoBebidaService {
 
 	@Autowired
 	HistoricoBebidaRepository historicoBebidaRepository;
-
+	@Transactional
 	public HistoricoBebida salvar(HistoricoBebida historicoBebida) {
 		return historicoBebidaRepository.save(historicoBebida);
 	}
