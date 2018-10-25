@@ -36,7 +36,7 @@ public class Sessao {
 	@ApiModelProperty(notes = "capacidade de armazenamento")
 	private Double capacidade;
 
-	public Integer getIdSessao() {
+	public Integer getIdSessao() { 
 		return idSessao;
 	}
 
