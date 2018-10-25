@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(value = "onlinestore", description = "Operações para controle de bebidas do estoque")
+@Api(value = "onlinestore", description = "Operações para controle de bebidas ")
 @CrossOrigin(origins = "*")
 public class BebidaControler {
 
