@@ -1,28 +1,23 @@
 package com.bebidas.br;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-
 import javax.ws.rs.core.MediaType;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.repository.query.Param;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Estoque;
 import com.bebidas.br.model.HistoricoBebida;
@@ -70,7 +65,7 @@ public class WsbebidasApplicationTests {
 	 * @param desc
 	 *            Infome a descrição do tipo
 	 * @param tp
-	 *            Informe a tipo ('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
+	 *            Informe a tipo ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
 	 */
 	public void salvarTipoBebida(String desc, String tipo) {
 		try {
