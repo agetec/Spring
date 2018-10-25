@@ -17,8 +17,8 @@ public interface EstoqueRepository extends JpaRepository<Estoque, Long> {
 	@Query("SELECT  e FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  s.idSessao = :sessao")
 	Collection<Estoque> findSessao(@Param("sessao") Integer sessao);
 
-	@Query("SELECT  COALESCE(sum(e.qtd),0) FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao WHERE  "
-			+ "s.idSessao = :sessao")
+	@Query("SELECT  COALESCE(sum(e.qtd),0) as qtd FROM  Estoque e INNER JOIN Sessao s ON e.sessao.idSessao = s.idSessao "
+		 + "WHERE  s.idSessao = :sessao")
 	Integer countQtqEstoque(@Param("sessao") Integer sessao);
 
 	@Query("SELECT  e FROM  Estoque  e where e.sessao.idSessao=:idSessao and e.bebida.idBebida = :idBebida")
