@@ -46,7 +46,7 @@ public class WsbebidasApplicationTests {
 		//salvarSessao("Sessão 5", "A", 500.00);
 		//entradaBebidas("Pinga 1,5l", 200, "Sessão 4");
 		buscarTodosEstoque();
-		// buscarEstoqueByTipo();
+		buscarEstoqueByTipo();
 	}
 
 	@Before
@@ -60,7 +60,7 @@ public class WsbebidasApplicationTests {
 	 * @param desc
 	 *            Infome a descrição do tipo
 	 * @param tp
-	 *            Informe a tipo ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
+	 *            Informe o tp ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
 	 */
 	public void salvarTipoBebida(String desc, String tipo) {
 		try {
@@ -84,8 +84,8 @@ public class WsbebidasApplicationTests {
 	 * 
 	 * @param bebida
 	 *            informe o nome da bebida
-	 * @param tipo
-	 *            informe o nome da bebida
+	 * @param tp
+	 *            informe o tp do tipo da bebida ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
 	 * @param volume
 	 *            informe o volume(exemplo 1l=1.00 / 2l=2.00 / 2,5l=2.5)
 	 */
@@ -118,7 +118,7 @@ public class WsbebidasApplicationTests {
 	 * @param desc
 	 *            Infome a descrição da sessão
 	 * @param tp
-	 *            Informe a tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
+	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA)
 	 * @param Capacidade
 	 *            Informe a capacidade da sessão
 	 */
