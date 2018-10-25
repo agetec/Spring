@@ -45,7 +45,7 @@ public class HistoricoBebida {
 	@ApiModelProperty(notes = "tipo de movimento do histórico(E=entrada & S=saída)")
 	private String tipoMovimento;
 
-	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false)
 	private Estoque estoque;
 	
