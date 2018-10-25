@@ -57,6 +57,7 @@ public class WsbebidasApplicationTests {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		this.mockMvc = builder.build();
 	}
+
 	/**
 	 * 
 	 * @param desc
@@ -400,6 +401,11 @@ public class WsbebidasApplicationTests {
 		return sService.findTipo(tipo);
 	}
 
+	/**
+	 * 
+	 * @param obj objeto a ser transformado
+	 * @return retorna uma String em formato json para envio por post ou get
+	 */
 	public static String asJsonString(final Object obj) {
 		try {
 			final ObjectMapper mapper = new ObjectMapper();
