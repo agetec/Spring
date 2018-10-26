@@ -1,14 +1,11 @@
 package com.bebidas.br;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.util.JsonDateSerializer;
 import com.google.gson.Gson;

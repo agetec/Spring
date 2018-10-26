@@ -1,9 +1,12 @@
 package com.bebidas.br;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+
 import javax.ws.rs.core.MediaType;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+
 import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;

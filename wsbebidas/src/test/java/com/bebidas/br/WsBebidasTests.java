@@ -1,7 +1,5 @@
 package com.bebidas.br;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;

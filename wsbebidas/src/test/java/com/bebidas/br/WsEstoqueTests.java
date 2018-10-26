@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.bebidas.br.model.Bebida;
@@ -146,14 +147,20 @@ public class WsEstoqueTests {
 	}
 
 	public void salvarEstoque(HistoricoBebida historicoBebida, MockMvc mockMvc, JsonDateSerializer json) {
-		String response = null;
+		ResultActions response = null;
+		Gson gson = new Gson();
 		try {
 			response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(json.asJsonString(historicoBebida))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			Gson gson = new Gson();
-			HistoricoBebida historicoBebidar = gson.fromJson(response, HistoricoBebida.class);
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));			
+			String result = response.andReturn().getResponse().getContentAsString();
+			if (response.andReturn().getResponse().getStatus() == 400) {
+				System.out.println(result);
+			} else if (response.andReturn().getResponse().getStatus() == 201) {
+				HistoricoBebida historicoBebidar = gson.fromJson(result, HistoricoBebida.class);
+				if (historicoBebidar.getEstoque().getIdEstoque() != null)
+					System.out.println("Entrada feita com sucesso.");
+			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

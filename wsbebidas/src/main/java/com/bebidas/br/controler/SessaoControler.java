@@ -1,6 +1,5 @@
 package com.bebidas.br.controler;
 
-import java.nio.charset.Charset;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;

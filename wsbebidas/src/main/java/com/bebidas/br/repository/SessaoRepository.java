@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 
 public interface SessaoRepository extends JpaRepository<Sessao, Integer>{
