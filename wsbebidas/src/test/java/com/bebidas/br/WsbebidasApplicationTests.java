@@ -30,6 +30,7 @@ import com.bebidas.br.model.HistoricoBebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.SessaoService;
+import com.bebidas.br.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -44,10 +45,13 @@ public class WsbebidasApplicationTests {
 	@Autowired
 	SessaoService sService = new SessaoService();
 
+	@Autowired
+	private JsonDateSerializer json;
+
 	@Test
 	public void contextLoads() {
-		salvarTipoBebida("Bebidas Citrica", null);
-		// salvarBebida("Pinga 1,5l", "A", 1.5);
+		//new WsTipoBebidaTests().salvarTipoBebida("Bebidas Alcoólica com gás", "AG",json,mockMvc);
+		//new WsBebidasTests().salvarBebida("Pinga 1,5l", "A", 1.5,json,mockMvc,this);
 		// salvarSessao("Sessão 5", "A", 500.00);
 		// entradaBebidas("Cerveja 1l", 100, "Sessão 4", "Lucas", "E");
 		// saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
@@ -60,37 +64,6 @@ public class WsbebidasApplicationTests {
 	public void setup() {
 		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
 		this.mockMvc = builder.build();
-	}
-
-	/**
-	 * 
-	 * @param desc
-	 *            Infome a descrição do tipo
-	 * @param tp
-	 *            Informe o tp ('NA'= NÃO ALCOOÓLICA, 'A'=ALCOÓLICA e etc...)
-	 */
-	public void salvarTipoBebida(String desc, String tipo) {
-		try {
-			TipoBebida tipoBebida = new TipoBebida();
-			Gson gson = new Gson();
-			tipoBebida.setDescricao(desc);
-			tipoBebida.setTipo(tipo);
-			ResultActions response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
-			String tipoResult = response.andReturn().getResponse().getContentAsString();
-			if (response.andExpect(status().isBadRequest()) != null) {
-				System.out.println(tipoResult);
-			} else if (response.andExpect(status().isCreated()) != null) {
-				TipoBebida tipoBebid = gson.fromJson(tipoResult, TipoBebida.class);
-				if (tipoBebid.getIdTipoBebida() != null)
-					System.out.println("Tipo salvo com sucesso.");
-			}
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -113,7 +86,7 @@ public class WsbebidasApplicationTests {
 			bebida.setVolume(volume);
 			try {
 				String response = mockMvc
-						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(asJsonString(bebida))
+						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(json.asJsonString(bebida))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 				Gson gson = new Gson();
@@ -144,7 +117,7 @@ public class WsbebidasApplicationTests {
 		sessao.setCapacidade(Capacidade);
 		try {
 			String response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(asJsonString(sessao))
+					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(json.asJsonString(sessao))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
@@ -273,7 +246,7 @@ public class WsbebidasApplicationTests {
 		String response = null;
 		try {
 			response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(asJsonString(historicoBebida))
+					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(json.asJsonString(historicoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
@@ -312,8 +285,8 @@ public class WsbebidasApplicationTests {
 					System.out.println("Tipo da Bebida:" + sessao.getTipoBebida().getDescricao());
 					response = mockMvc
 							.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueBySessao")
-									.content(asJsonString(sessao.getIdSessao())).contentType(MediaType.APPLICATION_JSON)
-									.accept(MediaType.APPLICATION_JSON))
+									.content(json.asJsonString(sessao.getIdSessao()))
+									.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 							.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 					listTypeE = new TypeToken<ArrayList<Estoque>>() {
 					}.getType();
@@ -361,7 +334,7 @@ public class WsbebidasApplicationTests {
 				System.out.println("\r\n--" + tipoBebida.getDescricao() + "--");
 				response = mockMvc
 						.perform(MockMvcRequestBuilders.get("/buscarTodosEstoqueByTipo")
-								.content(asJsonString(tipoBebida.getIdTipoBebida()))
+								.content(json.asJsonString(tipoBebida.getIdTipoBebida()))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 				listTypeE = new TypeToken<ArrayList<Estoque>>() {
@@ -491,19 +464,4 @@ public class WsbebidasApplicationTests {
 		return sService.findTipo(tipo);
 	}
 
-	/**
-	 * 
-	 * @param obj
-	 *            objeto a ser transformado
-	 * @return retorna uma String em formato json para envio por post ou get
-	 */
-	public static String asJsonString(final Object obj) {
-		try {
-			final ObjectMapper mapper = new ObjectMapper();
-			final String jsonContent = mapper.writeValueAsString(obj);
-			return jsonContent;
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
