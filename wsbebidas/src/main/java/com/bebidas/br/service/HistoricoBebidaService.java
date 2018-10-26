@@ -16,6 +16,7 @@ public class HistoricoBebidaService {
 
 	@Autowired
 	HistoricoBebidaRepository historicoBebidaRepository;
+
 	@Transactional
 	public HistoricoBebida salvar(HistoricoBebida historicoBebida) {
 		return historicoBebidaRepository.save(historicoBebida);
@@ -33,7 +34,9 @@ public class HistoricoBebidaService {
 		historicoBebidaRepository.delete(historicoBebida);
 	}
 
-	public Collection<HistoricoBebida> buscarByTipoSessao(Integer sessao, Integer tipo,String ordenacao) {
-		return historicoBebidaRepository.buscarByTipoSessao(sessao,tipo,ordenacao);
+	public Collection<HistoricoBebida> buscarByTipoSessao(Integer sessao, Integer tipo, String ordenacao) {
+		if (ordenacao == null || ordenacao.equals(""))
+			ordenacao = "datahis,h.sessao.idSessao";
+		return historicoBebidaRepository.buscarByTipoSessao(sessao, tipo, ordenacao);
 	}
 }
