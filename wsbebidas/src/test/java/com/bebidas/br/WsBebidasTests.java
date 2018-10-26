@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.bebidas.br.model.Bebida;
@@ -23,7 +24,7 @@ public class WsBebidasTests {
 	 *            'A'=ALCOÓLICA e etc...)
 	 * @param volume
 	 *            informe o volume(exemplo 1l=1.00 / 2l=2.00 / 2,5l=2.5)
-	 * @param wsbebidasApplicationTests 
+	 * @param wsbebidasApplicationTests
 	 */
 	public void salvarBebida(String nome, String tipo, Double volume, JsonDateSerializer json, MockMvc mockMvc,
 			WsbebidasApplicationTests teste) {
@@ -31,16 +32,23 @@ public class WsBebidasTests {
 		tipoBebida = teste.buscarTipo(tipo);
 		if (tipoBebida != null) {
 			Bebida bebida = new Bebida();
+			Gson gson = new Gson();
 			bebida.setNome(nome);
 			bebida.setTipoBebida(tipoBebida);
 			bebida.setVolume(volume);
 			try {
-				String response = mockMvc
+				ResultActions response = mockMvc
 						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(json.asJsonString(bebida))
-								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-				Gson gson = new Gson();
-				Bebida bebida5 = gson.fromJson(response, Bebida.class);
+								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+				String result = response.andReturn().getResponse().getContentAsString();
+				if (response.andExpect(status().isBadRequest()) != null) {
+					System.out.println(result);
+				} else if (response.andExpect(status().isCreated()) != null) {
+					Bebida bebida5 = gson.fromJson(result, Bebida.class);
+					if (bebida5.getIdBebida() != null)
+						System.out.println("Bebida salvo com sucesso.");
+				}
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
