@@ -52,7 +52,7 @@ public class WsbebidasApplicationTests {
 	public void contextLoads() {
 		//new WsTipoBebidaTests().salvarTipoBebida("Bebidas Alcoólica com gás", "AG",json,mockMvc);
 		//new WsBebidasTests().salvarBebida("Pinga 1,5l", "A", 1.5,json,mockMvc,this);
-		// salvarSessao("Sessão 5", "A", 500.00);
+		//new WsSessaoTests().salvarSessao("Sessão 5", "A", 500.00,json,mockMvc,this);
 		// entradaBebidas("Cerveja 1l", 100, "Sessão 4", "Lucas", "E");
 		// saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
 		buscarTodosEstoque();
@@ -66,68 +66,6 @@ public class WsbebidasApplicationTests {
 		this.mockMvc = builder.build();
 	}
 
-	/**
-	 * 
-	 * @param bebida
-	 *            informe o nome da bebida
-	 * @param tp
-	 *            informe o tp do tipo da bebida ('NA'= NÃO ALCOOÓLICA,
-	 *            'A'=ALCOÓLICA e etc...)
-	 * @param volume
-	 *            informe o volume(exemplo 1l=1.00 / 2l=2.00 / 2,5l=2.5)
-	 */
-	public void salvarBebida(String nome, String tipo, Double volume) {
-		TipoBebida tipoBebida;
-		tipoBebida = buscarTipo(tipo);
-		if (tipoBebida != null) {
-			Bebida bebida = new Bebida();
-			bebida.setNome(nome);
-			bebida.setTipoBebida(tipoBebida);
-			bebida.setVolume(volume);
-			try {
-				String response = mockMvc
-						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(json.asJsonString(bebida))
-								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-						.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-				Gson gson = new Gson();
-				Bebida bebida5 = gson.fromJson(response, Bebida.class);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	/**
-	 * 
-	 * @param desc
-	 *            Infome a descrição da sessão
-	 * @param tp
-	 *            Informe a tp do tipo da bebida('NA'= NÃO ALCOOÓLICA 'A'=ALCOÓLICA
-	 *            e etc...)
-	 * @param Capacidade
-	 *            Informe a capacidade da sessão
-	 */
-	public void salvarSessao(String desc, String tp, Double Capacidade) {
-		Sessao sessao = new Sessao();
-
-		sessao.setDescricao(desc);
-		sessao.setTipoBebida(buscarTipo(tp));
-		sessao.setCapacidade(Capacidade);
-		try {
-			String response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarSessao").content(json.asJsonString(sessao))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			Gson gson = new Gson();
-			Sessao sess = gson.fromJson(response, Sessao.class);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 	/**
 	 * 
