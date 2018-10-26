@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -45,11 +46,11 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		// salvarTipoBebida("Bebidas Alcoólicas", "A");
+		salvarTipoBebida("Bebidas Citrica", null);
 		// salvarBebida("Pinga 1,5l", "A", 1.5);
 		// salvarSessao("Sessão 5", "A", 500.00);
 		// entradaBebidas("Cerveja 1l", 100, "Sessão 4", "Lucas", "E");
-		saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
+		// saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
 		buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao");
@@ -71,14 +72,21 @@ public class WsbebidasApplicationTests {
 	public void salvarTipoBebida(String desc, String tipo) {
 		try {
 			TipoBebida tipoBebida = new TipoBebida();
+			Gson gson = new Gson();
 			tipoBebida.setDescricao(desc);
 			tipoBebida.setTipo(tipo);
-			String response = mockMvc
+			ResultActions response = mockMvc
 					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(asJsonString(tipoBebida))
-							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
-			Gson gson = new Gson();
-			TipoBebida tipoBebid = gson.fromJson(response, TipoBebida.class);
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
+			String tipoResult = response.andReturn().getResponse().getContentAsString();
+			if (response.andExpect(status().isBadRequest()) != null) {
+				System.out.println(tipoResult);
+			} else if (response.andExpect(status().isCreated()) != null) {
+				TipoBebida tipoBebid = gson.fromJson(tipoResult, TipoBebida.class);
+				if (tipoBebid.getIdTipoBebida() != null)
+					System.out.println("Tipo salvo com sucesso.");
+			}
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
