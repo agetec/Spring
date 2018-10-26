@@ -261,7 +261,7 @@ public class WsbebidasApplicationTests {
 		String response = null;
 		try {
 			response = mockMvc
-					.perform(MockMvcRequestBuilders.post("/salvarHisBebida").content(asJsonString(historicoBebida))
+					.perform(MockMvcRequestBuilders.post("/salvarEstoque").content(asJsonString(historicoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
