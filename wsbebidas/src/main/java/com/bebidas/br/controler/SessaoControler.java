@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.service.SessaoService;
 
@@ -55,6 +56,23 @@ public class SessaoControler {
 			e.printStackTrace();
 			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
 		}
+	}
+	
+	@ApiOperation(value = "Listar sessão por descrição", response = Sessao.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarByDescricao",
+			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity buscarByDescricao(@RequestBody String descricao) {
+		try {
+			Sessao sessao = service.findDescricao(descricao);
+			return new ResponseEntity<Sessao>(sessao, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
+		}
+		 
 	}
 
 }

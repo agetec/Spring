@@ -23,7 +23,7 @@ public class Sessao {
 	@ApiModelProperty(notes = "Não é necessário informar")
 	private Integer idSessao;
 
-	@Column(length = 250, nullable = false)
+	@Column(length = 250, nullable = false,unique=true)
 	@ApiModelProperty(notes = "Descrição da sessão")
 	private String descricao;
 

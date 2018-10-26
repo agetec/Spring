@@ -32,8 +32,8 @@ public class HistoricoBebidaControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarByTipoSessao", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity buscarByTipoSessao(@RequestParam(name="idSessao") Integer idSessao, @RequestParam(name="tipo") 
-	Integer tipo,String ordenacao) {
+	public ResponseEntity buscarByTipoSessao( @RequestParam(name="tipo") 
+	Integer tipo, @RequestParam(name="idSessao") Integer idSessao,@RequestParam(name="ordenacao") String ordenacao) {
 		try {
 			Collection<HistoricoBebida> historicoBebidas = service.buscarByTipoSessao(idSessao,tipo,ordenacao);
 			return new ResponseEntity<Collection<HistoricoBebida>>(historicoBebidas, HttpStatus.CREATED);

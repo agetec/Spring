@@ -35,4 +35,8 @@ public class SessaoService {
 	public void excluir(Sessao sessao) {
 		sessaoRepository.delete(sessao);
 	}
+
+	public Sessao findDescricao(String descricao) {
+		return sessaoRepository.findDescricao(descricao);
+	}
 }

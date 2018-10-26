@@ -44,13 +44,14 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		//salvarTipoBebida("Bebidas Alcoólicas", "A");
-		//salvarBebida("Pinga 1,5l", "A", 1.5);
-		//salvarSessao("Sessão 5", "A", 500.00);
-		entradaBebidas("Pinga 1,5l", 200, "Sessão 3", "Lucas", "E");
-		//saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
+		// salvarTipoBebida("Bebidas Alcoólicas", "A");
+		// salvarBebida("Pinga 1,5l", "A", 1.5);
+		// salvarSessao("Sessão 5", "A", 500.00);
+		entradaBebidas("Coca-cola 2l", 200, "Sessão 1", "Lucas", "E");
+		// saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
+		buscarHistorico("NA","Sessão 3", "datahis,h.sessao.idSessao");
 	}
 
 	@Before
@@ -186,8 +187,7 @@ public class WsbebidasApplicationTests {
 	 * @param tipoMovimento
 	 *            Informe o tipo do movimento E=entrada e S=saída
 	 */
-	public void saidabebidas(String b, Integer qtdSaida, String s, String responsavel,
-			String tipoMovimento) {
+	public void saidabebidas(String b, Integer qtdSaida, String s, String responsavel, String tipoMovimento) {
 		String response = null;
 		Gson gson = new Gson();
 		Type listTypeE = null;
@@ -245,7 +245,7 @@ public class WsbebidasApplicationTests {
 			estoque.setQtdEstocar(qtd);
 		}
 		return salvarHistorico(tipoMovimento, responsavel, estoque, qtd);
-		
+
 	}
 
 	public HistoricoBebida salvarHistorico(String tipoMovimento, String responsavel, Estoque estoque, Integer qtd) {
@@ -311,7 +311,7 @@ public class WsbebidasApplicationTests {
 					Collection<Estoque> estoques = gson.fromJson(response, listTypeE);
 
 					for (Estoque estoque : estoques) {
-						
+
 						System.out.println("Bebida:" + estoque.getBebida().getNome());
 						System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
 						System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
@@ -319,7 +319,8 @@ public class WsbebidasApplicationTests {
 					}
 				}
 				System.out.println("Capacidade da Sessão: " + sessao.getCapacidade() + " Litros");
-				System.out.println(vltEstoque==null?"Volume total do estoque da sessão: "+0.00:"Volume total do estoque da sessão: " +vltEstoque + " Litros" + "\r\n");
+				System.out.println(vltEstoque == null ? "Volume total do estoque da sessão: " + 0.00
+						: "Volume total do estoque da sessão: " + vltEstoque + " Litros" + "\r\n");
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
@@ -371,12 +372,37 @@ public class WsbebidasApplicationTests {
 		}
 	}
 
-	public TipoBebida buscarTipo(String tipo) {
+	public TipoBebida buscarHistorico(String tp, String sessao,String ordenacao) {
+		String response = null;
+		TipoBebida tipoBebida = null;
+		tipoBebida = buscarTipo(tp);
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarByTipoSessao")
+							.param("tipo", tipoBebida.getIdTipoBebida().toString())
+							.param("idSessao", tipoBebida.getIdTipoBebida().toString())
+							.param("ordenacao",ordenacao)							
+							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+					.andReturn().getResponse().getContentAsString();
+			Gson gson = new Gson();
+			tipoBebida = gson.fromJson(response, TipoBebida.class);
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return tipoBebida;
+
+	}
+
+	public TipoBebida buscarTipo(String tp) {
 		String response = null;
 		TipoBebida tipoBebida = null;
 		try {
 			response = mockMvc
-					.perform(MockMvcRequestBuilders.get("/buscarTipoTp").content(tipo)
+					.perform(MockMvcRequestBuilders.get("/buscarTipoTp").content(tp)
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 					.andReturn().getResponse().getContentAsString();
 			Gson gson = new Gson();
