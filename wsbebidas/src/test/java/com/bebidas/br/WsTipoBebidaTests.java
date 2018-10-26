@@ -34,9 +34,9 @@ public class WsTipoBebidaTests {
 					.perform(MockMvcRequestBuilders.post("/salvarTpBebida").content(json.asJsonString(tipoBebida))
 							.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 			String tipoResult = response.andReturn().getResponse().getContentAsString();
-			if (response.andExpect(status().isBadRequest()) != null) {
+			if (response.andReturn().getResponse().getStatus() == 400) {
 				System.out.println(tipoResult);
-			} else if (response.andExpect(status().isCreated()) != null) {
+			} else if (response.andReturn().getResponse().getStatus() == 201) {
 				TipoBebida tipoBebid = gson.fromJson(tipoResult, TipoBebida.class);
 				if (tipoBebid.getIdTipoBebida() != null)
 					System.out.println("Tipo salvo com sucesso.");

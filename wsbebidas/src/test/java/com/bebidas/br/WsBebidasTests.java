@@ -41,12 +41,12 @@ public class WsBebidasTests {
 						.perform(MockMvcRequestBuilders.post("/salvarBebida").content(json.asJsonString(bebida))
 								.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON));
 				String result = response.andReturn().getResponse().getContentAsString();
-				if (response.andExpect(status().isBadRequest()) != null) {
+				if (response.andReturn().getResponse().getStatus() == 400) {
 					System.out.println(result);
-				} else if (response.andExpect(status().isCreated()) != null) {
+				} else if (response.andReturn().getResponse().getStatus() == 201) {
 					Bebida bebida5 = gson.fromJson(result, Bebida.class);
 					if (bebida5.getIdBebida() != null)
-						System.out.println("Bebida salvo com sucesso.");
+						System.out.println("Bebida salva com sucesso.");
 				}
 
 			} catch (Exception e) {
