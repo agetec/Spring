@@ -44,10 +44,10 @@ public class WsbebidasApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		//salvarTipoBebida("Bebidas não Alcoólicas", "NA");
-		//salvarBebida("Coca-cola 2l", "NA", 2.00);
+		//salvarTipoBebida("Bebidas Alcoólicas", "A");
+		//salvarBebida("Pinga 1,5l", "A", 1.5);
 		//salvarSessao("Sessão 5", "A", 500.00);
-		//entradaBebidas("Pinga 1,5l", 200, "Sessão 3", "Lucas", "E");
+		entradaBebidas("Pinga 1,5l", 200, "Sessão 3", "Lucas", "E");
 		//saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas", "S");
 		buscarTodosEstoque();
 		buscarEstoqueByTipo();
