@@ -161,7 +161,7 @@ public class WsEstoqueTests {
 			}else if (response.andReturn().getResponse().getStatus() == 201) {
 				HistoricoBebida historicoBebidar = gson.fromJson(result, HistoricoBebida.class);
 				if (historicoBebidar.getEstoque().getIdEstoque() != null)
-					System.out.println("Entrada feita com sucesso.");
+					System.out.println("Entrada/Saída feita com sucesso.");
 			}
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
