@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
 import com.bebidas.br.model.HistoricoBebida;
 
 public interface HistoricoBebidaRepository extends JpaRepository<HistoricoBebida, Long> {
