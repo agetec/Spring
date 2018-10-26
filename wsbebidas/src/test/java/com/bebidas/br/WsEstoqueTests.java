@@ -200,7 +200,7 @@ public class WsEstoqueTests {
 
 						System.out.println("Bebida:" + estoque.getBebida().getNome());
 						System.out.println("Volume da bebida: " + estoque.getBebida().getVolume() + " Litros");
-						System.out.println("Qtd em Estoque da sessão: " + estoque.getQtd());
+						System.out.println("Qtd em Estoque da bebida na sessão: " + estoque.getQtd());
 						vltEstoque = vltEstoque + (estoque.getQtd() * estoque.getBebida().getVolume());
 					}
 				}

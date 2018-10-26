@@ -50,8 +50,8 @@ public class WsbebidasApplicationTests {
 		//tipoBebidaTests.salvarTipoBebida("Bebidas Alcoólica com gás","AG",json,mockMvc);
 		//bebidasTests.salvarBebida("Pinga 1,5l", "A", 1.5,json,mockMvc,this);
 		//sessaoTests.salvarSessao("Sessão 5", "A", 500.00,json,mockMvc,this);
-		estoqueTests.entradaBebidas("Cerveja 1l", 100, "Sessão 3", "Lucas","E",json,mockMvc,this);
-		//estoqueTests.saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas","S",json,mockMvc,this);
+		//estoqueTests.entradaBebidas("Cerveja 1l", 100, "Sessão 3", "Lucas","E",json,mockMvc,this);
+		estoqueTests.saidabebidas("Pinga 1,5l", 50, "Sessão 3", "Lucas","S",json,mockMvc,this);
 		estoqueTests.buscarTodosEstoque(json,mockMvc,this);
 		estoqueTests.buscarEstoqueByTipo(json,mockMvc,this);
 		historicoBebidaTests.buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao",json,mockMvc,this);
