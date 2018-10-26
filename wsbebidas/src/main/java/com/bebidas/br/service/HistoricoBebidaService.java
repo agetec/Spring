@@ -33,7 +33,7 @@ public class HistoricoBebidaService {
 		historicoBebidaRepository.delete(historicoBebida);
 	}
 
-	public Collection<HistoricoBebida> buscarByTipoSessao(Integer sessao, Integer tipo) {
-		return historicoBebidaRepository.buscarByTipoSessao(sessao,tipo);
+	public Collection<HistoricoBebida> buscarByTipoSessao(Integer sessao, Integer tipo,String ordenacao) {
+		return historicoBebidaRepository.buscarByTipoSessao(sessao,tipo,ordenacao);
 	}
 }

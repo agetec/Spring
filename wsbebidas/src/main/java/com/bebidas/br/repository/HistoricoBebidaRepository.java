@@ -10,6 +10,10 @@ import com.bebidas.br.model.HistoricoBebida;
 
 public interface HistoricoBebidaRepository extends JpaRepository<HistoricoBebida, Long> {
 
-	@Query("SELECT  h FROM  HistoricoBebida h ")
-	Collection<HistoricoBebida> buscarByTipoSessao(@Param("sessao") Integer sessao, @Param("tipo") Integer tipo);
+	@Query("SELECT  h FROM  HistoricoBebida h inner join Sessao s on s.idSessao=h.sessao.idSessao"
+			+ " inner join TipoBebida t on t.idTipoBebida=h.tipo.idTipoBebida"
+			+ " where t.idTipoBebida= :tipo and s.idSessao= :sessao"
+			+ " order by"+" :ordenacao")
+	Collection<HistoricoBebida> buscarByTipoSessao(@Param("sessao") Integer sessao, @Param("tipo") Integer tipo,
+			@Param("ordenacao") String ordenacao);
 }
