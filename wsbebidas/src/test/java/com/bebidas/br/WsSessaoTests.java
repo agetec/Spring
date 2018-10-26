@@ -100,4 +100,43 @@ public class WsSessaoTests {
 
 	}
 
+	/**
+	 * 
+	 * @param tp
+	 *            tp do tipo de bebida
+	 * @param qtdEstocar
+	 *            qtd sugerida
+	 * @param mockMvc
+	 *            classe para teste
+	 * @param teste
+	 */
+	public void buscarByVender(String tp, Integer qtdVender, MockMvc mockMvc, WsbebidasApplicationTests teste) {
+		String response = null;
+		Gson gson = new Gson();
+		Type listType = null;
+		TipoBebida tipoBebida = teste.buscarTipo(tp);
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarSessaoByVender")
+							.param("tipo", tipoBebida.getIdTipoBebida().toString())
+							.param("qtdVender", qtdVender.toString()).contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listType = new TypeToken<ArrayList<Sessao>>() {
+			}.getType();
+			Collection<Sessao> sessaos = gson.fromJson(response, listType);
+			System.out.println("--Sessão(ões) disponíveis para vender a quantidade informada--");
+			for (Sessao sessao : sessaos) {
+				System.out.println(sessao.getDescricao());
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 }

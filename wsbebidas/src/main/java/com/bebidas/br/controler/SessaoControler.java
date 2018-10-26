@@ -93,7 +93,7 @@ public class SessaoControler {
 			Collection<Sessao> sessDisponiveis = new ArrayList<Sessao>();
 			Collection<Sessao> sessao = service.findTipo(tipo);
 			Collection<Estoque> estoques = estoqueService.buscarTodosEstoqueByTipo(tipo);
-			sessDisponiveis=verificaCapacidade(estoques, qtdEstocar, sessao);
+			sessDisponiveis = verificaCapacidade(estoques, qtdEstocar, sessao);
 			return new ResponseEntity<Collection<Sessao>>(sessDisponiveis, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,17 +101,55 @@ public class SessaoControler {
 		}
 	}
 
-	public Collection<Sessao> verificaCapacidade(Collection<Estoque> estoques, Integer qtdEstocar, Collection<Sessao> sessao) {
-		Integer qtdEstoque ;
+	@ApiOperation(value = "buscar todas as sessões, para saber qual pode vender um volume de um determinado "
+			+ "tipo de babida", response = Collection.class)
+	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
+			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
+
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarSessaoByVender", produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity buscarSessaoByVender(@RequestParam(name = "tipo") Integer tipo,
+			@RequestParam(name = "qtdVender") Integer qtdVender) {
+		try {
+			Collection<Sessao> sessDisponiveis = new ArrayList<Sessao>();
+			Collection<Sessao> sessao = service.findTipo(tipo);
+			Collection<Estoque> estoques = estoqueService.buscarTodosEstoqueByTipo(tipo);
+			sessDisponiveis = verificaCapacidadeVender(estoques, qtdVender, sessao);
+			return new ResponseEntity<Collection<Sessao>>(sessDisponiveis, HttpStatus.CREATED);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("servidor não entendeu a requisição", HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	public Collection<Sessao> verificaCapacidade(Collection<Estoque> estoques, Integer qtdEstocar,
+			Collection<Sessao> sessao) {
+		Integer qtdEstoque;
 		Collection<Sessao> sessDisponiveis = new ArrayList<Sessao>();
 		for (Sessao sessao2 : sessao) {
-			qtdEstoque=0;
+			qtdEstoque = 0;
 			for (Estoque estoque : estoques) {
 				if (estoque.getSessao().getIdSessao().equals(sessao2.getIdSessao())) {
 					qtdEstoque = qtdEstoque + estoque.getQtd();
 				}
 			}
 			if ((qtdEstoque + qtdEstocar) <= sessao2.getCapacidade())
+				sessDisponiveis.add(sessao2);
+		}
+		return sessDisponiveis;
+	}
+
+	public Collection<Sessao> verificaCapacidadeVender(Collection<Estoque> estoques, Integer qtdVender,
+			Collection<Sessao> sessao) {
+		Integer qtdEstoque;
+		Collection<Sessao> sessDisponiveis = new ArrayList<Sessao>();
+		for (Sessao sessao2 : sessao) {
+			qtdEstoque = 0;
+			for (Estoque estoque : estoques) {
+				if (estoque.getSessao().getIdSessao().equals(sessao2.getIdSessao())) {
+					qtdEstoque = qtdEstoque + estoque.getQtd();
+				}
+			}
+			if (qtdEstoque >= qtdVender)
 				sessDisponiveis.add(sessao2);
 		}
 		return sessDisponiveis;

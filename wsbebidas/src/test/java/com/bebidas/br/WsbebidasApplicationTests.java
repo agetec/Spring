@@ -60,6 +60,7 @@ public class WsbebidasApplicationTests {
 		estoqueTests.buscarEstoqueByTipo(json,mockMvc,this);
 		historicoBebidaTests.buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao",json,mockMvc,this);
 		sessaoTests.buscarByArmazenar("A", 50, mockMvc, this);
+		sessaoTests.buscarByVender("A", 375, mockMvc, this);
 	}
 
 	@Before
