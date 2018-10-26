@@ -1,16 +1,9 @@
 package com.bebidas.br;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
-
 import javax.ws.rs.core.MediaType;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,22 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-
 import com.bebidas.br.model.Bebida;
-import com.bebidas.br.model.Estoque;
-import com.bebidas.br.model.HistoricoBebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.service.SessaoService;
 import com.bebidas.br.util.JsonDateSerializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
