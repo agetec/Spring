@@ -127,7 +127,7 @@ public class WsbebidasApplicationTests {
 		}
 		return bebida;
 	}
-
+	
 	public Collection<Sessao> buscarTipoSessao(Integer tipo) {
 		return sService.findTipo(tipo);
 	}
