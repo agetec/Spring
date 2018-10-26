@@ -142,10 +142,10 @@ public class EstoqueControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 
 	@RequestMapping(method = RequestMethod.GET, value = "/buscaEstoqueBebida", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity buscaEstoqueBebida(@RequestBody Estoque estoque) {
+	public ResponseEntity buscaEstoqueBebida(@RequestParam(name = "idSessao") Integer idSessao,
+			@RequestParam(name = "idBebida") Long idBebida) {
 		try {
-			Estoque estoqueResult = service.buscaEstoqueBebida(estoque.getBebida().getIdBebida(),
-					estoque.getSessao().getIdSessao());
+			Estoque estoqueResult = service.buscaEstoqueBebida(idBebida, idSessao);
 			return new ResponseEntity<Estoque>(estoqueResult, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,5 +153,5 @@ public class EstoqueControler {
 		}
 
 	}
-	
+
 }

@@ -1,5 +1,6 @@
 package com.bebidas.br.controler;
 
+import java.nio.charset.Charset;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bebidas.br.model.Bebida;
 import com.bebidas.br.model.Sessao;
 import com.bebidas.br.service.SessaoService;
 
@@ -66,7 +66,8 @@ public class SessaoControler {
 			produces = MediaType.APPLICATION_JSON_VALUE,consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity buscarByDescricao(@RequestBody String descricao) {
 		try {
-			Sessao sessao = service.findDescricao(descricao);
+			String originalString= 	new String(descricao.getBytes("ISO-8859-1"), "UTF-8");
+			Sessao sessao = service.findDescricao(originalString);
 			return new ResponseEntity<Sessao>(sessao, HttpStatus.CREATED);
 		} catch (Exception e) {
 			e.printStackTrace();
