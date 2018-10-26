@@ -251,8 +251,8 @@ public class WsbebidasApplicationTests {
 		historicoBebida.setTipoMovimento(tipoMovimento);
 		historicoBebida.setResponsavel(responsavel);
 		historicoBebida.setEstoque(estoque);
-		historicoBebida.setSessao(estoque.getSessao().getDescricao());
-		historicoBebida.setTipo(estoque.getSessao().getTipoBebida().getDescricao());
+		historicoBebida.setSessao(estoque.getSessao());
+		historicoBebida.setTipo(estoque.getSessao().getTipoBebida());
 		historicoBebida.setQtd(qtd);
 		return historicoBebida;
 	}

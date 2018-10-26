@@ -2,7 +2,6 @@ package com.bebidas.br.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,13 +10,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.ManyToAny;
 
 import com.bebidas.br.util.JsonDateSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -48,17 +45,19 @@ public class HistoricoBebida {
 	@ApiModelProperty(notes = "tipo de movimento do histórico(E=entrada & S=saída)")
 	private String tipoMovimento;
 
-	@ManyToOne( fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(nullable = false)
 	private Estoque estoque;
-	
-	@Column(nullable = false)
-	private String tipo;
-	
-	@Column(nullable = false)
-	private String sessao;
 
+	@OneToOne
 	@JoinColumn(nullable = false)
+	private TipoBebida tipo;
+
+	@OneToOne
+	@JoinColumn(nullable = false)
+	private Sessao sessao;
+
+	@Column(nullable = false)
 	private Integer qtd;
 
 	public Long getIdHistorico() {
@@ -109,19 +108,19 @@ public class HistoricoBebida {
 		this.qtd = qtd;
 	}
 
-	public String getTipo() {
+	public TipoBebida getTipo() {
 		return tipo;
 	}
 
-	public void setTipo(String tipo) {
+	public void setTipo(TipoBebida tipo) {
 		this.tipo = tipo;
 	}
 
-	public String getSessao() {
+	public Sessao getSessao() {
 		return sessao;
 	}
 
-	public void setSessao(String sessao) {
+	public void setSessao(Sessao sessao) {
 		this.sessao = sessao;
 	}
 
