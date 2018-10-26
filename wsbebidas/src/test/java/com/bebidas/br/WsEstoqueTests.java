@@ -159,8 +159,8 @@ public class WsEstoqueTests {
 			} else if (response.andReturn().getResponse().getStatus() == 200) {
 				System.out.println(result);
 			}else if (response.andReturn().getResponse().getStatus() == 201) {
-				HistoricoBebida historicoBebidar = gson.fromJson(result, HistoricoBebida.class);
-				if (historicoBebidar.getEstoque().getIdEstoque() != null)
+				Estoque estoque = gson.fromJson(result, Estoque.class);
+				if (estoque.getIdEstoque() != null)
 					System.out.println("Entrada/Saída feita com sucesso.");
 			}
 		} catch (UnsupportedEncodingException e) {
