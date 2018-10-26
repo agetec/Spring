@@ -44,20 +44,34 @@ public class WsbebidasApplicationTests {
 	private WebApplicationContext wac;
 	@Autowired
 	SessaoService sService = new SessaoService();
-
 	@Autowired
 	private JsonDateSerializer json;
+	
+	@Autowired
+	WsTipoBebidaTests tipoBebidaTests;
+	
+	@Autowired
+	WsBebidasTests bebidasTests;
+	
+	@Autowired 
+	WsSessaoTests sessaoTests;
+	
+	@Autowired 
+	WsEstoqueTests estoqueTests;
+	
+	@Autowired 
+	WsHistoricoBebidaTests historicoBebidaTests;
 
 	@Test
 	public void contextLoads() {
-		// new WsTipoBebidaTests().salvarTipoBebida("Bebidas Alcoólica com gás","AG",json,mockMvc);
-		// new WsBebidasTests().salvarBebida("Pinga 1,5l", "A", 1.5,json,mockMvc,this);
-		// new WsSessaoTests().salvarSessao("Sessão 5", "A", 500.00,json,mockMvc,this);
-		// new WsEstoqueTests().entradaBebidas("Cerveja 1l", 100, "Sessão 4", "Lucas","E",json,mockMvc,this);
-		// new WsEstoqueTests().saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas","S",json,mockMvc,this);
-		// new WsEstoqueTests().buscarTodosEstoque(json,mockMvc,this);
-		// new WsEstoqueTests().buscarEstoqueByTipo(json,mockMvc,this);
-		//new WsHistoricoBebidaTests().buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao",json,mockMvc,this);
+		tipoBebidaTests.salvarTipoBebida("Bebidas Alcoólica com gás","AG",json,mockMvc);
+		bebidasTests.salvarBebida("Pinga 1,5l", "A", 1.5,json,mockMvc,this);
+		sessaoTests.salvarSessao("Sessão 5", "A", 500.00,json,mockMvc,this);
+		estoqueTests.entradaBebidas("Cerveja 1l", 100, "Sessão 4", "Lucas","E",json,mockMvc,this);
+		estoqueTests.saidabebidas("Pinga 1,5l", 100, "Sessão 3", "Lucas","S",json,mockMvc,this);
+		estoqueTests.buscarTodosEstoque(json,mockMvc,this);
+		estoqueTests.buscarEstoqueByTipo(json,mockMvc,this);
+		historicoBebidaTests.buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao",json,mockMvc,this);
 	}
 
 	@Before
