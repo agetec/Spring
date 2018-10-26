@@ -40,7 +40,7 @@ public class EstoqueControler {
 	@RequestMapping(method = RequestMethod.POST, value = "/salvarEstoque", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity salvar(@RequestBody HistoricoBebida historicoBebida) {
 		try {
-			if (validaTipoBebida(historicoBebida)) {
+			if (validaTipoBebida(historicoBebida.getEstoque())) {
 				if (validaQtdEstoque(historicoBebida)) {
 					if (historicoBebida.getTipoMovimento().equals("S"))
 						historicoBebida.getEstoque().setQtdEstocar(historicoBebida.getEstoque().getQtdEstocar() * (-1));
@@ -60,9 +60,9 @@ public class EstoqueControler {
 		}
 	}
 
-	public boolean validaTipoBebida(HistoricoBebida historicoBebida) {
-		if (historicoBebida.getEstoque().getSessao().getTipoBebida().getIdTipoBebida()
-				.equals(historicoBebida.getEstoque().getBebida().getTipoBebida().getIdTipoBebida()))
+	public boolean validaTipoBebida(Estoque estoque) {
+		if (estoque.getSessao().getTipoBebida().getIdTipoBebida()
+				.equals(estoque.getBebida().getTipoBebida().getIdTipoBebida()))
 			return true;
 		return false;
 	}
