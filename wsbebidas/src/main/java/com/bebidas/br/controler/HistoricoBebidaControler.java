@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*")
 public class HistoricoBebidaControler {
 	@Autowired
-	HistoricoBebidaService service = new HistoricoBebidaService();
+	HistoricoBebidaService service;
 
 	@ApiOperation(value = "busca histórico por sessão e tipo", response = Collection.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),

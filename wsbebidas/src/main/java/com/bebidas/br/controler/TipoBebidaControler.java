@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*")
 public class TipoBebidaControler {
 	@Autowired
-	TipoBebidaService service = new TipoBebidaService();
+	TipoBebidaService service ;
 
 	@ApiOperation(value = "salvar tipo de bebida", response = TipoBebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),

@@ -26,7 +26,7 @@ import io.swagger.annotations.ApiResponses;
 public class BebidaControler {
 
 	@Autowired
-	BebidaService bebidaService = new BebidaService();
+	BebidaService bebidaService ;
 
 	@ApiOperation(value = "salvar bebida", response = Bebida.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),

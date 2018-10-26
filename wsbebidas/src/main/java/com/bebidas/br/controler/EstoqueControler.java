@@ -28,7 +28,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*")
 public class EstoqueControler {
 	@Autowired
-	EstoqueService service = new EstoqueService();
+	EstoqueService service ;
 
 	@Autowired
 	HistoricoBebidaService hisService = new HistoricoBebidaService();

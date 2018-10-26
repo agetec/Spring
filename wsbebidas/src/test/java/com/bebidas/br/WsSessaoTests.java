@@ -1,5 +1,12 @@
 package com.bebidas.br;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.test.web.servlet.MockMvc;
@@ -7,8 +14,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.bebidas.br.model.Sessao;
+import com.bebidas.br.model.TipoBebida;
 import com.bebidas.br.util.JsonDateSerializer;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class WsSessaoTests {
 
@@ -45,6 +54,45 @@ public class WsSessaoTests {
 					System.out.println("Sessão salva com sucesso.");
 			}
 
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param tp
+	 *            tp do tipo de bebida
+	 * @param qtdEstocar
+	 *            qtd sugerida
+	 * @param mockMvc
+	 *            classe para teste
+	 * @param teste
+	 */
+	public void buscarByArmazenar(String tp, Integer qtdEstocar, MockMvc mockMvc, WsbebidasApplicationTests teste) {
+		String response = null;
+		Gson gson = new Gson();
+		Type listType = null;
+		TipoBebida tipoBebida = teste.buscarTipo(tp);
+		try {
+			response = mockMvc
+					.perform(MockMvcRequestBuilders.get("/buscarSessaoByArmazenar")
+							.param("tipo", tipoBebida.getIdTipoBebida().toString())
+							.param("qtdEstocar", qtdEstocar.toString()).contentType(MediaType.APPLICATION_JSON)
+							.accept(MediaType.APPLICATION_JSON))
+					.andExpect(status().isCreated()).andReturn().getResponse().getContentAsString();
+			listType = new TypeToken<ArrayList<Sessao>>() {
+			}.getType();
+			Collection<Sessao> sessaos = gson.fromJson(response, listType);
+			System.out.println("--Sessão(ões) disponíveis para armazenar a quantidade informada--");
+			for (Sessao sessao : sessaos) {
+				System.out.println(sessao.getDescricao());
+			}
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
