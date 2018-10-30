@@ -58,7 +58,7 @@ public class WsbebidasApplicationTests {
 		//estoqueTests.saidabebidas("Vodka 0,6l", 50, "Sessão 1", "Lucas","S",json,mockMvc,this);
 		estoqueTests.buscarTodosEstoque(json,mockMvc,this);
 		estoqueTests.buscarEstoqueByTipo(json,mockMvc,this);
-		historicoBebidaTests.buscarHistorico("A", "Sessão 3", "datahis,h.sessao.idSessao",json,mockMvc,this);
+		historicoBebidaTests.buscarHistorico("A", "Sessão 1", "datahis,h.sessao.idSessao",json,mockMvc,this);
 		sessaoTests.buscarByArmazenar("A", 50, mockMvc, this);
 		sessaoTests.buscarByVender("A", 375, mockMvc, this);
 	}
