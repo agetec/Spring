@@ -33,12 +33,13 @@ public class SpcControler {
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, 
 					produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public ResponseEntity<JSONObject> incluir(@RequestBody Operador operador) {
+	public ResponseEntity incluir(@RequestBody Operador operador) {
 		JSONObject message = null;
+		Envelope envelope =new Envelope();
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
 			Gson gson = new Gson();
-			Envelope envelope = gson.fromJson(message.toString(), Envelope.class);
+			envelope = gson.fromJson(message.toString(), Envelope.class);
 			if (envelope.getBody().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
@@ -46,9 +47,9 @@ public class SpcControler {
 			}
 
 		} else
-			return new ResponseEntity<JSONObject>(message, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 
-		return new ResponseEntity<JSONObject>(message, HttpStatus.CREATED);
+		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = JSONObject.class)
@@ -57,21 +58,22 @@ public class SpcControler {
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, 
 					produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public ResponseEntity<JSONObject> excluir(@RequestBody Operador operador) {
+	public ResponseEntity excluir(@RequestBody Operador operador) {
 		JSONObject message = null;
+		Envelope envelope=new Envelope();
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
 			Gson gson = new Gson();
-			Envelope envelope = gson.fromJson(message.toString(), Envelope.class);
+			envelope = gson.fromJson(message.toString(), Envelope.class);
 			if (envelope.getBody().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
 			}
 		} else
-			return new ResponseEntity<JSONObject>(message, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(message, HttpStatus.NOT_FOUND);
 
-		return new ResponseEntity<JSONObject>(message, HttpStatus.CREATED);
+		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
 	}
 
 }
