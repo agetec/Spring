@@ -45,7 +45,7 @@ public class SpcControler {
 				}
 			}
 		} else {
-			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no SPC!");
+			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
@@ -69,7 +69,7 @@ public class SpcControler {
 				}
 			}
 		} else {
-			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
+			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
