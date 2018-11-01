@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@Api(value = "onlinestore", description = "Operações para controle da inadimplência do SPC")
+@Api(value = "onlinestore", description = "Operações para controle da inadimplência do SPC!")
 public class SpcControler {
 	@Autowired
 	SpcService spcService = new SpcService();
@@ -45,7 +45,7 @@ public class SpcControler {
 				}
 			}
 		} else {
-			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
+			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no SPC!");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
