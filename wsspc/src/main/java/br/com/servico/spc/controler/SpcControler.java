@@ -43,7 +43,7 @@ public class SpcControler {
 			if (envelope!=null&&envelope.getBody().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
-				}
+				} 
 			}
 
 		} else
