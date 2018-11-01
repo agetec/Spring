@@ -44,12 +44,10 @@ public class SpcControler {
 					spcService.salvar(spc2);
 				}
 			}
-
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
 
@@ -74,7 +72,6 @@ public class SpcControler {
 			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
 
