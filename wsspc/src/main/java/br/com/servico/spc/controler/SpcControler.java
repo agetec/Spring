@@ -47,10 +47,10 @@ public class SpcControler {
 
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
-			return new ResponseEntity<>(envelope, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
+		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = JSONObject.class)
@@ -72,10 +72,10 @@ public class SpcControler {
 			}
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
-			return new ResponseEntity<>(envelope, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
 		}
 
-		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
+		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
 
 }
