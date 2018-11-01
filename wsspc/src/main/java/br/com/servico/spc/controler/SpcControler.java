@@ -30,24 +30,25 @@ public class SpcControler {
 	@ApiOperation(value = "Incluir inadimplênte no SPC", response = JSONObject.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, 
-					produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Envelope> incluir(@RequestBody Operador operador) {
 		JSONObject message = null;
-		Envelope envelope =new Envelope();
+		Envelope envelope = new Envelope();
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
 			Gson gson = new Gson();
 			envelope = gson.fromJson(message.toString(), Envelope.class);
-			if (envelope!=null&&envelope.getBody().getFault() == null) {
+			if (envelope != null && envelope.getBody().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
-				} 
+				}
 			}
 
-		} else
+		} else {
+			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
 			return new ResponseEntity<>(envelope, HttpStatus.NOT_FOUND);
+		}
 
 		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
 	}
@@ -55,23 +56,24 @@ public class SpcControler {
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = JSONObject.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
-	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, 
-					produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Envelope> excluir(@RequestBody Operador operador) {
 		JSONObject message = null;
-		Envelope envelope=new Envelope();
+		Envelope envelope = new Envelope();
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
 			Gson gson = new Gson();
 			envelope = gson.fromJson(message.toString(), Envelope.class);
-			if (envelope!=null&&envelope.getBody().getFault() == null) {
+			if (envelope != null && envelope.getBody().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
 			}
-		} else
+		} else {
+			envelope.getBody().getFault().setFaultstring("informe as pessoas a incluir no spc");
 			return new ResponseEntity<>(envelope, HttpStatus.NOT_FOUND);
+		}
 
 		return new ResponseEntity<>(envelope, HttpStatus.CREATED);
 	}
