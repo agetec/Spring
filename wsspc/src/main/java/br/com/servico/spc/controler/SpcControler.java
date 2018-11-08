@@ -29,7 +29,7 @@ public class SpcControler {
 
 	@ApiOperation(value = "Incluir inadimplênte no SPC", response = Envelope.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+			@ApiResponse(code = 400, message = "ervidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Envelope> incluir(@RequestBody Operador operador) {
@@ -53,7 +53,7 @@ public class SpcControler {
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = Envelope.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
-			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
+			@ApiResponse(code = 400, message = "ervidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
 	public ResponseEntity<Envelope> excluir(@RequestBody Operador operador) {
@@ -70,7 +70,7 @@ public class SpcControler {
 			}
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
-			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Envelope>(envelope, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
