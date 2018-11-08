@@ -27,7 +27,7 @@ public class SpcControler {
 	@Autowired
 	SpcService spcService = new SpcService();
 
-	@ApiOperation(value = "Incluir inadimplênte no SPC", response = JSONObject.class)
+	@ApiOperation(value = "Incluir inadimplênte no SPC", response = Envelope.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -51,7 +51,7 @@ public class SpcControler {
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
 
-	@ApiOperation(value = "Excluir inadimplênte do SPC", response = JSONObject.class)
+	@ApiOperation(value = "Excluir inadimplênte do SPC", response = Envelope.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 404, message = "O recurso que você estava tentando acessar não foi encontrado") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
