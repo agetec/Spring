@@ -45,10 +45,10 @@ public class SpcControler {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-			}
+			}else return new ResponseEntity<Envelope>(envelope, HttpStatus.BAD_REQUEST);
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
-			return new ResponseEntity<Envelope>(envelope, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Envelope>(envelope, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<Envelope>(envelope, HttpStatus.CREATED);
 	}
@@ -69,7 +69,7 @@ public class SpcControler {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-			}
+			}else return new ResponseEntity<Envelope>(envelope, HttpStatus.BAD_REQUEST);
 		} else {
 			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
 			return new ResponseEntity<Envelope>(envelope, HttpStatus.BAD_REQUEST);
