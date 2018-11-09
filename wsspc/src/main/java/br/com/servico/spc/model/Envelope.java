@@ -3,7 +3,7 @@ package br.com.servico.spc.model;
 public class Envelope {
 
 	private String s;
-	private Body body;
+	private Body body=new Body();
 	
 	public String getS() {
 		return s;
