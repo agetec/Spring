@@ -23,6 +23,7 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 
@@ -242,7 +243,8 @@ public class SoapSpcControler {
 
 	public String alteraJson(String json) {
 		json = json.replace("S:Envelope", "Envelope").replace("S:Body", "Body").replace("ns2:Fault", "Fault").
-				replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2").replace("xmlns:S", "s");
+				replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2").replace("xmlns:S", "s").
+				replace("ns2:incluirSpcResponse","Incluir").replaceAll("ns2:excluirSpcResponse", "Excluir");
 		return json;
 	}
 }
