@@ -47,14 +47,14 @@ public class SpcControler {
 			envelope = gson.fromJson(message.toString(), EnvelopeFault.class);
 			envelopeI = gson.fromJson(message.toString(), EnvelopeIncluir.class);
 
-			if (envelope != null && envelope.getBody().getFault() == null) {
+			if (envelope != null && envelope.getBodyFault().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
 			} else
 				return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		} else {
-			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
+			envelope.getBodyFault().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
 			return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<EnvelopeIncluir>(envelopeI, HttpStatus.CREATED);
@@ -74,14 +74,14 @@ public class SpcControler {
 			Gson gson = new Gson();
 			envelope = gson.fromJson(message.toString(), EnvelopeFault.class);
 			envelopeE = gson.fromJson(message.toString(), EnvelopeExcluir.class);
-			if (envelope != null && envelope.getBody().getFault() == null) {
+			if (envelope != null && envelope.getBodyFault().getFault() == null) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
 			} else
 				return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		} else {
-			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
+			envelope.getBodyFault().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
 			return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<EnvelopeExcluir>(envelopeE, HttpStatus.CREATED);
