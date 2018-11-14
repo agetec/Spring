@@ -1,6 +1,5 @@
 package br.com.servico.spc.controler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,7 +57,7 @@ public class SpcControler {
 			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
 			return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.CREATED);
+		return new ResponseEntity<EnvelopeIncluir>(envelopeI, HttpStatus.CREATED);
 	}
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = EnvelopeFault.class)
@@ -85,7 +84,7 @@ public class SpcControler {
 			envelope.getBody().getFault().setFaultstring("informe o operador/pessoas a incluir no spc");
 			return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.CREATED);
+		return new ResponseEntity<EnvelopeExcluir>(envelopeE, HttpStatus.CREATED);
 	}
 
 }
