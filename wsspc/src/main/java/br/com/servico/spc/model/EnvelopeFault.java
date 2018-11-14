@@ -1,9 +1,9 @@
 package br.com.servico.spc.model;
 
-public class Envelope {
+public class EnvelopeFault {
 
 	private String s;
-	private Body body=new Body();
+	private BodyFault body=new BodyFault();
 	
 	public String getS() {
 		return s;
@@ -11,10 +11,10 @@ public class Envelope {
 	public void setS(String s) {
 		this.s = s;
 	}
-	public Body getBody() {
+	public BodyFault getBody() {
 		return body;
 	}
-	public void setBody(Body body) {
+	public void setBody(BodyFault body) {
 		this.body = body;
 	}
 	

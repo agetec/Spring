@@ -4,6 +4,7 @@ public class Excluir {
 
 	private String sucesso;
 	private String ns2;
+	
 	public String getSucesso() {
 		return sucesso;
 	}
