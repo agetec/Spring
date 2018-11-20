@@ -1,8 +1,9 @@
 package br.com.servico.spc.model;
 
 public class Incluir {
-	private String sucesso;
+	
 	private String ns2;
+	private String sucesso;
 
 	public String getSucesso() {
 		return sucesso;

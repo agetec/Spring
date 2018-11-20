@@ -2,14 +2,14 @@ package br.com.servico.spc.model;
 
 public class EnvelopeIncluir {
 	private String s;
-	private BodyIncluir bodyIncluir = new BodyIncluir();
+	private BodyIncluir bodyincluir = new BodyIncluir();
 
-	public BodyIncluir getBodyIncluir() {
-		return bodyIncluir;
+	public BodyIncluir getBodyincluir() {
+		return bodyincluir;
 	}
 
-	public void setBodyIncluir(BodyIncluir bodyIncluir) {
-		this.bodyIncluir = bodyIncluir;
+	public void setBodyincluir(BodyIncluir bodyincluir) {
+		this.bodyincluir = bodyincluir;
 	}
 
 	public String getS() {

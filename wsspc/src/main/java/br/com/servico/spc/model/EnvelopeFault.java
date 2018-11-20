@@ -3,7 +3,7 @@ package br.com.servico.spc.model;
 public class EnvelopeFault {
 
 	private String s;
-	private BodyFault bodyFault = new BodyFault();
+	private BodyFault bodyfault = new BodyFault();
 
 	public String getS() {
 		return s;
@@ -13,12 +13,14 @@ public class EnvelopeFault {
 		this.s = s;
 	}
 
-	public BodyFault getBodyFault() {
-		return bodyFault;
+	public BodyFault getBodyfault() {
+		return bodyfault;
 	}
 
-	public void setBodyFault(BodyFault bodyFault) {
-		this.bodyFault = bodyFault;
+	public void setBodyfault(BodyFault bodyfault) {
+		this.bodyfault = bodyfault;
 	}
+
+	
 
 }

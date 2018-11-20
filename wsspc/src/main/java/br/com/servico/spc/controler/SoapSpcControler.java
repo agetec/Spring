@@ -243,11 +243,11 @@ public class SoapSpcControler {
 
 	public String alteraJson(String json) {
 		if (json.indexOf("ns2:Fault") != -1) {
-			json = json.replace("S:Envelope", "envelopeFault").replace("S:Body", "bodyFault");
+			json = json.replace("S:Envelope", "").replace("S:Body", "bodyfault");
 		} else if (json.indexOf("ns2:incluirSpcResponse") != -1) {
-			json = json.replace("S:Envelope", "envelopeIncluir").replace("S:Body", "bodyIncluir");
+			json = json.replace("S:Envelope", "").replace("S:Body", "bodyincluir");
 		} else {
-			json = json.replace("S:Envelope", "envelopeExcluir").replace("S:Body", "bodyExcluir");
+			json = json.replace("S:Envelope", "").replace("S:Body", "bodyexcluir");
 		}
 		json = json.replace("ns2:Fault", "fault").replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2")
 				.replace("xmlns:S", "s").replace("ns2:incluirSpcResponse", "incluir")
