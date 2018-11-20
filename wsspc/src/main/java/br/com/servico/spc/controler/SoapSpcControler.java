@@ -243,15 +243,15 @@ public class SoapSpcControler {
 
 	public String alteraJson(String json) {
 		if (json.indexOf("ns2:Fault") != -1) {
-			json = json.replace("S:Envelope", "EnvelopeFault").replace("S:Body", "BodyFault");
+			json = json.replace("S:Envelope", "envelopeFault").replace("S:Body", "bodyFault");
 		} else if (json.indexOf("ns2:incluirSpcResponse") != -1) {
-			json = json.replace("S:Envelope", "EnvelopeIncluir").replace("S:Body", "BodyIncluir");
+			json = json.replace("S:Envelope", "envelopeIncluir").replace("S:Body", "bodyIncluir");
 		} else {
-			json = json.replace("S:Envelope", "EnvelopeExcluir").replace("S:Body", "BodyExcluir");
+			json = json.replace("S:Envelope", "envelopeExcluir").replace("S:Body", "bodyExcluir");
 		}
-		json = json.replace("ns2:Fault", "Fault").replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2")
-				.replace("xmlns:S", "s").replace("ns2:incluirSpcResponse", "Incluir")
-				.replaceAll("ns2:excluirSpcResponse", "Excluir");
+		json = json.replace("ns2:Fault", "fault").replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2")
+				.replace("xmlns:S", "s").replace("ns2:incluirSpcResponse", "incluir")
+				.replaceAll("ns2:excluirSpcResponse", "excluir");
 		return json;
 	}
 }

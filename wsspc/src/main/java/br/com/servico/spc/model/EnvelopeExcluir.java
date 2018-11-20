@@ -4,6 +4,8 @@ public class EnvelopeExcluir {
 
 	private String s;
 	private BodyExcluir bodyExcluir = new BodyExcluir();
+	
+	
 	public String getS() {
 		return s;
 	}
