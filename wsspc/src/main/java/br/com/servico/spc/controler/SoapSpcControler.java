@@ -85,8 +85,7 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-			
-			
+				System.out.println(res);
 				destroyConnection();
 				return res;
 			} catch (Exception e) {
@@ -122,7 +121,6 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-			
 				System.out.println(res);
 				destroyConnection();
 				return res;
@@ -238,5 +236,4 @@ public class SoapSpcControler {
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 
-	
 }
