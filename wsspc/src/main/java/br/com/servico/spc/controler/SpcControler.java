@@ -1,8 +1,6 @@
 package br.com.servico.spc.controler;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,26 +31,21 @@ public class SpcControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public ResponseEntity incluir(@RequestBody Operador operador) {
-		JSONObject message = null;
+	public ResponseEntity<String> incluir(@RequestBody Operador operador) {
+		String result=null;
 		if (operador != null && operador.getSpcs() != null) {
-			String result = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
-			try {
-				message = XML.toJSONObject(result);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			result = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
+			
 			if (result.indexOf("ns2:Fault") != -1) {
-				return new ResponseEntity(message, HttpStatus.OK);
+				return new ResponseEntity<String>(result, HttpStatus.OK);
 			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-				return new ResponseEntity(message, HttpStatus.CREATED);
+				return new ResponseEntity<String>(result, HttpStatus.CREATED);
 			}
 		}
-		return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>(result, HttpStatus.BAD_REQUEST);
 	}
 
 	@ApiOperation(value = "Excluir inadimplênte do SPC", response = JSONObject.class)
@@ -60,26 +53,21 @@ public class SpcControler {
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	@RequestMapping(method = RequestMethod.POST, value = "/excluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 
-	public ResponseEntity excluir(@RequestBody Operador operador) {
-		JSONObject message = null;
+	public ResponseEntity<String> excluir(@RequestBody Operador operador) {
+		String result=null;
 		if (operador != null && operador.getSpcs() != null) {
-			String result = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
-			try {
-				message = XML.toJSONObject(result);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			result = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
+			
 			if (result.indexOf("ns2:Fault") != -1) {
-				return new ResponseEntity(message, HttpStatus.OK);
-			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
+				return new ResponseEntity<String>(result, HttpStatus.OK);
+			} else if (result.indexOf("ns2:excluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-				return new ResponseEntity(message, HttpStatus.CREATED);
+				return new ResponseEntity<String>(result, HttpStatus.CREATED);
 			}
 		}
-		return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<String>(result, HttpStatus.BAD_REQUEST);
 	}
 
 }
