@@ -3,6 +3,7 @@ package br.com.servico.spc.model;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -86,8 +87,11 @@ public class Spc {
 	@ApiModelProperty(notes = "Informe sempre 1 nesse campo")
 	private Integer idExclusao;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Operador spcoperador;
+	
+	@Column(nullable=false)
+	private Integer codsis;
 	
 	public String getTipoPessoa() {
 		return tipoPessoa;
@@ -247,6 +251,14 @@ public class Spc {
 
 	public void setSpcoperador(Operador spcoperador) {
 		this.spcoperador = spcoperador;
+	}
+
+	public Integer getCodsis() {
+		return codsis;
+	}
+
+	public void setCodsis(Integer codsis) {
+		this.codsis = codsis;
 	}
 	
 

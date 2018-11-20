@@ -93,8 +93,7 @@ public class AdicionaPessoa {
 			SOAPElement soapBodyElem9 = soapBodyElem1.addChildElement("motivo-exclusao");
 			SOAPElement soapBodyElem91 = soapBodyElem9.addChildElement("id");
 			soapBodyElem91.addTextNode(spc2.getIdExclusao().toString());
-			spc2.setTipoOperacao("E");
-			break;
+			spc2.setTipoOperacao("E");			
 		}
 		return soapBody;
 	}
