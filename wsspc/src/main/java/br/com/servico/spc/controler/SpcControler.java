@@ -1,6 +1,8 @@
 package br.com.servico.spc.controler;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.XML;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,15 +36,21 @@ public class SpcControler {
 	public ResponseEntity incluir(@RequestBody Operador operador) {
 		JSONObject message = null;
 		if (operador != null && operador.getSpcs() != null) {
-			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
-			if (message != null) {
+			String result = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
+			try {
+				message = XML.toJSONObject(result);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (result.indexOf("ns2:Fault") != -1) {
+				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-			} else {
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity(message, HttpStatus.CREATED);
 			}
-			return new ResponseEntity(message, HttpStatus.CREATED);
 		}
 		return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
 	}
@@ -55,15 +63,21 @@ public class SpcControler {
 	public ResponseEntity excluir(@RequestBody Operador operador) {
 		JSONObject message = null;
 		if (operador != null && operador.getSpcs() != null) {
-			message = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
-			if (message != null) {
+			String result = new SoapSpcControler().callSoapWebServiceExclusao(operador.getSpcs(), operador);
+			try {
+				message = XML.toJSONObject(result);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (result.indexOf("ns2:Fault") != -1) {
+				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
 				}
-			} else {
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity(message, HttpStatus.CREATED);
 			}
-			return new ResponseEntity(message, HttpStatus.CREATED);
 		}
 		return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
 	}

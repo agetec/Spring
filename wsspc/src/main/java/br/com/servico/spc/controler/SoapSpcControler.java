@@ -23,9 +23,6 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPPart;
 
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.XML;
 
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
@@ -69,7 +66,7 @@ public class SoapSpcControler {
 		}
 	}
 
-	public JSONObject callSoapWebServiceInclusao(Collection<Spc> collection, Operador opr) {
+	public String callSoapWebServiceInclusao(Collection<Spc> collection, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionIncusao = "";
 		if (soapConnection != null) {
@@ -88,10 +85,10 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(res);
-				System.out.println(res);
+			
+			
 				destroyConnection();
-				return xmlJSONObj;
+				return res;
 			} catch (Exception e) {
 				if (soapConnection == null) {
 					connection();
@@ -107,7 +104,7 @@ public class SoapSpcControler {
 		return null;
 	}
 
-	public JSONObject callSoapWebServiceExclusao(Collection<Spc> spc2, Operador opr) {
+	public String callSoapWebServiceExclusao(Collection<Spc> spc2, Operador opr) {
 		String soapEndpointUrl = "";
 		String soapActionExclusao = "";
 		if (soapConnection != null) {
@@ -125,10 +122,10 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(res);
+			
 				System.out.println(res);
 				destroyConnection();
-				return xmlJSONObj;
+				return res;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
