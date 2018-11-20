@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
+import br.com.servico.spc.service.OprService;
 import br.com.servico.spc.service.SpcService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +25,7 @@ import io.swagger.annotations.ApiResponses;
 @CrossOrigin(origins = "*")
 public class SpcControler {
 	@Autowired
-	SpcService spcService = new SpcService();
+	OprService oprService = new OprService();
 
 	@ApiOperation(value = "Incluir inadimplênte no SPC", response = JSONObject.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
@@ -39,9 +40,7 @@ public class SpcControler {
 			if (result.indexOf("ns2:Fault") != -1) {
 				return new ResponseEntity<String>(result, HttpStatus.OK);
 			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
-				for (Spc spc2 : operador.getSpcs()) {
-					spcService.salvar(spc2);
-				}
+				oprService.salvar(operador);				
 				return new ResponseEntity<String>(result, HttpStatus.CREATED);
 			}
 		}
@@ -61,9 +60,7 @@ public class SpcControler {
 			if (result.indexOf("ns2:Fault") != -1) {
 				return new ResponseEntity<String>(result, HttpStatus.OK);
 			} else if (result.indexOf("ns2:excluirSpcResponse") != -1) {
-				for (Spc spc2 : operador.getSpcs()) {
-					spcService.salvar(spc2);
-				}
+				oprService.salvar(operador);		
 				return new ResponseEntity<String>(result, HttpStatus.CREATED);
 			}
 		}
