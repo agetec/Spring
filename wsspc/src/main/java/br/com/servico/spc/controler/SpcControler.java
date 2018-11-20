@@ -43,16 +43,18 @@ public class SpcControler {
 
 		if (operador != null && operador.getSpcs() != null) {
 			message = new SoapSpcControler().callSoapWebServiceInclusao(operador.getSpcs(), operador);
-			Gson gson = new Gson();
-			envelope = gson.fromJson(message.toString(), EnvelopeFault.class);
-			envelopeI = gson.fromJson(message.toString(), EnvelopeIncluir.class);
+			if (message != null) {
+				Gson gson = new Gson();
+				envelope = gson.fromJson(message.toString(), EnvelopeFault.class);
+				envelopeI = gson.fromJson(message.toString(), EnvelopeIncluir.class);
 
-			if (envelope != null && envelope.getBodyFault().getFault() == null) {
-				for (Spc spc2 : operador.getSpcs()) {
-					spcService.salvar(spc2);
-				}
-			} else
-				return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
+				if (envelope != null && envelope.getBodyFault().getFault() == null) {
+					for (Spc spc2 : operador.getSpcs()) {
+						spcService.salvar(spc2);
+					}
+				} else
+					return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
+			}
 		} else {
 			envelope.getBodyFault().getFault().setFaultstring("informe o operador/pessoas a incluir no SPC!");
 			return new ResponseEntity<EnvelopeFault>(envelope, HttpStatus.BAD_REQUEST);
