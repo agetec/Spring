@@ -36,10 +36,9 @@ public class Spc {
 	private String tipoPessoa;
 	
 	
-	@Column(length=11,nullable=false)
+	@Column(length=11)
 	private String cpf;
 	
-	@Column(nullable=false)
 	private String nome;
 	
 	@Column(nullable=false)
@@ -47,10 +46,10 @@ public class Spc {
 	private Date dataNascimento;
 	
 		
-	@Column(length=9,nullable=false)
+	@Column(length=9)
 	private String numeroTelelefone;
 	
-	@Column(length=2,nullable=false)
+	@Column(length=2)
 	private String dddTelefone;
 	
 	@Column(nullable=false)
@@ -76,16 +75,14 @@ public class Spc {
 	@ApiModelProperty(notes = "Informe sempre 1 nesse campo")
 	private Integer idNatureza;
 	
-	@Column(length=8,nullable=false)
+	@Column(length=8)
 	private String cep;
 	
-	@Column(nullable=false)
 	private String logradouro;
 	
-	@Column(nullable=false)
 	private String bairro;
 	
-	@Column(length=10,nullable=false)
+	@Column(length=10)
 	private String numero;
 	
 	@Column(length=1,nullable=false)
