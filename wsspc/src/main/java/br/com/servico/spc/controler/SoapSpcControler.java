@@ -88,7 +88,7 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(alteraJson(res));
+				JSONObject xmlJSONObj = XML.toJSONObject(res);
 				System.out.println(res);
 				destroyConnection();
 				return xmlJSONObj;
@@ -125,7 +125,7 @@ public class SoapSpcControler {
 				ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
 				soapResponse.writeTo(byteOutStream);
 				String res = new String(byteOutStream.toByteArray());
-				JSONObject xmlJSONObj = XML.toJSONObject(alteraJson(res));
+				JSONObject xmlJSONObj = XML.toJSONObject(res);
 				System.out.println(res);
 				destroyConnection();
 				return xmlJSONObj;
@@ -241,17 +241,5 @@ public class SoapSpcControler {
 		HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
 	}
 
-	public String alteraJson(String json) {
-		if (json.indexOf("ns2:Fault") != -1) {
-			json = json.replace("S:Envelope", "").replace("S:Body", "bodyfault");
-		} else if (json.indexOf("ns2:incluirSpcResponse") != -1) {
-			json = json.replace("S:Envelope", "").replace("S:Body", "bodyincluir");
-		} else {
-			json = json.replace("S:Envelope", "").replace("S:Body", "bodyexcluir");
-		}
-		json = json.replace("ns2:Fault", "fault").replace("xmlns:ns3", "ns3").replace("xmlns:ns2", "ns2")
-				.replace("xmlns:S", "s").replace("ns2:incluirSpcResponse", "incluir")
-				.replaceAll("ns2:excluirSpcResponse", "excluir");
-		return json;
-	}
+	
 }

@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
-
-import br.com.servico.spc.model.EnvelopeExcluir;
-import br.com.servico.spc.model.EnvelopeFault;
-import br.com.servico.spc.model.EnvelopeIncluir;
 import br.com.servico.spc.model.Operador;
 import br.com.servico.spc.model.Spc;
 import br.com.servico.spc.service.SpcService;
@@ -31,7 +26,7 @@ public class SpcControler {
 	@Autowired
 	SpcService spcService = new SpcService();
 
-	@ApiOperation(value = "Incluir inadimplênte no SPC", response = EnvelopeFault.class)
+	@ApiOperation(value = "Incluir inadimplênte no SPC", response = JSONObject.class)
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Successo na requisição, com seguinte retorno"),
 			@ApiResponse(code = 400, message = "servidor não conseguiu entender a requisição devido à sintaxe inválida") })
 	@RequestMapping(method = RequestMethod.POST, value = "/incluirSpc", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
