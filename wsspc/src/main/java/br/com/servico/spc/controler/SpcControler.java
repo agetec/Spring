@@ -44,7 +44,7 @@ public class SpcControler {
 				e.printStackTrace();
 			}
 			if (result.indexOf("ns2:Fault") != -1) {
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity(message, HttpStatus.OK);
 			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
@@ -71,7 +71,7 @@ public class SpcControler {
 				e.printStackTrace();
 			}
 			if (result.indexOf("ns2:Fault") != -1) {
-				return new ResponseEntity(message, HttpStatus.BAD_REQUEST);
+				return new ResponseEntity(message, HttpStatus.OK);
 			} else if (result.indexOf("ns2:incluirSpcResponse") != -1) {
 				for (Spc spc2 : operador.getSpcs()) {
 					spcService.salvar(spc2);
