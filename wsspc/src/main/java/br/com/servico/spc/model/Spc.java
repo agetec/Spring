@@ -41,7 +41,6 @@ public class Spc {
 	
 	private String nome;
 	
-	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNascimento;
 	
