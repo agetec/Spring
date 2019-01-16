@@ -49,11 +49,10 @@ public class EstadosControler {
 		return  new ResponseEntity<Collection<Estados>> (estadosCollecrtion, HttpStatus.CREATED);
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId",
-			consumes = MediaType.APPLICATION_JSON_VALUE, 
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Estados> buscarPorId(Integer Id) {
-		return null;		
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId/{id}")
+	public ResponseEntity<Estados> buscarPorId(@PathVariable Integer id) {
+		Optional<Estados> estados=estadosService.buscaByID(id);
+		return  new ResponseEntity<Estados> (estados.get(), HttpStatus.CREATED);
 	}
 
 }
