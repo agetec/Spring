@@ -2,13 +2,11 @@ package com.estados.br.controler;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.estados.br.model.Estados;
 
 @RestController
+@CrossOrigin(origins ="*")
 public class EstadosControler {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/salvar", 
@@ -27,7 +25,8 @@ public class EstadosControler {
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarTodos", 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Estados> buscarTodos() {
-		return null;		
+		return null;
+
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/buscarPorId",
