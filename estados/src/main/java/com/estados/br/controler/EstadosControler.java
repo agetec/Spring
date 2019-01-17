@@ -55,4 +55,10 @@ public class EstadosControler {
 		return  new ResponseEntity<Estados> (estados.get(), HttpStatus.CREATED);
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/buscarByNome/{nome}")
+	public ResponseEntity<Collection<Estados>> buscarByNome(@PathVariable String nome) {
+		Collection<Estados> estadosCollecrtion=estadosService.buscarByNome(nome);
+		return  new ResponseEntity<Collection<Estados>> (estadosCollecrtion, HttpStatus.CREATED);
+	}
+
 }

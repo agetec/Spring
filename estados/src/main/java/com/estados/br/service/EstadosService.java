@@ -20,7 +20,9 @@ public class EstadosService {
 	public Collection<Estados> buscarTodos() {
 		return estadosRepository.findAll();
 	}
-
+	public Collection<Estados> buscarByNome(String nome) {
+		return estadosRepository.findNome(nome);
+	}
 	public Optional<Estados> buscaByID(Integer id) {
 		return estadosRepository.findById(id);
 	}
