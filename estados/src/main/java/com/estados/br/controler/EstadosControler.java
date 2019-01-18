@@ -67,7 +67,7 @@ public class EstadosControler {
 
     @RequestMapping(method = RequestMethod.GET,
             value = "/buscarPorPaginacao",produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
+	public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
         Estados estados=new Estados();
         Example<Estados> est = Example.of(estados) ;
         if(!pageable.getNome().equals("undefined")&&!pageable.getNome().trim().equals("")) {
