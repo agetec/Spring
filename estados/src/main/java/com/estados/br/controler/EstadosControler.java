@@ -2,6 +2,8 @@ package com.estados.br.controler;
 
 import com.estados.br.service.EstadosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -60,5 +62,11 @@ public class EstadosControler {
 		Collection<Estados> estadosCollecrtion=estadosService.buscarByNome(nome.toUpperCase());
 		return  new ResponseEntity<Collection<Estados>> (estadosCollecrtion, HttpStatus.CREATED);
 	}
+
+    @RequestMapping(method = RequestMethod.GET, produces= MediaType.APPLICATION_JSON_VALUE,
+            value = "/buscarPorPaginacao")
+    public ResponseEntity<Page<Estados>> buscarPorPaginacao(Pageable pageable){
+        return new ResponseEntity<Page<Estados>>(estadosService.buscarTodos(pageable), HttpStatus.OK);
+    }
 
 }

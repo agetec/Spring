@@ -3,6 +3,8 @@ package com.estados.br.service;
 import java.util.Collection;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import com.estados.br.model.Estados;
 import com.estados.br.repository.EstadosRepository;
@@ -30,4 +32,8 @@ public class EstadosService {
 	public void excluir(Estados estados) {
 		estadosRepository.delete(estados);
 	}
+
+    public Page<Estados> buscarTodos(Pageable pageable) {
+		return  estadosRepository.findAll(pageable);
+    }
 }
