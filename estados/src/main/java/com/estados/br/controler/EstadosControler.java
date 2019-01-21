@@ -26,7 +26,7 @@ public class EstadosControler {
     public ResponseEntity salvar(@RequestBody Estados estado) {
         try {
             estadosService.salvarEstado(estado);
-            return new ResponseEntity<>("Estado cadastrado com sucesso!", HttpStatus.OK);
+            return new ResponseEntity<>("Estado cadastrado com sucesso!", HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("Erro ao tentar cadastrar estado!", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -47,13 +47,13 @@ public class EstadosControler {
     @GetMapping(value = "/{id}")
     public ResponseEntity<Estados> buscarPorId(@PathVariable Integer id) {
         Optional<Estados> estados = estadosService.buscaByID(id);
-        return new ResponseEntity<Estados>(estados.get(), HttpStatus.CREATED);
+        return new ResponseEntity<Estados>(estados.get(), HttpStatus.OK);
     }
 
     @GetMapping(value = "/{nome}")
     public ResponseEntity<Collection<Estados>> buscarByNome(@PathVariable String nome) {
         Collection<Estados> estadosCollecrtion = estadosService.buscarByNome(nome.toUpperCase());
-        return new ResponseEntity<Collection<Estados>>(estadosCollecrtion, HttpStatus.CREATED);
+        return new ResponseEntity<Collection<Estados>>(estadosCollecrtion, HttpStatus.OK);
     }
 
     @GetMapping
