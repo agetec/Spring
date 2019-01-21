@@ -16,14 +16,13 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "*")
+@CrossOrigin("*")
+@RequestMapping("/estados")
 public class EstadosControler {
     @Autowired
     EstadosService estadosService;
 
-    @RequestMapping(method = RequestMethod.POST, value = "/salvar",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity salvar(@RequestBody Estados estado) {
         try {
             estadosService.salvarEstado(estado);
@@ -33,8 +32,7 @@ public class EstadosControler {
             return new ResponseEntity<>("Erro ao tentar cadastrar estado!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-    @RequestMapping(method = RequestMethod.DELETE, value = "/excluir/{id}")
+    @DeleteMapping (value = "/{id}")
     public ResponseEntity excluir(@PathVariable Integer id) {
         try {
             Optional<Estados> estados = estadosService.buscaByID(id);
@@ -46,27 +44,19 @@ public class EstadosControler {
         }
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/buscarTodos",
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Collection<Estados>> buscarTodos() {
-        Collection<Estados> estadosCollecrtion = estadosService.buscarTodos();
-        return new ResponseEntity<Collection<Estados>>(estadosCollecrtion, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(method = RequestMethod.GET, value = "/buscarPorId/{id}")
+    @GetMapping(value = "/{id}")
     public ResponseEntity<Estados> buscarPorId(@PathVariable Integer id) {
         Optional<Estados> estados = estadosService.buscaByID(id);
         return new ResponseEntity<Estados>(estados.get(), HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/buscarByNome/{nome}")
+    @GetMapping(value = "/{nome}")
     public ResponseEntity<Collection<Estados>> buscarByNome(@PathVariable String nome) {
         Collection<Estados> estadosCollecrtion = estadosService.buscarByNome(nome.toUpperCase());
         return new ResponseEntity<Collection<Estados>>(estadosCollecrtion, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET,
-            value = "/buscarPorPaginacao",produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping
 	public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
         Estados estados=new Estados();
         Example<Estados> est = Example.of(estados) ;
