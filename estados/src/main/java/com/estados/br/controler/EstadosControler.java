@@ -2,6 +2,7 @@ package com.estados.br.controler;
 
 import com.estados.br.service.EstadosService;
 import com.estados.br.service.PageableEst;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
+@Api(value = "onlinestore", description = "Operações para controle de estados ")
 @RequestMapping("/estados")
 public class EstadosControler {
     @Autowired
