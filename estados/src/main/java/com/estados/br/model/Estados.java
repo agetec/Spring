@@ -12,10 +12,10 @@ public class Estados {
     private String nome;
     private String sigla;
 
-    @OneToMany(mappedBy = "estados", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "estados", fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "cidades_estados",
-            joinColumns = {@JoinColumn(name = "id_estado")},
-            inverseJoinColumns = {@JoinColumn(name = "id_cidade")}
+            joinColumns = {@JoinColumn(name = "id_estado",referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_cidade",referencedColumnName = "id_cid")}
     )
     private List<Cidades> cidades;
 
