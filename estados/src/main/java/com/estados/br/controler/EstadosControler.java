@@ -6,9 +6,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.estados.br.model.Estados;
@@ -60,7 +58,7 @@ public class EstadosControler {
 
     @GetMapping
 	public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
-        Estados estados=new Estados();
+        Estados estados=new Estados(cidades);
         Example<Estados> est = Example.of(estados) ;
         if(!pageable.getNome().equals("undefined")&&!pageable.getNome().trim().equals("")) {
             est.getProbe().setNome(pageable.getNome());
