@@ -58,7 +58,7 @@ public class EstadosControler {
 
     @GetMapping
 	public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
-        Estados estados=new Estados(cidades);
+        Estados estados=new Estados();
         Example<Estados> est = Example.of(estados) ;
         if(!pageable.getNome().equals("undefined")&&!pageable.getNome().trim().equals("")) {
             est.getProbe().setNome(pageable.getNome());
