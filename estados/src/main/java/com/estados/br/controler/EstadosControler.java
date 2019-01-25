@@ -15,14 +15,16 @@ import java.util.Collection;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/estados")
+
 @CrossOrigin("*")
 @Api(value = "onlinestore", description = "Operações para controle de estados ")
-@RequestMapping("/estados")
 public class EstadosControler {
     @Autowired
     EstadosService estadosService;
 
     @PostMapping
+
     public ResponseEntity salvar(@RequestBody Estados estado) {
         try {
             estadosService.salvarEstado(estado);
@@ -32,7 +34,8 @@ public class EstadosControler {
             return new ResponseEntity<>("Erro ao tentar cadastrar estado!", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @DeleteMapping (value = "/{id}")
+
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity excluir(@PathVariable Integer id) {
         try {
             Optional<Estados> estados = estadosService.buscaByID(id);
@@ -57,10 +60,10 @@ public class EstadosControler {
     }
 
     @GetMapping
-	public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
-        Estados estados=new Estados();
-        Example<Estados> est = Example.of(estados) ;
-        if(!pageable.getNome().equals("undefined")&&!pageable.getNome().trim().equals("")) {
+    public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
+        Estados estados = new Estados();
+        Example<Estados> est = Example.of(estados);
+        if (!pageable.getNome().equals("undefined") && !pageable.getNome().trim().equals("")) {
             est.getProbe().setNome(pageable.getNome());
         }
         return new ResponseEntity<Page<Estados>>(estadosService.buscarTodos(est, pageable), HttpStatus.OK);

@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface EstadosRepository extends JpaRepository<Estados, Integer> {
 
-    @Query(value="select e from #{#entityName} e where upper(e.nome) like %:nome%")
+    @Query(value = "select e from #{#entityName} e where upper(e.nome) like %:nome%")
     List<Estados> findNome(@Param("nome") String nome);
 }

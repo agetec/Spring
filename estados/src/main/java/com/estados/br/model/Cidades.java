@@ -12,10 +12,10 @@ public class Cidades {
     private String nome;
     private String sigla;
 
-    @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "cidades_estados",
-            joinColumns = {@JoinColumn(name = "id_cidade",referencedColumnName = "id_cid")},
-            inverseJoinColumns = {@JoinColumn(name = "id_estado",referencedColumnName = "id")}
+            joinColumns = {@JoinColumn(name = "id_cidade", referencedColumnName = "id_cid")},
+            inverseJoinColumns = {@JoinColumn(name = "id_estado", referencedColumnName = "id")}
     )
     private Estados estados;
 
