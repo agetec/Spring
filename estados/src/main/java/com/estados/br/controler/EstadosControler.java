@@ -24,7 +24,6 @@ public class EstadosControler {
     EstadosService estadosService;
 
     @PostMapping
-
     public ResponseEntity salvar(@RequestBody Estados estado) {
         try {
             estadosService.salvarEstado(estado);
@@ -63,9 +62,9 @@ public class EstadosControler {
     public ResponseEntity<Page<Estados>> buscarPorPaginacao(PageableEst pageable) {
         Estados estados = new Estados();
         Example<Estados> est = Example.of(estados);
-        if (!pageable.getNome().equals("undefined") && !pageable.getNome().trim().equals("")) {
+        /*if (!pageable.getNome().equals("undefined") && !pageable.getNome().trim().equals("")) {
             est.getProbe().setNome(pageable.getNome());
-        }
+        }*/
         return new ResponseEntity<Page<Estados>>(estadosService.buscarTodos(est, pageable), HttpStatus.OK);
     }
 
